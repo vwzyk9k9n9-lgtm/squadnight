@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,12 +65,13 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .navbtn{flex:1;min-width:55px;padding:10px 3px 9px;border:none;background:transparent;color:var(--mu);font-family:var(--fb);font-size:.62rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s;letter-spacing:.01em;text-transform:uppercase}
 .navbtn.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-.page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:2rem}
+.page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:5rem}
 .page.active{display:block}
 
-/* HOST BANNER */
+/* BANNERS */
 .host-banner{background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.25);border-radius:var(--rs);padding:8px 12px;font-size:.75rem;color:var(--gold);text-align:center;margin-bottom:.85rem}
 .guest-banner{background:rgba(77,142,240,.06);border:1px solid rgba(77,142,240,.2);border-radius:var(--rs);padding:8px 12px;font-size:.75rem;color:var(--blue);text-align:center;margin-bottom:.85rem}
+.sync-note{font-size:.7rem;color:var(--mu);text-align:center;margin-bottom:.5rem}
 
 /* CARDS */
 .card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.85rem}
@@ -221,9 +221,26 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .btn+.btn{margin-top:7px}
 .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
-/* GUEST LOCK */
-.guest-locked{opacity:.45;pointer-events:none;position:relative}
-.guest-lock-msg{text-align:center;font-size:.78rem;color:var(--blue);margin-bottom:.85rem;padding:8px;background:rgba(77,142,240,.06);border-radius:var(--rs);border:1px solid rgba(77,142,240,.15)}
+/* DRINK LOGGER — floating bottom bar */
+#drinkBar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(10,10,11,.96);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--br2);
+  padding:6px 10px 10px;
+  display:none;
+}
+#drinkBar.show{display:block}
+.db-row{display:flex;align-items:center;gap:6px}
+.db-bac{font-family:var(--ff);font-size:.85rem;padding:0 6px;white-space:nowrap;flex-shrink:0}
+.db-btns{display:flex;gap:5px;flex:1}
+.db-btn{flex:1;background:var(--s2);border:1px solid var(--br2);border-radius:8px;padding:8px 2px 6px;text-align:center;cursor:pointer;position:relative;transition:all .12s;user-select:none;-webkit-user-select:none;min-width:0}
+.db-btn:active{transform:scale(.88);background:var(--s3);border-color:var(--gold)}
+.db-icon{font-size:1.2rem;line-height:1;display:block}
+.db-lbl{font-size:.55rem;color:var(--mu);display:block;margin-top:2px;white-space:nowrap;overflow:hidden}
+.db-cnt{position:absolute;top:2px;right:4px;font-family:var(--ff);font-size:.72rem;color:var(--gold);line-height:1}
+.db-undo{background:transparent;border:1px solid var(--br);border-radius:8px;padding:8px 8px;color:var(--mu);font-size:.7rem;cursor:pointer;white-space:nowrap;font-family:var(--fb);flex-shrink:0}
+.db-undo:active{background:var(--s3)}
 
 /* TOAST */
 .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--s2);border:1px solid var(--br2);border-radius:var(--rs);padding:9px 18px;font-size:.8rem;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
@@ -235,6 +252,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
   .drink-grid{grid-template-columns:repeat(2,1fr)}
   .bet-grid{grid-template-columns:repeat(3,1fr)}
   .kings-sheet{grid-template-columns:1fr}
+  .db-btns{gap:4px}
 }
 </style>
 </head>
@@ -267,11 +285,11 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
     <div class="role-pick">
       <button class="role-btn host-btn" onclick="doJoin('host')">
         👑 Be the Host
-        <span class="role-sub">You control the games — everyone follows your screen</span>
+        <span class="role-sub">First one in — you draw cards, pick prompts, start races</span>
       </button>
       <button class="role-btn" onclick="doJoin('guest')">
         🍺 Join as Guest
-        <span class="role-sub">Follow along — host picks the games</span>
+        <span class="role-sub">Flip next questions, bet on horses — everyone participates</span>
       </button>
     </div>
   </div>
@@ -288,7 +306,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
   </div>
   <div class="nav">
     <button class="navbtn active" onclick="goPage('squad')">🍺 Squad</button>
-    <button class="navbtn" onclick="goPage('mine')">🥴 Drunk Level</button>
+    <button class="navbtn" onclick="goPage('mine')">🥴 BAC</button>
     <button class="navbtn" onclick="goPage('group')">🎲 Group</button>
     <button class="navbtn" onclick="goPage('twop')">👫 2P</button>
     <button class="navbtn" onclick="goPage('couple')">💑 Couple</button>
@@ -350,15 +368,15 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 
   <!-- GROUP GAMES PAGE -->
   <div class="page" id="page-group">
-    <div id="hostGroupBanner" class="host-banner" style="display:none">👑 You're the host — your game choices sync to everyone</div>
-    <div id="guestGroupBanner" class="guest-banner" style="display:none">🍺 Guest mode — following the host's game screen</div>
+    <div id="hostGroupBanner" class="host-banner" style="display:none">👑 Host — you draw cards & pick prompts. Guests can also flip next.</div>
+    <div id="guestGroupBanner" class="guest-banner" style="display:none">🍺 Guest — tap Next to flip a question for everyone!</div>
     <div class="gtabs" id="gGroupTabs">
-      <button class="gtab on" onclick="hostSwitchG('kings','group')">👑 Kings</button>
-      <button class="gtab" onclick="hostSwitchG('nhie','group')">🙈 NHIE</button>
-      <button class="gtab" onclick="hostSwitchG('tod','group')">🎭 T or D</button>
-      <button class="gtab" onclick="hostSwitchG('mlt','group')">🤔 Most Likely</button>
-      <button class="gtab" onclick="hostSwitchG('hotseat','group')">🔥 Hot Seat</button>
-      <button class="gtab" onclick="hostSwitchG('dice','group')">🎲 Dice</button>
+      <button class="gtab on" onclick="syncSwitchG('kings','group')">👑 Kings</button>
+      <button class="gtab" onclick="syncSwitchG('nhie','group')">🙈 NHIE</button>
+      <button class="gtab" onclick="syncSwitchG('tod','group')">🎭 T or D</button>
+      <button class="gtab" onclick="syncSwitchG('mlt','group')">🤔 Most Likely</button>
+      <button class="gtab" onclick="syncSwitchG('hotseat','group')">🔥 Hot Seat</button>
+      <button class="gtab" onclick="syncSwitchG('dice','group')">🎲 Dice</button>
     </div>
 
     <div class="gpanel active" id="gg-kings">
@@ -386,13 +404,14 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Mode</div>
         <div class="mode-row" id="nhieModes">
-          <div class="mpill on" onclick="hostSetM('nhie','mild',this)">😇 Mild</div>
-          <div class="mpill" onclick="hostSetM('nhie','spicy',this)">🌶️ Spicy</div>
-          <div class="mpill" onclick="hostSetM('nhie','wild',this)">🔥 Wild</div>
-          <div class="mpill adult" id="nhieA" onclick="hostSetM('nhie','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="syncSetM('nhie','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="syncSetM('nhie','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill" onclick="syncSetM('nhie','wild',this)">🔥 Wild</div>
+          <div class="mpill adult" id="nhieA" onclick="syncSetM('nhie','adult',this)">🔞 Adult</div>
         </div>
         <div class="prompt-box"><div><div class="prompt-cat" id="nhieCat">tap next</div><div class="prompt-txt" id="nhieTxt">Never have I ever…</div></div></div>
-        <button class="btn btn-gold" id="btnNhie" onclick="hostNext('nhie')">Next →</button>
+        <div class="sync-note" id="nhieWho"></div>
+        <button class="btn btn-gold" id="btnNhie" onclick="doNextPrompt('nhie')">Next →</button>
       </div>
     </div>
 
@@ -400,18 +419,19 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Type</div>
         <div class="mode-row">
-          <div class="mpill on" onclick="hostSetTT('random',this)">🎲 Random</div>
-          <div class="mpill" onclick="hostSetTT('truth',this)">🤔 Truth only</div>
-          <div class="mpill" onclick="hostSetTT('dare',this)">😈 Dare only</div>
+          <div class="mpill on" onclick="syncSetTT('random',this)">🎲 Random</div>
+          <div class="mpill" onclick="syncSetTT('truth',this)">🤔 Truth only</div>
+          <div class="mpill" onclick="syncSetTT('dare',this)">😈 Dare only</div>
         </div>
         <div class="card-label">Spice</div>
         <div class="mode-row" id="todModes">
-          <div class="mpill on" onclick="hostSetM('tod','mild',this)">😇 Mild</div>
-          <div class="mpill" onclick="hostSetM('tod','spicy',this)">🌶️ Spicy</div>
-          <div class="mpill adult" id="todA" onclick="hostSetM('tod','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="syncSetM('tod','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="syncSetM('tod','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill adult" id="todA" onclick="syncSetM('tod','adult',this)">🔞 Adult</div>
         </div>
         <div class="prompt-box"><div><div class="prompt-cat" id="todCat">tap next</div><div class="prompt-txt" id="todTxt">Truth or Dare?</div></div></div>
-        <button class="btn btn-red" id="btnTod" onclick="hostNext('tod')">Next →</button>
+        <div class="sync-note" id="todWho"></div>
+        <button class="btn btn-red" id="btnTod" onclick="doNextPrompt('tod')">Next →</button>
       </div>
     </div>
 
@@ -419,29 +439,31 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Mode</div>
         <div class="mode-row" id="mltModes">
-          <div class="mpill on" onclick="hostSetM('mlt','fun',this)">😂 Fun</div>
-          <div class="mpill" onclick="hostSetM('mlt','real',this)">💭 Real talk</div>
-          <div class="mpill adult" id="mltA" onclick="hostSetM('mlt','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="syncSetM('mlt','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="syncSetM('mlt','real',this)">💭 Real talk</div>
+          <div class="mpill adult" id="mltA" onclick="syncSetM('mlt','adult',this)">🔞 Adult</div>
         </div>
         <div class="mlt-prompt"><div class="mlt-txt" id="mltTxt">Most likely to…</div></div>
+        <div class="sync-note" id="mltWho"></div>
         <div class="vote-row" id="mltVotes"></div>
-        <button class="btn btn-purple" id="btnMlt" onclick="hostNext('mlt')">Next prompt →</button>
+        <button class="btn btn-purple" id="btnMlt" onclick="doNextPrompt('mlt')">Next prompt →</button>
       </div>
     </div>
 
     <div class="gpanel" id="gg-hotseat">
       <div class="card">
-        <div class="card-label">Pick who's in the seat</div>
+        <div class="card-label">Pick who's in the seat <span style="font-size:.65rem;color:var(--mu)">(host only)</span></div>
         <div class="seat-grid" id="hsSeatGrid"></div>
         <div class="card-label">Mode</div>
         <div class="mode-row" id="hsModes">
-          <div class="mpill on" onclick="hostSetM('hs','fun',this)">😂 Fun</div>
-          <div class="mpill" onclick="hostSetM('hs','deep',this)">💭 Deep</div>
-          <div class="mpill adult" id="hsA" onclick="hostSetM('hs','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="syncSetM('hs','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="syncSetM('hs','deep',this)">💭 Deep</div>
+          <div class="mpill adult" id="hsA" onclick="syncSetM('hs','adult',this)">🔞 Adult</div>
         </div>
         <div class="hotseat-box" id="hsBox" style="display:none"><div class="hotseat-name" id="hsName">—</div><div class="hotseat-sub">is in the hot seat 🔥</div></div>
         <div class="prompt-box"><div><div class="prompt-cat" id="hsCat">pick a player above</div><div class="prompt-txt" id="hsTxt">Everyone fires questions at them.</div></div></div>
-        <button class="btn btn-red" id="btnHs" onclick="hostNext('hs')">Next question 🔥</button>
+        <div class="sync-note" id="hsWho"></div>
+        <button class="btn btn-red" id="btnHs" onclick="doNextPrompt('hs')">Next question 🔥</button>
       </div>
     </div>
 
@@ -550,41 +572,55 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 
   <!-- HORSES PAGE -->
   <div class="page" id="page-horses">
-    <div id="hostHorseBanner" class="host-banner" style="display:none">👑 You control the race — everyone sees the same race</div>
-    <div id="guestHorseBanner" class="guest-banner" style="display:none">🍺 Watch the race — host is in control</div>
+    <div id="hostHorseBanner" class="host-banner" style="display:none">👑 You start & reset the race. Everyone bets on their own phone!</div>
+    <div id="guestHorseBanner" class="guest-banner" style="display:none">🍺 Place your bet — host starts the race!</div>
     <div class="card">
-      <div class="card-label">🏇 Pick your horse</div>
+      <div class="card-label">🏇 Pick your horse — everyone bets independently</div>
       <div class="bet-grid" id="betGrid"></div>
-      <div class="race-status" id="raceStatus">Place your bet then start the race!</div>
+      <div class="race-status" id="raceStatus">Place your bet then wait for the host!</div>
     </div>
     <div class="card">
       <div class="card-label">🏁 Track</div>
       <div class="horse-track" id="horseTrack"></div>
     </div>
-    <button class="btn btn-gold" id="raceBtn" onclick="doStartRace()">🏁 Start Race!</button>
-    <button class="btn btn-ghost" id="resetRaceBtn" onclick="doResetRace()" style="display:none">New race</button>
+    <button class="btn btn-gold" id="raceBtn" onclick="doStartRace()" style="display:none">🏁 Start Race! (host)</button>
+    <button class="btn btn-ghost" id="resetRaceBtn" onclick="doResetRace()" style="display:none">New race (host)</button>
   </div>
 
 </div><!-- /sApp -->
+
+<!-- DRINK LOGGER BAR -->
+<div id="drinkBar">
+  <div class="db-row">
+    <div class="db-bac" id="dbBac" style="color:var(--green)">0.00%</div>
+    <div class="db-btns">
+      <div class="db-btn" onclick="addD('beer')"><span class="db-cnt" id="dbc-beer">0</span><span class="db-icon">🍺</span><span class="db-lbl">Beer</span></div>
+      <div class="db-btn" onclick="addD('wine')"><span class="db-cnt" id="dbc-wine">0</span><span class="db-icon">🍷</span><span class="db-lbl">Wine</span></div>
+      <div class="db-btn" onclick="addD('shot')"><span class="db-cnt" id="dbc-shot">0</span><span class="db-icon">🥃</span><span class="db-lbl">Shot</span></div>
+      <div class="db-btn" onclick="addD('cocktail')"><span class="db-cnt" id="dbc-cocktail">0</span><span class="db-icon">🍹</span><span class="db-lbl">Mix</span></div>
+    </div>
+    <button class="db-undo" onclick="undoLastDrink()">↩</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // ══════════════════════════════════════════════
-// FIREBASE
+// FIREBASE CONFIG
 // ══════════════════════════════════════════════
-const FB = {
+const FB_CONFIG = {
   apiKey: "AIzaSyBTy5nIZf2BzN84pwTHf_6QTSP86pcwr7o",
   authDomain: "prethegame-7b0a6.firebaseapp.com",
   databaseURL: "https://prethegame-7b0a6-default-rtdb.firebaseio.com",
   projectId: "prethegame-7b0a6",
   storageBucket: "prethegame-7b0a6.firebasestorage.app",
   messagingSenderId: "640230918522",
-  appId: "1:640230918522:web:899da7d1bd0c51d78c6ec3",
-  measurementId: "G-Z46N7XXD74"
+  appId: "1:640230918522:web:899da7d1bd0c51d78c6ec3"
 };
 
 // ══════════════════════════════════════════════
-// CONTENT
+// CONTENT LIBRARY
 // ══════════════════════════════════════════════
 const C = {
   nhie:{
@@ -669,10 +705,10 @@ const DCAL={beer:150,wine:125,shot:70,cocktail:180};
 let adultMode=false;
 let isHost=false;
 let me={name:'',sex:'m',weight:160,food:'snack',drinks:{beer:0,wine:0,shot:0,cocktail:0},minutes:60,color:COLORS[0]};
+let lastDrinkType=null;
 let myKey=null, db=null, squad={};
-let dbRef, dbSet, dbPush, dbOnValue, dbRemove;
+let dbRef,dbSet,dbPush,dbOnValue,dbRemove,dbOff;
 
-// local modes (2p and couple don't sync)
 const modes={nhie:'mild',tod:'mild',todType:'random',mlt:'fun',hs:'fun',
   '2nhie':'bestie','2tod':'bestie','2todType':'random','2mlt':'bestie','2hs':'bestie','ttl':'bestie',couple:'deep'};
 const used={};
@@ -682,7 +718,7 @@ let kDeck=[];
 let wheelA=0, wheelNames=[];
 
 // ══════════════════════════════════════════════
-// AGE + JOIN FLOW
+// AGE + JOIN
 // ══════════════════════════════════════════════
 function startJoin(a){
   adultMode=a;
@@ -713,6 +749,7 @@ function doJoin(role){
   document.getElementById('sJoin').style.display='none';
   document.getElementById('sApp').style.display='flex';
   document.getElementById('sApp').classList.add('active');
+  document.getElementById('drinkBar').classList.add('show');
 
   const av=document.getElementById('topAv');
   av.textContent=name.slice(0,2).toUpperCase();
@@ -723,136 +760,162 @@ function doJoin(role){
   document.getElementById('myW').value=me.weight;
   document.getElementById('outW').textContent=me.weight+' lb';
 
-  // show banners
   document.getElementById('hostGroupBanner').style.display=isHost?'block':'none';
   document.getElementById('guestGroupBanner').style.display=isHost?'none':'block';
   document.getElementById('hostHorseBanner').style.display=isHost?'block':'none';
   document.getElementById('guestHorseBanner').style.display=isHost?'none':'block';
-
-  // disable controls for guests on synced pages
-  applyGuestLocks();
+  document.getElementById('raceBtn').style.display=isHost?'block':'none';
 
   initFB();
   calcMyBAC(); buildKings(); drawWheel(); buildHorses(); renderTwopSquad();
 }
 
-function applyGuestLocks(){
-  if(isHost)return;
-  // lock group game action buttons — guests can see but not trigger
-  ['btnDrawKing','btnResetKings','btnNhie','btnTod','btnMlt','btnHs','btnDice','btnSpin','raceBtn','resetRaceBtn']
-    .forEach(id=>{const el=document.getElementById(id);if(el){el.disabled=true;el.title='Only the host can do this';}});
-  // lock mode pills in group games
-  document.querySelectorAll('#page-group .mpill, #page-group .gtab').forEach(el=>{
-    el.style.pointerEvents='none';el.style.opacity='.5';
-  });
-  document.querySelectorAll('#page-horses .bet-btn').forEach(el=>{
-    el.style.pointerEvents='none';el.style.opacity='.5';
-  });
-  // add lock message
-  const grp=document.getElementById('page-group');
-  const msg=document.createElement('div');
-  msg.className='guest-lock-msg';
-  msg.textContent='👀 Watching — host controls the games';
-  grp.insertBefore(msg,grp.querySelector('.gtabs'));
-}
-
 // ══════════════════════════════════════════════
-// FIREBASE INIT
+// FIREBASE
 // ══════════════════════════════════════════════
 function initFB(){
   import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js').then(({initializeApp})=>{
     import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(m=>{
       dbRef=m.ref; dbSet=m.set; dbPush=m.push; dbOnValue=m.onValue; dbRemove=m.remove;
       try{
-        const app=initializeApp(FB);
+        const app=initializeApp(FB_CONFIG,'ptg-'+Date.now());
         db=m.getDatabase(app);
-        const membersPath=dbRef(db,'ptg/members');
-        myKey=dbPush(membersPath).key;
+        const membersRef=dbRef(db,'ptg/members');
+        myKey=dbPush(membersRef).key;
         pushMe();
-        // watch members
-        dbOnValue(membersPath,snap=>{
+        dbOnValue(membersRef,snap=>{
           squad=snap.val()||{};
           renderSquad(); renderRace(); renderMltVotes(); renderTwopSquad(); renderHsGrid();
+          drawWheel();
         });
-        // watch game state (host pushes, guests receive)
+        // Listen for game state from host
         dbOnValue(dbRef(db,'ptg/gameState'),snap=>{
           const gs=snap.val();
-          if(gs&&!isHost)applyGameState(gs);
+          if(gs) applyGameState(gs);
         });
-        window.addEventListener('beforeunload',()=>dbRemove(dbRef(db,'ptg/members/'+myKey)));
-      }catch(e){console.error(e);fallback();}
+        window.addEventListener('beforeunload',()=>{
+          if(myKey&&db)dbRemove(dbRef(db,'ptg/members/'+myKey));
+        });
+      }catch(e){console.error('FB error:',e);fallback();}
     });
   }).catch(()=>fallback());
 }
 
 function fallback(){
-  myKey='local';
-  squad={local:{...me,drinks:{...me.drinks},ts:Date.now(),role:isHost?'host':'guest'}};
-  renderSquad(); renderRace(); renderTwopSquad(); renderHsGrid();
+  myKey='local_'+Date.now();
+  squad[myKey]={...me,drinks:{...me.drinks},ts:Date.now(),role:isHost?'host':'guest'};
+  renderSquad(); renderRace(); renderTwopSquad(); renderHsGrid(); drawWheel();
 }
 
 function pushMe(){
-  if(!db||!myKey||myKey==='local')return;
-  dbSet(dbRef(db,'ptg/members/'+myKey),{
-    name:me.name,sex:me.sex,weight:me.weight,food:me.food,
-    drinks:{...me.drinks},minutes:me.minutes,color:me.color,
-    role:isHost?'host':'guest',ts:Date.now()
-  });
+  if(!db||!myKey)return;
+  try{
+    dbSet(dbRef(db,'ptg/members/'+myKey),{
+      name:me.name,sex:me.sex,weight:me.weight,food:me.food,
+      drinks:{...me.drinks},minutes:me.minutes,color:me.color,
+      role:isHost?'host':'guest',ts:Date.now()
+    });
+  }catch(e){}
 }
-
 function syncMe(){
-  if(myKey==='local'||!db){
-    if(squad[myKey])Object.assign(squad[myKey],{...me,drinks:{...me.drinks}});
-    renderSquad();renderRace();return;
-  }
+  if(squad[myKey])Object.assign(squad[myKey],{name:me.name,sex:me.sex,weight:me.weight,food:me.food,drinks:{...me.drinks},minutes:me.minutes,color:me.color});
+  renderSquad(); renderRace();
   pushMe();
 }
 
-// push game state so guests see same thing
+// Push game state (any player can do this for prompts, only host for race/cards)
 function pushGameState(state){
-  if(!isHost)return;
-  if(!db||myKey==='local'){applyGameState(state);return;}
-  dbSet(dbRef(db,'ptg/gameState'),{...state,ts:Date.now()});
+  if(!db||!myKey){applyGameState(state);return;}
+  try{dbSet(dbRef(db,'ptg/gameState'),{...state,ts:Date.now(),by:me.name});}catch(e){applyGameState(state);}
 }
 
-// guests receive and apply game state
 function applyGameState(gs){
   if(!gs)return;
-  // active tab / game
-  if(gs.page){
-    goPageSilent(gs.page);
-  }
-  if(gs.groupGame){
-    switchGSilent(gs.groupGame,'group');
-  }
-  // kings
-  if(gs.kCard!==undefined){
-    renderKingCard(gs.kCard);
-    if(gs.kRemaining!==undefined)document.getElementById('kInfo').textContent=gs.kRemaining+' cards remaining';
-  }
-  // prompts
-  if(gs.nhieTxt){document.getElementById('nhieCat').textContent=gs.nhieCat||'';document.getElementById('nhieTxt').textContent=gs.nhieTxt;}
-  if(gs.todTxt){document.getElementById('todCat').textContent=gs.todCat||'';document.getElementById('todTxt').textContent=gs.todTxt;}
+  // Group game tab switch
+  if(gs.groupGame) switchGSilent(gs.groupGame,'group');
+  if(gs.page) goPageSilent(gs.page);
+  // Kings
+  if(gs.kCard!==undefined) renderKingCard(gs.kCard);
+  if(gs.kRemaining!==undefined) document.getElementById('kInfo').textContent=gs.kRemaining+' cards remaining';
+  // NHIE
+  if(gs.nhieCat){document.getElementById('nhieCat').textContent=gs.nhieCat;document.getElementById('nhieTxt').textContent=gs.nhieTxt||'';}
+  if(gs.nhieWho) document.getElementById('nhieWho').textContent=gs.nhieWho;
+  // TOD
+  if(gs.todCat){document.getElementById('todCat').textContent=gs.todCat;document.getElementById('todTxt').textContent=gs.todTxt||'';}
+  if(gs.todWho) document.getElementById('todWho').textContent=gs.todWho;
+  // MLT
   if(gs.mltTxt){document.getElementById('mltTxt').textContent=gs.mltTxt;renderMltVotes();}
+  if(gs.mltWho) document.getElementById('mltWho').textContent=gs.mltWho;
+  // Hot seat
   if(gs.hsTxt){document.getElementById('hsCat').textContent=gs.hsCat||'';document.getElementById('hsTxt').textContent=gs.hsTxt;}
+  if(gs.hsWho) document.getElementById('hsWho').textContent=gs.hsWho;
   if(gs.hsPlayer){
     document.getElementById('hsBox').style.display='block';
     document.getElementById('hsName').textContent=gs.hsPlayer;
+    hsPlayer=gs.hsPlayer;
+    document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>{
+      b.classList.toggle('on',b.textContent===gs.hsPlayer);
+    });
   }
-  // dice
-  if(gs.diceRes){document.getElementById('diceRes').textContent=gs.diceRes;document.getElementById('diceCon').textContent=gs.diceCon||'';document.getElementById('diceFace').textContent=gs.diceFace||'🎲';}
-  // wheel
-  if(gs.wheelResult){document.getElementById('wheelRes').textContent=gs.wheelResult;}
-  // horses
+  // Dice
+  if(gs.diceRes){
+    document.getElementById('diceRes').textContent=gs.diceRes;
+    document.getElementById('diceCon').textContent=gs.diceCon||'';
+    if(gs.diceFace)document.getElementById('diceFace').textContent=gs.diceFace;
+  }
+  // Wheel
+  if(gs.wheelResult) document.getElementById('wheelRes').textContent=gs.wheelResult;
+  // Race positions (animate on all devices)
   if(gs.racePositions){
-    gs.racePositions.forEach((p,i)=>{const b=document.getElementById('hbar-'+i);if(b)b.style.width=Math.max(p,4)+'%';});
+    gs.racePositions.forEach((p,i)=>{
+      const b=document.getElementById('hbar-'+i);
+      if(b)b.style.width=Math.max(p,4)+'%';
+    });
   }
-  if(gs.raceStatus){document.getElementById('raceStatus').textContent=gs.raceStatus;}
-  if(gs.raceFinished&&gs.raceWinner!==undefined){
+  if(gs.raceStatus) document.getElementById('raceStatus').textContent=gs.raceStatus;
+  if(gs.raceReset){
+    document.querySelectorAll('.bet-btn').forEach(b=>b.classList.remove('selected','winner','loser'));
+    myBet=-1; raceFinished=false; raceRunning=false;
+    if(!isHost){document.getElementById('resetRaceBtn').style.display='none';}
+  }
+  if(gs.raceFinished&&gs.raceWinner!==undefined&&!raceFinished){
+    raceFinished=true;
     document.querySelectorAll('.bet-btn').forEach((b,i)=>{
       b.classList.remove('selected');
       if(i===gs.raceWinner)b.classList.add('winner');
       else b.classList.add('loser');
+    });
+    // Tell guest if they won or lost
+    if(myBet>=0){
+      const won=myBet===gs.raceWinner;
+      toast(won?'🏆 Your horse won! Give 3 sips':'😭 Your horse lost — drink!');
+    }
+    if(isHost)document.getElementById('resetRaceBtn').style.display='block';
+  }
+  // Modes sync
+  if(gs.modeUpdate){
+    const{game,mode}=gs.modeUpdate;
+    modes[game]=mode;
+    used[game]=new Set();
+    // Update pill UI
+    const containers={nhie:'#nhieModes',tod:'#todModes',mlt:'#mltModes',hs:'#hsModes'};
+    const labels={nhie:{mild:'😇 Mild',spicy:'🌶️ Spicy',wild:'🔥 Wild',adult:'🔞 Adult'},
+      tod:{mild:'😇 Mild',spicy:'🌶️ Spicy',adult:'🔞 Adult'},
+      mlt:{fun:'😂 Fun',real:'💭 Real talk',adult:'🔞 Adult'},
+      hs:{fun:'😂 Fun',deep:'💭 Deep',adult:'🔞 Adult'}};
+    if(containers[game]){
+      document.querySelectorAll(containers[game]+' .mpill').forEach(p=>{
+        p.classList.toggle('on',p.textContent.trim()===labels[game][mode]);
+      });
+    }
+  }
+  if(gs.todTypeUpdate){
+    modes.todType=gs.todTypeUpdate;
+    document.querySelectorAll('#page-group .mode-row .mpill').forEach(p=>{
+      if(['🎲 Random','🤔 Truth only','😈 Dare only'].includes(p.textContent.trim())){
+        const map={'🎲 Random':'random','🤔 Truth only':'truth','😈 Dare only':'dare'};
+        p.classList.toggle('on',map[p.textContent.trim()]===gs.todTypeUpdate);
+      }
     });
   }
 }
@@ -866,9 +929,7 @@ function goPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   if(p==='squad'){renderSquad();renderRace();}
-  if(p==='group')drawWheel();
-  // host syncs page change to guests
-  if(isHost)pushGameState({page:p});
+  if(p==='group'||p==='dice')drawWheel();
 }
 function goPageSilent(p){
   PAGES.forEach((pg,i)=>document.querySelectorAll('.navbtn')[i].classList.toggle('active',pg===p));
@@ -893,15 +954,14 @@ function switchG(g,tab){
 }
 function switchGSilent(g,tab){switchG(g,tab);}
 
-// host wrapper — switches game AND pushes state
-function hostSwitchG(g,tab){
-  if(!isHost)return;
+// Anyone can switch group game tabs — syncs to all
+function syncSwitchG(g,tab){
   switchG(g,tab);
-  pushGameState({page:'group',groupGame:g});
+  pushGameState({groupGame:g});
 }
 
 // ══════════════════════════════════════════════
-// SQUAD + RACE
+// SQUAD
 // ══════════════════════════════════════════════
 function calcBAC(p){
   const std=Object.entries(p.drinks||{}).reduce((s,[k,v])=>s+v*(DSTD[k]||0),0);
@@ -931,7 +991,7 @@ function renderSquad(){
     return`<div class="member-row${isMe?' me':''}">
       <div class="av av-md" style="background:${p.color||COLORS[0]};color:#000">${init}</div>
       <div><div class="member-name">${p.name||'?'}${roleTag}${isMe?' <span style="font-size:.65rem;color:var(--gold)">(you)</span>':''}</div>
-      <div class="member-sub">${dr}</div></div>
+      <div class="member-sub">${dr||'—'}</div></div>
       <div><div class="bac-badge" style="color:${col}">${(bac*100).toFixed(2)}%</div>
       <div class="bac-vibe">${v}</div></div>
     </div>`;
@@ -956,7 +1016,45 @@ function renderRace(){
 }
 
 // ══════════════════════════════════════════════
-// MINE / BAC
+// DRINK LOGGER
+// ══════════════════════════════════════════════
+function addD(t){
+  me.drinks[t]++;
+  lastDrinkType=t;
+  // Update all counters
+  ['beer','wine','shot','cocktail'].forEach(d=>{
+    const big=document.getElementById('dc-'+d);
+    const bar=document.getElementById('dbc-'+d);
+    if(big)big.textContent=me.drinks[d];
+    if(bar)bar.textContent=me.drinks[d];
+  });
+  calcMyBAC(); syncMe();
+  toast('+1 '+t+' 🍻');
+}
+function undoLastDrink(){
+  if(!lastDrinkType||me.drinks[lastDrinkType]<=0){toast('Nothing to undo');return;}
+  me.drinks[lastDrinkType]--;
+  const big=document.getElementById('dc-'+lastDrinkType);
+  const bar=document.getElementById('dbc-'+lastDrinkType);
+  if(big)big.textContent=me.drinks[lastDrinkType];
+  if(bar)bar.textContent=me.drinks[lastDrinkType];
+  lastDrinkType=null;
+  calcMyBAC(); syncMe(); toast('Undone ↩');
+}
+function resetD(){
+  me.drinks={beer:0,wine:0,shot:0,cocktail:0};
+  ['beer','wine','shot','cocktail'].forEach(d=>{
+    const big=document.getElementById('dc-'+d);
+    const bar=document.getElementById('dbc-'+d);
+    if(big)big.textContent=0;
+    if(bar)bar.textContent=0;
+  });
+  lastDrinkType=null;
+  calcMyBAC(); syncMe();
+}
+
+// ══════════════════════════════════════════════
+// BAC CALC
 // ══════════════════════════════════════════════
 function slUp(){
   me.weight=+document.getElementById('myW').value;
@@ -976,23 +1074,17 @@ function setFood(f,el){
   document.querySelectorAll('.food-chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on'); calcMyBAC(); syncMe();
 }
-function addD(t){
-  me.drinks[t]++;
-  document.getElementById('dc-'+t).textContent=me.drinks[t];
-  calcMyBAC(); syncMe(); toast('+1 '+t+' 🍻');
-}
-function resetD(){
-  me.drinks={beer:0,wine:0,shot:0,cocktail:0};
-  ['beer','wine','shot','cocktail'].forEach(d=>document.getElementById('dc-'+d).textContent=0);
-  calcMyBAC(); syncMe();
-}
 function calcMyBAC(){
   const bac=calcBAC(me);const{col}=bacInfo(bac);
-  document.getElementById('myBacNum').textContent=(bac*100).toFixed(2)+'%';
+  const bacPct=(bac*100).toFixed(2)+'%';
+  document.getElementById('myBacNum').textContent=bacPct;
   document.getElementById('myBacNum').style.color=col;
   document.getElementById('myFill').style.width=Math.min(bac/.2,1)*100+'%';
   document.getElementById('myFill').style.background=col;
-  const VIBES=['Completely sober 😶','Just warming up 🙂','Nicely buzzed 😄','Legally tipsy 😆','Drunk 🥴','Very drunk 😵','Stop & hydrate 🚨'];
+  // bottom bar
+  document.getElementById('dbBac').textContent=bacPct;
+  document.getElementById('dbBac').style.color=col;
+  const VIBES=['Sober 😶','Warming up 🙂','Buzzed 😄','Tipsy 😆','Drunk 🥴','Very drunk 😵','⚠️ Stop!'];
   const vi=bac<.02?0:bac<.05?1:bac<.08?2:bac<.10?3:bac<.15?4:bac<.20?5:6;
   document.getElementById('myVibeTxt').textContent=VIBES[vi];
   document.getElementById('myVibeTxt').style.color=col;
@@ -1005,24 +1097,28 @@ function calcMyBAC(){
 }
 
 // ══════════════════════════════════════════════
-// MODES
+// MODE SYNC — anyone can change modes, pushes to all
 // ══════════════════════════════════════════════
 function setM(game,mode,el){
   modes[game]=mode; used[game]=new Set();
   el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));
   el.classList.add('on');
 }
-function hostSetM(game,mode,el){
-  if(!isHost)return;
+function syncSetM(game,mode,el){
   setM(game,mode,el);
+  pushGameState({modeUpdate:{game,mode}});
 }
-function setTT(t,el){modes.todType=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
-function hostSetTT(t,el){if(!isHost)return;setTT(t,el);}
+function syncSetTT(t,el){
+  modes.todType=t;
+  el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  pushGameState({todTypeUpdate:t});
+}
 function setTT2(t,el){modes['2todType']=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
 function setCoupleM(m,el){modes.couple=m;used.couple=new Set();el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
 
 // ══════════════════════════════════════════════
-// PROMPT ENGINE
+// PROMPT ENGINE — anyone can flip next
 // ══════════════════════════════════════════════
 function pick(arr,key){
   if(!used[key])used[key]=new Set();
@@ -1032,17 +1128,18 @@ function pick(arr,key){
   used[key].add(item.i); return item.v;
 }
 
-// HOST actions — generate prompt and push to firebase
-function hostNext(game){
-  if(!isHost)return;
+// Anyone can tap Next for group games — syncs to all screens
+function doNextPrompt(game){
   const m=modes[game];
-  let gs={};
+  let gs={by:me.name};
   if(game==='nhie'){
     const pool=C.nhie[m]||C.nhie.mild;
     const txt='Never have I ever… '+pick(pool,'nhie_'+m);
-    document.getElementById('nhieCat').textContent=m+' mode';
+    const who=me.name+' flipped';
+    document.getElementById('nhieCat').textContent=m+' · '+who;
     document.getElementById('nhieTxt').textContent=txt;
-    gs={nhieCat:m+' mode',nhieTxt:txt};
+    document.getElementById('nhieWho').textContent='';
+    gs={nhieCat:m+' · '+who,nhieTxt:txt,nhieWho:''};
   } else if(game==='tod'){
     const isTruth=modes.todType==='truth'||(modes.todType==='random'&&Math.random()<.5);
     const pool=isTruth?(C.tod.truth[m]||C.tod.truth.mild):(C.tod.dare[m]||C.tod.dare.mild);
@@ -1058,17 +1155,30 @@ function hostNext(game){
     renderMltVotes();
     gs={mltTxt:txt};
   } else if(game==='hs'){
+    if(!hsPlayer){toast('Host picks who is in the hot seat first!');return;}
     const pool=C.hs[m]||C.hs.fun;
     const txt=pick(pool,'hs_'+m);
-    const cat=hsPlayer?'🔥 '+hsPlayer:'pick a player above';
+    const cat='🔥 '+hsPlayer;
     document.getElementById('hsCat').textContent=cat;
     document.getElementById('hsTxt').textContent=txt;
-    gs={hsCat:cat,hsTxt:txt,hsPlayer:hsPlayer};
+    gs={hsCat:cat,hsTxt:txt,hsPlayer};
   }
   pushGameState(gs);
 }
 
-// local-only prompts (2P and couple)
+// Host-only: pick who's in the hot seat
+function pickHs(name,el){
+  if(!isHost){toast('Only the host picks the hot seat!');return;}
+  hsPlayer=name;
+  document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('hsBox').style.display='block';
+  document.getElementById('hsName').textContent=name;
+  document.getElementById('hsCat').textContent='🔥 '+name+' is in the hot seat';
+  pushGameState({hsPlayer:name,hsCat:'🔥 '+name+' is in the hot seat',hsTxt:document.getElementById('hsTxt').textContent});
+}
+
+// Local-only 2P prompts
 function next(game){
   const m=modes[game];
   if(game==='2nhie'){
@@ -1139,16 +1249,6 @@ function renderHsGrid(){
   if(!members.length){grid.innerHTML='<div style="color:var(--mu);font-size:.78rem">Squad not loaded</div>';return;}
   grid.innerHTML=members.map(p=>`<div class="seat-btn${hsPlayer===p.name?' on':''}" onclick="pickHs('${p.name}',this)">${p.name}</div>`).join('');
 }
-function pickHs(name,el){
-  if(!isHost)return;
-  hsPlayer=name;
-  document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-  document.getElementById('hsBox').style.display='block';
-  document.getElementById('hsName').textContent=name;
-  document.getElementById('hsCat').textContent='🔥 '+name+' is in the hot seat';
-  pushGameState({hsPlayer:name,hsCat:'🔥 '+name+' is in the hot seat',hsTxt:document.getElementById('hsTxt').textContent});
-}
 function setHs2(n){
   hs2p=n;
   const p1=document.getElementById('p1').value||'Player 1';
@@ -1205,7 +1305,6 @@ const KRULES={
 };
 function buildKings(){kDeck=[];for(const s of SUITS)for(const r of RANKS)kDeck.push({r,s});shuffle(kDeck);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
-
 function renderKingCard(cardData){
   if(!cardData){document.getElementById('kDisplay').innerHTML='<div style="color:var(--mu)">Tap draw to start!</div>';return;}
   const{r,s,ruleName,ruleDesc}=cardData;
@@ -1216,9 +1315,8 @@ function renderKingCard(cardData){
     <div class="card-rule">${ruleName}</div>
     <div class="card-rule-desc">${ruleDesc}</div>`;
 }
-
 function doDrawKing(){
-  if(!isHost)return;
+  if(!isHost){toast('Only the host draws cards!');return;}
   if(!kDeck.length){toast('Deck empty!');buildKings();return;}
   const c=kDeck.pop();const rule=KRULES[c.r];
   const cardData={r:c.r,s:c.s,ruleName:rule.n,ruleDesc:rule.d};
@@ -1227,7 +1325,7 @@ function doDrawKing(){
   pushGameState({kCard:cardData,kRemaining:kDeck.length});
 }
 function doResetKings(){
-  if(!isHost)return;
+  if(!isHost){toast('Only the host reshuffles!');return;}
   buildKings();
   document.getElementById('kDisplay').innerHTML='<div style="color:var(--mu)">Reshuffled! Tap draw.</div>';
   document.getElementById('kInfo').textContent='52 cards remaining';
@@ -1240,7 +1338,7 @@ function doResetKings(){
 const DFACES=['⚀','⚁','⚂','⚃','⚄','⚅'];
 const DRULES=['Sip once.','Take 2 sips.','Give 3 sips to someone.','Everyone drinks!','Make a mini-rule for 1 round.','Take a shot — or give 2 sips each to 2 people.'];
 function doRollDice(){
-  if(!isHost)return;
+  if(!isHost){toast('Only the host rolls!');return;}
   const el=document.getElementById('diceFace');
   el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');
   let n=0;
@@ -1278,7 +1376,7 @@ function paintWheel(angle){
   ctx.fillStyle='#fff';ctx.fill();
 }
 function doSpinWheel(){
-  if(!isHost)return;
+  if(!isHost){toast('Only the host spins!');return;}
   document.getElementById('wheelRes').textContent='…';
   const spins=(Math.random()*6+5)*Math.PI*2,dur=3200,t0=performance.now(),a0=wheelA;
   function frame(now){
@@ -1297,7 +1395,7 @@ function doSpinWheel(){
 }
 
 // ══════════════════════════════════════════════
-// HORSES
+// HORSES — everyone bets independently, host controls race
 // ══════════════════════════════════════════════
 function buildHorses(){
   const bg=document.getElementById('betGrid');
@@ -1319,20 +1417,22 @@ function buildTrack(){
     </div>`).join('');
   racePositions=[0,0,0,0,0];
 }
+// Everyone bets on their own device — not synced (personal)
 function placeBet(i){
-  if(raceRunning||raceFinished)return;
+  if(raceRunning||raceFinished){toast('Race already running!');return;}
   myBet=i;
   document.querySelectorAll('.bet-btn').forEach((b,j)=>b.classList.toggle('selected',j===i));
-  document.getElementById('raceStatus').textContent='Betting on '+HORSES[i].name+' '+HORSES[i].emoji;
+  document.getElementById('raceStatus').textContent='You bet on '+HORSES[i].name+' '+HORSES[i].emoji+' — waiting for host…';
+  toast('Bet placed on '+HORSES[i].name+'! 🏇');
 }
 function doStartRace(){
-  if(!isHost){toast('Only the host can start the race!');return;}
+  if(!isHost){toast('Only the host starts the race!');return;}
   if(raceRunning)return;
   raceRunning=true; raceFinished=false;
   document.getElementById('raceBtn').style.display='none';
   let cd=3;
   document.getElementById('raceStatus').textContent=cd+'…';
-  pushGameState({raceStatus:cd+'…',racePositions:[...racePositions]});
+  pushGameState({raceStatus:cd+'…',racePositions:[0,0,0,0,0]});
   const cdInt=setInterval(()=>{
     cd--;
     if(cd>0){
@@ -1355,7 +1455,6 @@ function runRace(){
       const b=document.getElementById('hbar-'+i);
       if(b)b.style.width=Math.max(racePositions[i],4)+'%';
     }
-    // push positions every tick so guests see the race animate
     pushGameState({racePositions:[...racePositions],raceStatus:"🏇 They're off!"});
     const maxPos=Math.max(...racePositions);
     if(maxPos>=100){
@@ -1363,39 +1462,45 @@ function runRace(){
       clearInterval(interval);
       finishRace(winner);
     }
-  },100);
+  },120);
 }
 function finishRace(winner){
   raceRunning=false; raceFinished=true;
   const horse=HORSES[winner];
-  const won=myBet===winner;
   document.querySelectorAll('.bet-btn').forEach((b,i)=>{
     b.classList.remove('selected');
     if(i===winner)b.classList.add('winner');
     else b.classList.add('loser');
   });
-  const status=horse.name+' wins! 🏆 '+(won?'You picked right — give out 3 sips!':'Wrong horse — drink up! 🍺');
-  document.getElementById('raceStatus').textContent=status;
+  const statusBase=horse.name+' wins! 🏆';
+  const won=myBet===winner;
+  const statusMe=won?' You picked right — give out 3 sips!':' Wrong horse — drink up! 🍺';
+  document.getElementById('raceStatus').textContent=statusBase+(myBet>=0?statusMe:'');
   document.getElementById('resetRaceBtn').style.display='block';
-  pushGameState({racePositions:[...racePositions],raceStatus:status,raceFinished:true,raceWinner:winner});
+  pushGameState({racePositions:[...racePositions],raceStatus:statusBase,raceFinished:true,raceWinner:winner});
   toast(won?'🏆 You won! Give 3 sips':'😭 Your horse lost — drink!');
 }
 function doResetRace(){
-  if(!isHost){toast('Only the host can reset the race!');return;}
+  if(!isHost){toast('Only the host resets the race!');return;}
   myBet=-1; raceRunning=false; raceFinished=false;
   document.querySelectorAll('.bet-btn').forEach(b=>b.classList.remove('selected','winner','loser'));
-  document.getElementById('raceStatus').textContent='Place your bet then start the race!';
+  document.getElementById('raceStatus').textContent='Place your bet then wait for the host!';
   document.getElementById('raceBtn').style.display='block';
   document.getElementById('resetRaceBtn').style.display='none';
   buildTrack();
-  pushGameState({racePositions:[0,0,0,0,0],raceStatus:'Place your bet then start the race!',raceFinished:false});
+  pushGameState({racePositions:[0,0,0,0,0],raceStatus:'Place your bet then wait for the host!',raceReset:true,raceFinished:false});
 }
 
 // ══════════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════════
 function fmtMin(m){if(!m)return'0m';if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return h+'h'+(r?' '+r+'m':'');}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid=setTimeout(()=>t.classList.remove('show'),2400);
+}
 
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('jName').addEventListener('keydown',e=>{if(e.key==='Enter')goStep2();});
@@ -1404,9 +1509,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Lines: $(wc -l < /mnt/user-data/outputs/index.html)"
-Output
-
-Lines: 1405
-Done
