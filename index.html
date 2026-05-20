@@ -2,887 +2,724 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Squad Night 🍻</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0d0d0f;--surface:#18181c;--surface2:#222228;--surface3:#2a2a32;
-  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
-  --text:#f0ede8;--muted:#777;--muted2:#555;
-  --accent:#e8a235;--accent2:#d45f3c;--green:#4caf7d;--red:#e05555;--blue:#5b9cf6;--pink:#e070a0;--purple:#a07af0;
-  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
-  --r:12px;--rs:8px;
+  --bg:#0a0a0b;--s1:#111113;--s2:#18181c;--s3:#202026;--s4:#28282f;
+  --br:rgba(255,255,255,0.06);--br2:rgba(255,255,255,0.12);--br3:rgba(255,255,255,0.2);
+  --tx:#f2efe9;--mu:#666;--mu2:#444;
+  --gold:#f0a500;--gold2:#e08800;
+  --green:#3ecf6e;--red:#e84040;--blue:#4d8ef0;--pink:#e060a8;--purple:#9060f0;--teal:#30c8b0;--orange:#f07040;
+  --r:14px;--rs:9px;
+  --ff:'Archivo Black',sans-serif;--fb:'Archivo',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+html{font-size:16px;-webkit-tap-highlight-color:transparent;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+
+/* ── SCREENS ── */
+.screen{min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.screen.active{display:flex}
 
 /* AGE GATE */
-#ageGate{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.5rem;text-align:center}
-.gate-logo{font-family:var(--fd);font-size:clamp(2.8rem,10vw,5rem);font-weight:800;color:var(--accent);line-height:1}
-.gate-sub{color:var(--muted);font-size:.95rem;max-width:300px}
-.gate-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-.gate-btn{padding:12px 28px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-family:var(--fb);font-size:.95rem;cursor:pointer;transition:all .15s}
-.gate-btn:hover{border-color:var(--accent);color:var(--accent)}
-.gate-btn.primary{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
+#sAge{background:var(--bg);gap:1.5rem;text-align:center}
+.logo-big{font-family:var(--ff);font-size:clamp(3rem,12vw,5.5rem);color:var(--gold);line-height:.9;letter-spacing:-.02em}
+.logo-sub{color:var(--mu);font-size:.88rem;max-width:280px;line-height:1.5}
+.age-btns{display:flex;flex-direction:column;gap:9px;width:100%;max-width:300px}
+.age-btn{padding:14px 20px;border-radius:var(--rs);border:1px solid var(--br2);background:var(--s2);color:var(--tx);font-family:var(--fb);font-size:.9rem;cursor:pointer;transition:all .15s;font-weight:500}
+.age-btn:hover{border-color:var(--gold);color:var(--gold)}
+.age-btn.gold{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700;font-family:var(--ff)}
 
 /* JOIN */
-#joinScreen{min-height:100vh;display:none;flex-direction:column;align-items:center;justify-content:center;padding:2rem;gap:1.2rem}
-.join-logo{font-family:var(--fd);font-size:clamp(2.8rem,10vw,4.5rem);font-weight:800;color:var(--accent);line-height:1;text-align:center}
-.join-sub{color:var(--muted);font-size:.9rem;text-align:center}
-.join-form{width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px}
-.join-form input,.join-form select{width:100%;background:var(--surface);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text);font-family:var(--fb);font-size:1rem;padding:12px 14px;outline:none;transition:border-color .2s}
-.join-form input:focus,.join-form select:focus{border-color:var(--accent)}
-.join-form select option{background:#1a1a1e}
-.join-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:var(--rs);font-family:var(--fd);font-size:1.05rem;font-weight:700;padding:14px;cursor:pointer;transition:opacity .15s,transform .1s}
-.join-btn:hover{opacity:.9}.join-btn:active{transform:scale(.98)}
+#sJoin{gap:1.2rem}
+.join-logo{font-family:var(--ff);font-size:clamp(2.5rem,10vw,4rem);color:var(--gold);line-height:.9;text-align:center}
+.jform{width:100%;max-width:320px;display:flex;flex-direction:column;gap:9px}
+.jform input,.jform select{width:100%;background:var(--s2);border:1px solid var(--br2);border-radius:var(--rs);color:var(--tx);font-family:var(--fb);font-size:.95rem;padding:13px 14px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.jform input:focus,.jform select:focus{border-color:var(--gold)}
+.jform select option{background:#1a1a1e}
+.join-btn{width:100%;background:var(--gold);color:#000;border:none;border-radius:var(--rs);font-family:var(--ff);font-size:1.1rem;padding:15px;cursor:pointer;transition:opacity .15s,transform .1s;letter-spacing:.01em}
+.join-btn:active{transform:scale(.97)}
 
-/* APP */
-#appShell{display:none;flex-direction:column;min-height:100vh}
-.top-bar{position:sticky;top:0;z-index:50;background:rgba(13,13,15,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:52px;flex-shrink:0}
-.top-logo{font-family:var(--fd);font-size:1.25rem;font-weight:800;color:var(--accent)}
-.top-user{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px}
-.av-sm{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;font-family:var(--fd)}
+/* APP SHELL */
+#sApp{display:none;flex-direction:column;min-height:100vh;padding:0;align-items:stretch;justify-content:flex-start}
+#sApp.active{display:flex}
 
-/* TABS */
-.tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
-.tabs::-webkit-scrollbar{display:none}
-.tab-btn{flex:1;min-width:72px;padding:11px 6px;border:none;background:transparent;color:var(--muted);font-family:var(--fb);font-size:.78rem;font-weight:500;cursor:pointer;transition:color .2s;border-bottom:2px solid transparent;white-space:nowrap}
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+/* TOP BAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,11,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--br);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:50px;flex-shrink:0}
+.topbar-logo{font-family:var(--ff);font-size:1.1rem;color:var(--gold);letter-spacing:.01em}
+.topbar-user{display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--mu)}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--ff);font-weight:900;flex-shrink:0}
+.av-sm{width:28px;height:28px;font-size:.62rem}
+.av-md{width:36px;height:36px;font-size:.75rem}
+.av-lg{width:42px;height:42px;font-size:.85rem}
 
-/* CONTENT */
-.tab-content{display:none;padding:1rem;max-width:680px;margin:0 auto;width:100%}
-.tab-content.active{display:block}
+/* NAV TABS */
+.nav{display:flex;background:var(--s1);border-bottom:1px solid var(--br);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.nav::-webkit-scrollbar{display:none}
+.navbtn{flex:1;min-width:60px;padding:10px 4px 9px;border:none;background:transparent;color:var(--mu);font-family:var(--fb);font-size:.7rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s;letter-spacing:.01em;text-transform:uppercase}
+.navbtn.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* PAGE */
+.page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:2rem}
+.page.active{display:block}
 
 /* CARDS */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.9rem}
-.card-title{font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem}
+.card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.85rem}
+.card-label{font-family:var(--ff);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:.85rem}
 
-/* MEMBERS */
-.member-list{display:flex;flex-direction:column;gap:8px}
-.member-row{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
-.member-row.me{border-color:rgba(232,162,53,.4)}
-.av-lg{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;font-family:var(--fd);flex-shrink:0}
-.member-name{font-weight:500;font-size:.9rem}
-.member-sub{font-size:.72rem;color:var(--muted);margin-top:1px}
-.bac-badge{font-family:var(--fd);font-size:1.05rem;font-weight:700;text-align:right}
-.bac-vibe{font-size:.68rem;color:var(--muted);text-align:right;margin-top:1px}
+/* ── RACE BAR ── */
+.race-wrap{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.85rem}
+.race-title{font-family:var(--ff);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:.85rem}
+.race-track{display:flex;flex-direction:column;gap:8px}
+.race-lane{display:flex;align-items:center;gap:8px}
+.race-name{font-size:.72rem;font-weight:600;min-width:60px;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.race-bar-wrap{flex:1;height:22px;background:var(--s3);border-radius:20px;overflow:hidden;position:relative}
+.race-bar{height:100%;border-radius:20px;transition:width .5s cubic-bezier(.34,1.56,.64,1);min-width:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.race-bar-num{font-family:var(--ff);font-size:.65rem;color:rgba(0,0,0,.8)}
+.race-drinks{font-size:.7rem;color:var(--mu);min-width:28px;text-align:right}
 
-/* SLIDERS */
-.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.sl-row label{font-size:.78rem;color:var(--muted);min-width:78px}
-.sl-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--surface2);border-radius:2px;outline:none}
-.sl-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
-.sl-val{font-size:.82rem;font-weight:500;min-width:52px;text-align:right}
-.sex-toggle{display:flex;gap:6px}
-.sex-btn{flex:1;padding:8px;border-radius:var(--rs);background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:var(--fb);font-size:.82rem;cursor:pointer;transition:all .15s}
-.sex-btn.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:500}
+/* MEMBER LIST */
+.member-list{display:flex;flex-direction:column;gap:7px}
+.member-row{background:var(--s2);border:1px solid var(--br);border-radius:var(--rs);padding:10px 12px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.member-row.me{border-color:rgba(240,165,0,.35)}
+.member-name{font-weight:600;font-size:.88rem}
+.member-sub{font-size:.7rem;color:var(--mu);margin-top:1px}
+.bac-badge{font-family:var(--ff);font-size:1rem;text-align:right}
+.bac-vibe{font-size:.65rem;color:var(--mu);text-align:right;margin-top:1px}
 
-/* FOOD/DRINK */
-.food-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.9rem}
-.food-chip{padding:5px 12px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;cursor:pointer;transition:all .15s}
-.food-chip.active{background:rgba(76,175,125,.15);border-color:var(--green);color:var(--green)}
+/* MINE */
+.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sl-label{font-size:.75rem;color:var(--mu);min-width:80px}
+.sl-row input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--s3);border-radius:2px;outline:none;cursor:pointer}
+.sl-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 0 3px rgba(240,165,0,.2)}
+.sl-val{font-size:.8rem;font-weight:600;min-width:54px;text-align:right;color:var(--tx)}
+.toggle-row{display:flex;gap:6px;margin-bottom:10px}
+.toggle-btn{flex:1;padding:9px;border-radius:var(--rs);background:var(--s3);border:1px solid var(--br);color:var(--mu);font-family:var(--fb);font-size:.82rem;cursor:pointer;transition:all .15s;font-weight:500}
+.toggle-btn.on{background:var(--gold);color:#000;border-color:var(--gold);font-weight:700}
+.food-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.85rem}
+.food-chip{padding:6px 13px;border-radius:20px;background:var(--s3);border:1px solid var(--br);color:var(--mu);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:500}
+.food-chip.on{background:rgba(62,207,110,.12);border-color:var(--green);color:var(--green)}
 .drink-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:8px}
-.drink-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);padding:9px 5px;text-align:center;cursor:pointer;transition:all .15s;position:relative;user-select:none}
-.drink-btn:active{transform:scale(.93)}
-.drink-icon{font-size:1.4rem}
-.drink-label{font-size:.65rem;color:var(--muted);margin-top:2px}
-.drink-count{position:absolute;top:4px;right:6px;font-family:var(--fd);font-size:.95rem;font-weight:700;color:var(--accent)}
-
-/* BAC */
-.bac-big{text-align:center;padding:1rem 0 .5rem}
-.bac-big-num{font-family:var(--fd);font-size:3.2rem;font-weight:800;line-height:1}
-.bac-big-label{font-size:.72rem;color:var(--muted);margin-top:4px}
-.bac-meter{height:6px;background:var(--surface2);border-radius:3px;margin:.9rem 0 .4rem;overflow:hidden}
-.bac-fill{height:100%;border-radius:3px;transition:width .4s,background .4s}
-.bac-vibe-big{text-align:center;font-size:.88rem;font-weight:500}
-.stat-chips{display:flex;gap:7px;margin-top:10px}
-.stat-chip{flex:1;background:var(--surface2);border-radius:var(--rs);padding:9px;text-align:center}
-.stat-chip .sv{font-family:var(--fd);font-size:1.1rem;font-weight:700}
-.stat-chip .sl{font-size:.68rem;color:var(--muted);margin-top:2px}
-
-/* BUTTONS */
-.primary-btn{width:100%;padding:13px;background:var(--accent);color:#000;border:none;border-radius:var(--rs);font-family:var(--fd);font-size:1.05rem;font-weight:700;cursor:pointer;transition:opacity .15s,transform .1s}
-.primary-btn:hover{opacity:.9}.primary-btn:active{transform:scale(.98)}
-.primary-btn.red{background:var(--accent2);color:#fff}
-.primary-btn.pink{background:var(--pink);color:#fff}
-.primary-btn.purple{background:var(--purple);color:#fff}
-.secondary-btn{width:100%;padding:9px;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:var(--rs);font-family:var(--fb);font-size:.82rem;cursor:pointer;margin-top:7px;transition:all .15s}
-.secondary-btn:hover{border-color:var(--border2);color:var(--text)}
+.drink-btn{background:var(--s2);border:1px solid var(--br);border-radius:var(--rs);padding:10px 5px 8px;text-align:center;cursor:pointer;transition:all .15s;position:relative;user-select:none;-webkit-user-select:none}
+.drink-btn:active{transform:scale(.9);border-color:var(--gold)}
+.d-icon{font-size:1.5rem;line-height:1}
+.d-label{font-size:.62rem;color:var(--mu);margin-top:3px}
+.d-count{position:absolute;top:5px;right:7px;font-family:var(--ff);font-size:.9rem;color:var(--gold)}
+.bac-big{text-align:center;padding:1rem 0 .3rem}
+.bac-num{font-family:var(--ff);font-size:3rem;line-height:1}
+.bac-lbl{font-size:.7rem;color:var(--mu);margin-top:4px}
+.bac-meter{height:6px;background:var(--s3);border-radius:3px;margin:.85rem 0 .35rem;overflow:hidden}
+.bac-fill{height:100%;border-radius:3px;transition:width .5s,background .5s}
+.bac-vibe-big{text-align:center;font-size:.85rem;font-weight:600}
+.stat-row{display:flex;gap:7px;margin-top:10px}
+.stat-chip{flex:1;background:var(--s2);border-radius:var(--rs);padding:9px;text-align:center}
+.stat-v{font-family:var(--ff);font-size:1.05rem}
+.stat-l{font-size:.65rem;color:var(--mu);margin-top:2px}
 
 /* GAMES */
-.game-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.9rem}
-.gtab{padding:6px 13px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;cursor:pointer;transition:all .15s;font-family:var(--fb)}
-.gtab.active{background:var(--accent);color:#000;border-color:var(--accent);font-weight:600}
-.game-panel{display:none}.game-panel.active{display:block}
-
-/* MODE PILLS */
-.mode-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.9rem}
-.mode-pill{padding:6px 12px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:.78rem;cursor:pointer;transition:all .15s;font-family:var(--fb)}
-.mode-pill.active{border-color:var(--blue);background:rgba(91,156,246,.12);color:var(--blue)}
-.mode-pill.adult.active{border-color:var(--pink);background:rgba(224,112,160,.12);color:var(--pink)}
-
-/* PROMPT BOX */
-.prompt-box{background:var(--surface2);border-radius:var(--r);padding:1.8rem 1.2rem;text-align:center;margin-bottom:.9rem;min-height:130px;display:flex;align-items:center;justify-content:center}
-.prompt-cat{font-size:.72rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em}
-.prompt-txt{font-family:var(--fd);font-size:1.15rem;font-weight:700;line-height:1.4}
+.gtabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem}
+.gtab{padding:6px 13px;border-radius:20px;background:var(--s2);border:1px solid var(--br);color:var(--mu);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:600;font-family:var(--fb)}
+.gtab.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.gpanel{display:none}.gpanel.active{display:block}
+.mode-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem}
+.mpill{padding:6px 12px;border-radius:20px;background:var(--s2);border:1px solid var(--br);color:var(--mu);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:500}
+.mpill.on{border-color:var(--blue);background:rgba(77,142,240,.1);color:var(--blue)}
+.mpill.adult.on{border-color:var(--pink);background:rgba(224,96,168,.1);color:var(--pink)}
+.prompt-box{background:var(--s2);border-radius:var(--r);padding:1.8rem 1.2rem;text-align:center;margin-bottom:.85rem;min-height:120px;display:flex;align-items:center;justify-content:center}
+.prompt-cat{font-size:.68rem;color:var(--mu);margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em}
+.prompt-txt{font-family:var(--ff);font-size:1.1rem;line-height:1.4;color:var(--tx)}
 
 /* KINGS */
-.kings-info{font-size:.78rem;color:var(--muted);margin-bottom:10px}
-.card-display{text-align:center;padding:1.5rem 1rem;background:var(--surface2);border-radius:var(--r);margin-bottom:.9rem}
-.playing-card{display:inline-block;background:#fff;border-radius:10px;padding:1.2rem 1.8rem;margin-bottom:.8rem}
-.card-rank{font-family:var(--fd);font-size:3rem;font-weight:800;line-height:1}
-.card-suit{font-size:1.8rem}
-.card-rule-name{font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--accent);margin-bottom:3px}
-.card-rule-desc{font-size:.82rem;color:var(--muted)}
-.kings-sheet{display:grid;grid-template-columns:1fr 1fr;gap:7px;font-size:.78rem}
-.kings-sheet div{color:var(--muted)}
-.kings-sheet span{color:var(--accent);font-weight:700}
+.kings-info{font-size:.75rem;color:var(--mu);margin-bottom:10px}
+.card-display{text-align:center;padding:1.5rem 1rem;background:var(--s2);border-radius:var(--r);margin-bottom:.85rem;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.playing-card{background:#f8f4ec;border-radius:10px;padding:1rem 1.5rem;display:inline-block}
+.card-rank{font-family:var(--ff);font-size:2.8rem;line-height:1}
+.card-suit{font-size:1.6rem}
+.card-rule{font-family:var(--ff);font-size:1rem;color:var(--gold)}
+.card-rule-desc{font-size:.8rem;color:var(--mu);max-width:260px;line-height:1.4;text-align:center}
+.kings-sheet{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.77rem}
+.kings-sheet div{color:var(--mu)}
+.kings-sheet span{color:var(--gold);font-weight:700}
 
 /* DICE */
-.dice-area{text-align:center;padding:1.5rem 0 .8rem}
-.dice-face{font-size:5rem;display:inline-block}
-.dice-face.rolling{animation:roll .5s ease-out}
-@keyframes roll{0%{transform:rotate(0)scale(1)}25%{transform:rotate(18deg)scale(1.12)}50%{transform:rotate(-14deg)scale(1.1)}75%{transform:rotate(8deg)scale(1.05)}100%{transform:rotate(0)scale(1)}}
-.dice-result{font-family:var(--fd);font-size:1.4rem;font-weight:700;margin-bottom:3px}
-.dice-cons{font-size:.82rem;color:var(--muted)}
+.dice-area{text-align:center;padding:1.2rem 0 .5rem}
+.dice-face{font-size:5rem;display:inline-block;transition:transform .1s}
+.dice-face.spin{animation:dspin .5s ease-out}
+@keyframes dspin{0%{transform:rotate(0) scale(1)}30%{transform:rotate(20deg) scale(1.15)}60%{transform:rotate(-12deg) scale(1.1)}100%{transform:rotate(0) scale(1)}}
+.dice-res{font-family:var(--ff);font-size:1.3rem;margin-bottom:3px}
+.dice-con{font-size:.8rem;color:var(--mu)}
 
 /* WHEEL */
-.wheel-result{text-align:center;font-family:var(--fd);font-size:1.15rem;font-weight:700;color:var(--accent);margin-top:8px;min-height:1.5rem}
+.wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.wheel-result{font-family:var(--ff);font-size:1.1rem;color:var(--gold);min-height:1.4rem;text-align:center}
 
 /* HOT SEAT */
-.hotseat-player{background:var(--surface2);border-radius:var(--r);padding:1rem;text-align:center;margin-bottom:.9rem}
-.hotseat-name{font-family:var(--fd);font-size:1.5rem;font-weight:800;color:var(--accent);margin-bottom:3px}
-.hotseat-sub{font-size:.78rem;color:var(--muted)}
-.player-select-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:7px;margin-bottom:.9rem}
-.player-select-btn{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s}
-.player-select-btn:hover{border-color:var(--border2)}
-.player-select-btn.active{border-color:var(--accent);background:rgba(232,162,53,.1)}
-.player-select-btn .psname{font-size:.85rem;font-weight:500;color:var(--text)}
+.seat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:.85rem}
+.seat-btn{background:var(--s2);border:1px solid var(--br);border-radius:var(--rs);padding:9px 6px;text-align:center;cursor:pointer;transition:all .15s;font-size:.82rem;font-weight:600}
+.seat-btn.on{border-color:var(--gold);background:rgba(240,165,0,.1);color:var(--gold)}
+.hotseat-box{background:var(--s2);border-radius:var(--r);padding:1rem;text-align:center;margin-bottom:.85rem}
+.hotseat-name{font-family:var(--ff);font-size:1.5rem;color:var(--gold)}
+.hotseat-sub{font-size:.75rem;color:var(--mu);margin-top:3px}
+
+/* MOST LIKELY */
+.mlt-prompt{background:var(--s2);border-radius:var(--r);padding:1.5rem 1.2rem;text-align:center;margin-bottom:.85rem;min-height:100px;display:flex;align-items:center;justify-content:center}
+.mlt-txt{font-family:var(--ff);font-size:1.05rem;line-height:1.4}
+.vote-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:.85rem}
+.vote-btn{flex:1;min-width:80px;padding:10px;background:var(--s2);border:1px solid var(--br);border-radius:var(--rs);color:var(--tx);font-size:.8rem;cursor:pointer;transition:all .15s;font-weight:600}
+.vote-btn.voted{border-color:var(--gold);background:rgba(240,165,0,.12);color:var(--gold)}
 
 /* 2P */
-.twop-inputs{display:flex;gap:8px;margin-bottom:.9rem}
-.twop-inputs input{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text);font-family:var(--fb);font-size:.9rem;padding:10px 12px;outline:none}
-.twop-inputs input:focus{border-color:var(--accent)}
-.twop-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem}
-.twop-names{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--text)}
-.twop-vs{color:var(--muted);font-size:.8rem;margin:0 6px}
+.p-inputs{display:flex;gap:7px;margin-bottom:.85rem}
+.p-inputs input{flex:1;background:var(--s2);border:1px solid var(--br2);border-radius:var(--rs);color:var(--tx);font-family:var(--fb);font-size:.9rem;padding:11px 12px;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.p-inputs input:focus{border-color:var(--gold)}
+.vs-header{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:.85rem;font-family:var(--ff);font-size:1rem}
+.vs-sep{color:var(--mu);font-size:.75rem}
 
-/* MLT */
-.mlt-prompt{background:var(--surface2);border-radius:var(--r);padding:1.5rem 1.2rem;text-align:center;margin-bottom:.9rem;min-height:110px;display:flex;align-items:center;justify-content:center}
-.mlt-txt{font-family:var(--fd);font-size:1.1rem;font-weight:700;line-height:1.4}
-.mlt-votes{display:flex;gap:7px;margin-bottom:.9rem}
-.mlt-vote-btn{flex:1;padding:10px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:.82rem;cursor:pointer;transition:all .15s;font-family:var(--fb)}
-.mlt-vote-btn:hover{border-color:var(--border2)}
-.mlt-vote-btn.voted{border-color:var(--accent);background:rgba(232,162,53,.12);color:var(--accent);font-weight:600}
+/* COUPLE MODE */
+.couple-card{background:linear-gradient(135deg,rgba(224,96,168,.08),rgba(144,96,240,.08));border:1px solid rgba(224,96,168,.2);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.85rem}
+.couple-prompt{background:rgba(224,96,168,.07);border:1px solid rgba(224,96,168,.15);border-radius:var(--r);padding:1.8rem 1.2rem;text-align:center;margin-bottom:.85rem;min-height:130px;display:flex;align-items:center;justify-content:center}
+.couple-txt{font-family:var(--ff);font-size:1.1rem;line-height:1.4;color:var(--tx)}
+.couple-cat{font-size:.68rem;color:var(--pink);margin-bottom:7px;text-transform:uppercase;letter-spacing:.08em}
+.cpill.on{border-color:var(--pink);background:rgba(224,96,168,.1);color:var(--pink)}
+
+/* HORSE RACE */
+.horse-track{background:var(--s2);border-radius:var(--r);padding:1rem;margin-bottom:.85rem;overflow:hidden}
+.horse-lane{display:flex;align-items:center;gap:8px;margin-bottom:8px;position:relative}
+.horse-lane:last-child{margin-bottom:0}
+.horse-name{font-size:.72rem;font-weight:700;min-width:55px;color:var(--tx)}
+.horse-bar-bg{flex:1;height:28px;background:var(--s3);border-radius:20px;overflow:hidden;position:relative}
+.horse-bar{height:100%;border-radius:20px;transition:width .3s ease-out;display:flex;align-items:center;padding-left:6px;min-width:32px}
+.horse-emoji{font-size:1.1rem;line-height:1}
+.horse-odds{font-size:.68rem;color:var(--mu);min-width:36px;text-align:right}
+.bet-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:.85rem}
+.bet-btn{background:var(--s2);border:1px solid var(--br);border-radius:var(--rs);padding:10px 4px;text-align:center;cursor:pointer;transition:all .15s}
+.bet-btn.selected{border-color:var(--gold);background:rgba(240,165,0,.12)}
+.bet-btn.winner{border-color:var(--green);background:rgba(62,207,110,.12);animation:pulse .4s ease 3}
+.bet-btn.loser{border-color:var(--red);background:rgba(232,64,64,.08);opacity:.6}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.bet-horse-name{font-size:.7rem;font-weight:700;margin-top:3px;color:var(--tx)}
+.race-status{text-align:center;font-family:var(--ff);font-size:1.1rem;color:var(--gold);min-height:1.5rem;margin-bottom:.85rem}
+.countdown{font-family:var(--ff);font-size:3rem;color:var(--gold);text-align:center;animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(1.5)}100%{transform:scale(1)}}
+
+/* BUTTONS */
+.btn{width:100%;padding:13px;border:none;border-radius:var(--rs);font-family:var(--ff);font-size:1rem;cursor:pointer;transition:opacity .15s,transform .1s;letter-spacing:.01em}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:var(--gold);color:#000}
+.btn-red{background:var(--red);color:#fff}
+.btn-pink{background:var(--pink);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-green{background:var(--green);color:#000}
+.btn-ghost{background:transparent;color:var(--mu);border:1px solid var(--br);font-family:var(--fb);font-size:.82rem;margin-top:7px}
+.btn-ghost:hover{border-color:var(--br2);color:var(--tx)}
+.btn + .btn{margin-top:7px}
 
 /* TOAST */
-.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border2);border-radius:var(--rs);padding:9px 18px;font-size:.82rem;opacity:0;pointer-events:none;transition:all .3s;z-index:200;white-space:nowrap}
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--s2);border:1px solid var(--br2);border-radius:var(--rs);padding:9px 18px;font-size:.8rem;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ADULT BANNER */
-.adult-banner{background:rgba(224,112,160,.08);border:1px solid rgba(224,112,160,.25);border-radius:var(--rs);padding:8px 12px;font-size:.75rem;color:var(--pink);margin-bottom:.9rem;text-align:center}
+/* ADULT BADGE */
+.adult-note{background:rgba(224,96,168,.07);border:1px solid rgba(224,96,168,.2);border-radius:var(--rs);padding:7px 11px;font-size:.72rem;color:var(--pink);text-align:center;margin-bottom:.85rem}
 
-@media(max-width:400px){.drink-grid{grid-template-columns:repeat(2,1fr)}.kings-sheet{grid-template-columns:1fr}}
+@media(max-width:380px){
+  .drink-grid{grid-template-columns:repeat(2,1fr)}
+  .bet-grid{grid-template-columns:repeat(3,1fr)}
+  .kings-sheet{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <!-- AGE GATE -->
-<div id="ageGate">
-  <div class="gate-logo">Squad<br>Night</div>
-  <div class="gate-sub">some content in this app is intended for adults only</div>
-  <div class="gate-btns">
-    <button class="gate-btn" onclick="showJoin(false)">Under 18 — keep it clean</button>
-    <button class="gate-btn primary" onclick="showJoin(true)">18+ — unlock everything</button>
+<div class="screen active" id="sAge">
+  <div class="logo-big">Squad<br>Night</div>
+  <div class="logo-sub">a drinking game app for your crew — some content is adults only</div>
+  <div class="age-btns">
+    <button class="age-btn gold" onclick="startJoin(true)">18+ — unlock everything 🔞</button>
+    <button class="age-btn" onclick="startJoin(false)">Under 18 — keep it clean 😇</button>
   </div>
 </div>
 
 <!-- JOIN -->
-<div id="joinScreen">
-  <div class="join-logo">Squad<br>Night 🍻</div>
-  <div class="join-sub">drink tracker · party games · for your crew</div>
-  <div class="join-form">
-    <input id="jName" type="text" placeholder="Your name" maxlength="18" autocomplete="off">
+<div class="screen" id="sJoin">
+  <div class="join-logo">Join the<br>Squad 🍻</div>
+  <div class="jform">
+    <input id="jName" type="text" placeholder="Your name" maxlength="16" autocomplete="off" autocorrect="off">
     <select id="jSex"><option value="m">Biological male</option><option value="f">Biological female</option></select>
-    <input id="jWeight" type="number" placeholder="Weight (lbs)" min="90" max="350" value="160">
-    <button class="join-btn" onclick="joinSession()">Join the squad →</button>
+    <input id="jWeight" type="number" placeholder="Weight (lbs)" min="90" max="350" value="160" inputmode="numeric">
+    <button class="join-btn" onclick="doJoin()">Let's go →</button>
   </div>
 </div>
 
 <!-- APP -->
-<div id="appShell">
-  <div class="top-bar">
-    <div class="top-logo">Squad Night</div>
-    <div class="top-user"><div class="av-sm" id="topAv"></div><span id="topName"></span></div>
+<div class="screen" id="sApp">
+  <div class="topbar">
+    <div class="topbar-logo">Squad Night</div>
+    <div class="topbar-user"><div class="av av-sm" id="topAv"></div><span id="topName"></span></div>
   </div>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('tracker')">🍺 Squad</button>
-    <button class="tab-btn" onclick="switchTab('mine')">📊 Mine</button>
-    <button class="tab-btn" onclick="switchTab('group')">🎲 Group</button>
-    <button class="tab-btn" onclick="switchTab('twop')">👫 2-Player</button>
+  <div class="nav">
+    <button class="navbtn active" onclick="goPage('squad')">🍺 Squad</button>
+    <button class="navbtn" onclick="goPage('mine')">📊 Mine</button>
+    <button class="navbtn" onclick="goPage('group')">🎲 Group</button>
+    <button class="navbtn" onclick="goPage('twop')">👫 2P</button>
+    <button class="navbtn" onclick="goPage('couple')">💑 Couple</button>
+    <button class="navbtn" onclick="goPage('horses')">🏇 Horses</button>
   </div>
 
-  <!-- SQUAD TAB -->
-  <div class="tab-content active" id="tab-tracker">
+  <!-- SQUAD PAGE -->
+  <div class="page active" id="page-squad">
+    <div class="race-wrap">
+      <div class="race-title">🏁 Drink Race — live</div>
+      <div class="race-track" id="raceTrack"><div style="color:var(--mu);font-size:.82rem">Waiting for squad to join…</div></div>
+    </div>
     <div class="card">
-      <div class="card-title">Who's here</div>
-      <div class="member-list" id="memberList"><div style="color:var(--muted);font-size:.85rem">Waiting for squad…</div></div>
+      <div class="card-label">Squad BAC</div>
+      <div class="member-list" id="memberList"><div style="color:var(--mu);font-size:.82rem">Nobody here yet…</div></div>
     </div>
   </div>
 
-  <!-- MINE TAB -->
-  <div class="tab-content" id="tab-mine">
+  <!-- MINE PAGE -->
+  <div class="page" id="page-mine">
     <div class="card">
-      <div class="card-title">My stats</div>
-      <div class="sl-row"><label>Weight</label><input type="range" min="90" max="300" step="1" id="myW" oninput="slChange()"><span class="sl-val" id="outW">160 lb</span></div>
-      <div class="sl-row"><label>Time drinking</label><input type="range" min="0" max="480" step="15" id="myT" value="60" oninput="slChange()"><span class="sl-val" id="outT">1h</span></div>
-      <div style="margin-bottom:9px">
-        <div style="font-size:.78rem;color:var(--muted);margin-bottom:6px">Biological sex</div>
-        <div class="sex-toggle"><button class="sex-btn active" id="sexM" onclick="setSex('m')">Male</button><button class="sex-btn" id="sexF" onclick="setSex('f')">Female</button></div>
-      </div>
+      <div class="card-label">My info</div>
+      <div class="sl-row"><span class="sl-label">Weight</span><input type="range" min="90" max="300" step="1" id="myW" oninput="slUp()"><span class="sl-val" id="outW">160 lb</span></div>
+      <div class="sl-row"><span class="sl-label">Time drinking</span><input type="range" min="0" max="480" step="15" id="myT" value="60" oninput="slUp()"><span class="sl-val" id="outT">1h</span></div>
+      <div style="font-size:.75rem;color:var(--mu);margin-bottom:6px">Biological sex</div>
+      <div class="toggle-row"><button class="toggle-btn on" id="sexM" onclick="setSex('m')">Male</button><button class="toggle-btn" id="sexF" onclick="setSex('f')">Female</button></div>
     </div>
     <div class="card">
-      <div class="card-title">Food eaten</div>
-      <div class="food-chips">
+      <div class="card-label">Food eaten</div>
+      <div class="food-row">
         <div class="food-chip" data-f="none" onclick="setFood('none',this)">Empty stomach</div>
-        <div class="food-chip active" data-f="snack" onclick="setFood('snack',this)">Snacks</div>
+        <div class="food-chip on" data-f="snack" onclick="setFood('snack',this)">Snacks</div>
         <div class="food-chip" data-f="meal" onclick="setFood('meal',this)">Full meal</div>
         <div class="food-chip" data-f="big" onclick="setFood('big',this)">Big dinner</div>
       </div>
     </div>
     <div class="card">
-      <div class="card-title">Log drinks (tap to add)</div>
+      <div class="card-label">Log drinks (tap to add)</div>
       <div class="drink-grid">
-        <div class="drink-btn" onclick="addDrink('beer')"><span class="drink-count" id="dc-beer">0</span><div class="drink-icon">🍺</div><div class="drink-label">Beer 5%</div></div>
-        <div class="drink-btn" onclick="addDrink('wine')"><span class="drink-count" id="dc-wine">0</span><div class="drink-icon">🍷</div><div class="drink-label">Wine 12%</div></div>
-        <div class="drink-btn" onclick="addDrink('shot')"><span class="drink-count" id="dc-shot">0</span><div class="drink-icon">🥃</div><div class="drink-label">Shot 40%</div></div>
-        <div class="drink-btn" onclick="addDrink('cocktail')"><span class="drink-count" id="dc-cocktail">0</span><div class="drink-icon">🍹</div><div class="drink-label">Cocktail 15%</div></div>
+        <div class="drink-btn" onclick="addD('beer')"><span class="d-count" id="dc-beer">0</span><div class="d-icon">🍺</div><div class="d-label">Beer 5%</div></div>
+        <div class="drink-btn" onclick="addD('wine')"><span class="d-count" id="dc-wine">0</span><div class="d-icon">🍷</div><div class="d-label">Wine 12%</div></div>
+        <div class="drink-btn" onclick="addD('shot')"><span class="d-count" id="dc-shot">0</span><div class="d-icon">🥃</div><div class="d-label">Shot 40%</div></div>
+        <div class="drink-btn" onclick="addD('cocktail')"><span class="d-count" id="dc-cocktail">0</span><div class="d-icon">🍹</div><div class="d-label">Cocktail 15%</div></div>
       </div>
-      <button class="secondary-btn" onclick="resetDrinks()">Reset my drinks</button>
+      <button class="btn btn-ghost" onclick="resetD()">Reset my drinks</button>
     </div>
     <div class="card">
-      <div class="card-title">My BAC estimate</div>
-      <div class="bac-big"><div class="bac-big-num" id="myBacNum" style="color:var(--green)">0.00%</div><div class="bac-big-label">blood alcohol content (estimated)</div></div>
+      <div class="card-label">My BAC estimate</div>
+      <div class="bac-big"><div class="bac-num" id="myBacNum" style="color:var(--green)">0.00%</div><div class="bac-lbl">blood alcohol content (estimated)</div></div>
       <div class="bac-meter"><div class="bac-fill" id="myFill" style="width:0%;background:var(--green)"></div></div>
-      <div class="bac-vibe-big" id="myVibe" style="color:var(--muted)">Completely sober 😶</div>
-      <div class="stat-chips">
-        <div class="stat-chip"><div class="sv" id="stStd">0.0</div><div class="sl">std. drinks</div></div>
-        <div class="stat-chip"><div class="sv" id="stCal">0</div><div class="sl">calories</div></div>
-        <div class="stat-chip"><div class="sv" id="stSob">—</div><div class="sl">sober in</div></div>
+      <div class="bac-vibe-big" id="myVibeTxt" style="color:var(--mu)">Completely sober 😶</div>
+      <div class="stat-row">
+        <div class="stat-chip"><div class="stat-v" id="stStd">0.0</div><div class="stat-l">std drinks</div></div>
+        <div class="stat-chip"><div class="stat-v" id="stCal">0</div><div class="stat-l">calories</div></div>
+        <div class="stat-chip"><div class="stat-v" id="stSob">—</div><div class="stat-l">sober in</div></div>
       </div>
     </div>
   </div>
 
-  <!-- GROUP GAMES TAB -->
-  <div class="tab-content" id="tab-group">
-    <div class="game-tabs">
-      <button class="gtab active" onclick="switchGame('kings','group')">👑 Kings</button>
-      <button class="gtab" onclick="switchGame('nhie','group')">🙈 NHIE</button>
-      <button class="gtab" onclick="switchGame('tod','group')">🎭 T or D</button>
-      <button class="gtab" onclick="switchGame('mlt','group')">🤔 Most Likely</button>
-      <button class="gtab" onclick="switchGame('hotseat','group')">🔥 Hot Seat</button>
-      <button class="gtab" onclick="switchGame('dice','group')">🎲 Dice & Spin</button>
+  <!-- GROUP GAMES PAGE -->
+  <div class="page" id="page-group">
+    <div class="gtabs" id="gGroupTabs">
+      <button class="gtab on" onclick="switchG('kings','group')">👑 Kings</button>
+      <button class="gtab" onclick="switchG('nhie','group')">🙈 NHIE</button>
+      <button class="gtab" onclick="switchG('tod','group')">🎭 T or D</button>
+      <button class="gtab" onclick="switchG('mlt','group')">🤔 Most Likely</button>
+      <button class="gtab" onclick="switchG('hotseat','group')">🔥 Hot Seat</button>
+      <button class="gtab" onclick="switchG('dice','group')">🎲 Dice</button>
     </div>
 
-    <!-- KINGS -->
-    <div class="game-panel active" id="gg-kings">
+    <div class="gpanel active" id="gg-kings">
       <div class="card">
-        <div class="kings-info" id="kInfo">Full deck · 52 cards remaining</div>
-        <div class="card-display" id="kDisplay"><div style="color:var(--muted);font-size:.88rem">Tap draw to start!</div></div>
-        <button class="primary-btn" onclick="drawKing()">Draw a card</button>
-        <button class="secondary-btn" onclick="resetKings()">Reshuffle deck</button>
+        <div class="kings-info" id="kInfo">52 cards remaining</div>
+        <div class="card-display" id="kDisplay"><div style="color:var(--mu);font-size:.85rem">Tap draw to start!</div></div>
+        <button class="btn btn-gold" onclick="drawKing()">Draw a card</button>
+        <button class="btn btn-ghost" onclick="resetKings()">Reshuffle deck</button>
       </div>
       <div class="card">
-        <div class="card-title">Cheat sheet</div>
+        <div class="card-label">Cheat sheet</div>
         <div class="kings-sheet">
-          <div><span>A</span> Waterfall</div><div><span>2</span> You (pick someone)</div>
-          <div><span>3</span> Me (you drink)</div><div><span>4</span> Floor (last drinks)</div>
+          <div><span>A</span> Waterfall</div><div><span>2</span> You — pick someone</div>
+          <div><span>3</span> Me — you drink</div><div><span>4</span> Floor — last drinks</div>
           <div><span>5</span> Guys drink</div><div><span>6</span> Girls drink</div>
-          <div><span>7</span> Heaven (last up drinks)</div><div><span>8</span> Mate (pick partner)</div>
+          <div><span>7</span> Heaven — last up drinks</div><div><span>8</span> Mate — pick partner</div>
           <div><span>9</span> Rhyme</div><div><span>10</span> Categories</div>
           <div><span>J</span> Never Have I Ever</div><div><span>Q</span> Question Master</div>
-          <div><span>K</span> Make a rule!</div><div></div>
+          <div><span>K</span> Make a rule 👑</div><div></div>
         </div>
       </div>
     </div>
 
-    <!-- NHIE GROUP -->
-    <div class="game-panel" id="gg-nhie">
+    <div class="gpanel" id="gg-nhie">
       <div class="card">
-        <div class="card-title">Mode</div>
+        <div class="card-label">Mode</div>
         <div class="mode-row" id="nhieModes">
-          <div class="mode-pill active" onclick="setMode('nhie','mild',this)">😇 Mild</div>
-          <div class="mode-pill" onclick="setMode('nhie','spicy',this)">🌶️ Spicy</div>
-          <div class="mode-pill" onclick="setMode('nhie','wild',this)">🔥 Wild</div>
-          <div class="mode-pill adult" id="nhieAdult" onclick="setMode('nhie','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('nhie','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="setM('nhie','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill" onclick="setM('nhie','wild',this)">🔥 Wild</div>
+          <div class="mpill adult" id="nhieA" onclick="setM('nhie','adult',this)">🔞 Adult</div>
         </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="nhieCat">tap next to start</div><div class="prompt-txt" id="nhieTxt">Never have I ever…</div></div></div>
-        <button class="primary-btn" onclick="nextPrompt('nhie')">Next →</button>
+        <div class="prompt-box"><div><div class="prompt-cat" id="nhieCat">tap next</div><div class="prompt-txt" id="nhieTxt">Never have I ever…</div></div></div>
+        <button class="btn btn-gold" onclick="next('nhie')">Next →</button>
       </div>
     </div>
 
-    <!-- TOD GROUP -->
-    <div class="game-panel" id="gg-tod">
+    <div class="gpanel" id="gg-tod">
       <div class="card">
-        <div class="card-title">Type</div>
+        <div class="card-label">Type</div>
         <div class="mode-row">
-          <div class="mode-pill active" onclick="setTodType('random',this)">🎲 Random</div>
-          <div class="mode-pill" onclick="setTodType('truth',this)">🤔 Truth only</div>
-          <div class="mode-pill" onclick="setTodType('dare',this)">😈 Dare only</div>
+          <div class="mpill on" onclick="setTT('random',this)">🎲 Random</div>
+          <div class="mpill" onclick="setTT('truth',this)">🤔 Truth only</div>
+          <div class="mpill" onclick="setTT('dare',this)">😈 Dare only</div>
         </div>
-        <div class="card-title" style="margin-top:.5rem">Spice level</div>
+        <div class="card-label">Spice</div>
         <div class="mode-row" id="todModes">
-          <div class="mode-pill active" onclick="setMode('tod','mild',this)">😇 Mild</div>
-          <div class="mode-pill" onclick="setMode('tod','spicy',this)">🌶️ Spicy</div>
-          <div class="mode-pill adult" id="todAdult" onclick="setMode('tod','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('tod','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="setM('tod','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill adult" id="todA" onclick="setM('tod','adult',this)">🔞 Adult</div>
         </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="todCat">tap next to start</div><div class="prompt-txt" id="todTxt">Truth or Dare?</div></div></div>
-        <button class="primary-btn red" onclick="nextPrompt('tod')">Next →</button>
+        <div class="prompt-box"><div><div class="prompt-cat" id="todCat">tap next</div><div class="prompt-txt" id="todTxt">Truth or Dare?</div></div></div>
+        <button class="btn btn-red" onclick="next('tod')">Next →</button>
       </div>
     </div>
 
-    <!-- MOST LIKELY TO -->
-    <div class="game-panel" id="gg-mlt">
+    <div class="gpanel" id="gg-mlt">
       <div class="card">
-        <div class="card-title">Mode</div>
+        <div class="card-label">Mode</div>
         <div class="mode-row" id="mltModes">
-          <div class="mode-pill active" onclick="setMode('mlt','fun',this)">😂 Fun</div>
-          <div class="mode-pill" onclick="setMode('mlt','real',this)">💭 Real talk</div>
-          <div class="mode-pill adult" id="mltAdult" onclick="setMode('mlt','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('mlt','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="setM('mlt','real',this)">💭 Real talk</div>
+          <div class="mpill adult" id="mltA" onclick="setM('mlt','adult',this)">🔞 Adult</div>
         </div>
         <div class="mlt-prompt"><div class="mlt-txt" id="mltTxt">Most likely to…</div></div>
-        <div class="mlt-votes" id="mltVotes"></div>
-        <button class="primary-btn purple" onclick="nextMlt()">Next prompt →</button>
+        <div class="vote-row" id="mltVotes"></div>
+        <button class="btn btn-purple" onclick="next('mlt')">Next prompt →</button>
       </div>
     </div>
 
-    <!-- HOT SEAT -->
-    <div class="game-panel" id="gg-hotseat">
+    <div class="gpanel" id="gg-hotseat">
       <div class="card">
-        <div class="card-title">Pick who's in the hot seat</div>
-        <div class="player-select-grid" id="hsSeatGrid"></div>
-        <div class="card-title" style="margin-top:.5rem">Spice level</div>
+        <div class="card-label">Pick who's in the seat</div>
+        <div class="seat-grid" id="hsSeatGrid"></div>
+        <div class="card-label">Mode</div>
         <div class="mode-row" id="hsModes">
-          <div class="mode-pill active" onclick="setMode('hs','fun',this)">😂 Fun</div>
-          <div class="mode-pill" onclick="setMode('hs','deep',this)">💭 Deep</div>
-          <div class="mode-pill adult" id="hsAdult" onclick="setMode('hs','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('hs','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="setM('hs','deep',this)">💭 Deep</div>
+          <div class="mpill adult" id="hsA" onclick="setM('hs','adult',this)">🔞 Adult</div>
         </div>
-        <div class="hotseat-player" id="hsPlayerBox" style="display:none">
-          <div class="hotseat-name" id="hsName">—</div>
-          <div class="hotseat-sub">is in the hot seat</div>
-        </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="hsCat">pick a player above</div><div class="prompt-txt" id="hsTxt">Everyone asks them rapid-fire questions.</div></div></div>
-        <button class="primary-btn" style="background:var(--red);color:#fff" onclick="nextPrompt('hs')">Next question 🔥</button>
+        <div class="hotseat-box" id="hsBox" style="display:none"><div class="hotseat-name" id="hsName">—</div><div class="hotseat-sub">is in the hot seat 🔥</div></div>
+        <div class="prompt-box"><div><div class="prompt-cat" id="hsCat">pick a player above</div><div class="prompt-txt" id="hsTxt">Everyone fires questions at them.</div></div></div>
+        <button class="btn btn-red" onclick="next('hs')">Next question 🔥</button>
       </div>
     </div>
 
-    <!-- DICE & SPIN -->
-    <div class="game-panel" id="gg-dice">
+    <div class="gpanel" id="gg-dice">
       <div class="card">
-        <div class="card-title">Roll the dice</div>
-        <div class="dice-area"><div class="dice-face" id="diceFace">🎲</div><div class="dice-result" id="diceRes">—</div><div class="dice-cons" id="diceCon"></div></div>
-        <button class="primary-btn" onclick="rollDice()">Roll!</button>
+        <div class="card-label">Roll</div>
+        <div class="dice-area"><div class="dice-face" id="diceFace">🎲</div><div class="dice-res" id="diceRes">—</div><div class="dice-con" id="diceCon"></div></div>
+        <button class="btn btn-gold" onclick="rollDice()">Roll the dice!</button>
       </div>
       <div class="card">
-        <div class="card-title">Spin the bottle — who drinks?</div>
-        <canvas id="wheelCanvas" width="240" height="240" style="display:block;margin:0 auto 10px;border-radius:50%"></canvas>
-        <div class="wheel-result" id="wheelResult">—</div>
-        <button class="primary-btn red" style="margin-top:8px" onclick="spinWheel()">Spin!</button>
-        <div style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:6px">Uses your current squad</div>
+        <div class="card-label">Spin the bottle — who drinks?</div>
+        <div class="wheel-wrap">
+          <canvas id="wheelCv" width="240" height="240" style="border-radius:50%"></canvas>
+          <div class="wheel-result" id="wheelRes">—</div>
+        </div>
+        <button class="btn btn-red" style="margin-top:10px" onclick="spinWheel()">Spin!</button>
+        <div style="font-size:.7rem;color:var(--mu);text-align:center;margin-top:6px">Uses current squad</div>
       </div>
     </div>
   </div>
 
-  <!-- 2-PLAYER TAB -->
-  <div class="tab-content" id="tab-twop">
+  <!-- 2 PLAYER PAGE -->
+  <div class="page" id="page-twop">
     <div class="card">
-      <div class="card-title">Who's playing?</div>
-      <div class="twop-inputs">
-        <input id="p1Name" placeholder="Player 1 name" maxlength="14" oninput="renderTwopHeader()">
-        <input id="p2Name" placeholder="Player 2 name" maxlength="14" oninput="renderTwopHeader()">
+      <div class="card-label">Who's playing?</div>
+      <div class="p-inputs">
+        <input id="p1" placeholder="Player 1" maxlength="14" oninput="twopUp()">
+        <input id="p2" placeholder="Player 2" maxlength="14" oninput="twopUp()">
       </div>
-      <div style="font-size:.75rem;color:var(--muted)">Or pick from squad below:</div>
-      <div class="player-select-grid" id="twopSquadGrid" style="margin-top:7px"></div>
+      <div style="font-size:.72rem;color:var(--mu);margin-bottom:6px">Or pick from squad:</div>
+      <div class="seat-grid" id="twopSquad"></div>
     </div>
 
-    <div class="twop-header" id="twopHeader" style="display:none">
-      <div class="twop-names"><span id="twopP1">P1</span><span class="twop-vs">vs</span><span id="twopP2">P2</span></div>
+    <div class="vs-header" id="vsHdr" style="display:none">
+      <span id="vsP1" style="color:var(--gold)">P1</span>
+      <span class="vs-sep">vs</span>
+      <span id="vsP2" style="color:var(--blue)">P2</span>
     </div>
 
-    <div class="game-tabs" style="margin-bottom:.9rem">
-      <button class="gtab active" onclick="switchGame('2nhie','twop')">🙈 NHIE</button>
-      <button class="gtab" onclick="switchGame('2tod','twop')">🎭 T or D</button>
-      <button class="gtab" onclick="switchGame('2mlt','twop')">🤔 Most Likely</button>
-      <button class="gtab" onclick="switchGame('2hs','twop')">🔥 Hot Seat</button>
-      <button class="gtab" onclick="switchGame('2ttl','twop')">🃏 2 Truths 1 Lie</button>
+    <div class="gtabs" id="g2pTabs">
+      <button class="gtab on" onclick="switchG('2nhie','twop')">🙈 NHIE</button>
+      <button class="gtab" onclick="switchG('2tod','twop')">🎭 T or D</button>
+      <button class="gtab" onclick="switchG('2mlt','twop')">🤔 Most Likely</button>
+      <button class="gtab" onclick="switchG('2hs','twop')">🔥 Hot Seat</button>
+      <button class="gtab" onclick="switchG('2ttl','twop')">🃏 2T1L</button>
     </div>
 
-    <!-- 2P NHIE -->
-    <div class="game-panel active" id="tg-2nhie">
+    <div class="gpanel active" id="tg-2nhie">
       <div class="card">
-        <div class="card-title">Vibe</div>
         <div class="mode-row">
-          <div class="mode-pill active" onclick="setMode('2nhie','bestie',this)">👯 Besties</div>
-          <div class="mode-pill" onclick="setMode('2nhie','couple',this)">💑 Couples</div>
-          <div class="mode-pill adult" id="2nhieAdult" onclick="setMode('2nhie','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('2nhie','bestie',this)">👯 Besties</div>
+          <div class="mpill adult" id="2nhieA" onclick="setM('2nhie','adult',this)">🔞 Adult</div>
         </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="2nhieCat">tap next to start</div><div class="prompt-txt" id="2nhieTxt">Never have I ever…</div></div></div>
-        <button class="primary-btn" onclick="nextPrompt('2nhie')">Next →</button>
-      </div>
-    </div>
-
-    <!-- 2P TOD -->
-    <div class="game-panel" id="tg-2tod">
-      <div class="card">
-        <div class="card-title">Vibe</div>
-        <div class="mode-row">
-          <div class="mode-pill active" onclick="setMode('2tod','bestie',this)">👯 Besties</div>
-          <div class="mode-pill" onclick="setMode('2tod','couple',this)">💑 Couples</div>
-          <div class="mode-pill adult" id="2todAdult" onclick="setMode('2tod','adult',this)">🔞 Adult</div>
-        </div>
-        <div class="mode-row" style="margin-top:-.3rem">
-          <div class="mode-pill active" onclick="setTodType2('random',this)">🎲 Random</div>
-          <div class="mode-pill" onclick="setTodType2('truth',this)">🤔 Truth</div>
-          <div class="mode-pill" onclick="setTodType2('dare',this)">😈 Dare</div>
-        </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="2todCat">tap next to start</div><div class="prompt-txt" id="2todTxt">Truth or Dare?</div></div></div>
-        <button class="primary-btn pink" onclick="nextPrompt('2tod')">Next →</button>
+        <div class="prompt-box"><div><div class="prompt-cat" id="2nhieCat">tap next</div><div class="prompt-txt" id="2nhieTxt">Never have I ever…</div></div></div>
+        <button class="btn btn-gold" onclick="next('2nhie')">Next →</button>
       </div>
     </div>
 
-    <!-- 2P MOST LIKELY -->
-    <div class="game-panel" id="tg-2mlt">
+    <div class="gpanel" id="tg-2tod">
       <div class="card">
-        <div class="card-title">Vibe</div>
         <div class="mode-row">
-          <div class="mode-pill active" onclick="setMode('2mlt','bestie',this)">👯 Besties</div>
-          <div class="mode-pill" onclick="setMode('2mlt','couple',this)">💑 Couples</div>
-          <div class="mode-pill adult" id="2mltAdult" onclick="setMode('2mlt','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('2tod','bestie',this)">👯 Besties</div>
+          <div class="mpill adult" id="2todA" onclick="setM('2tod','adult',this)">🔞 Adult</div>
+        </div>
+        <div class="mode-row">
+          <div class="mpill on" onclick="setTT2('random',this)">🎲 Random</div>
+          <div class="mpill" onclick="setTT2('truth',this)">🤔 Truth</div>
+          <div class="mpill" onclick="setTT2('dare',this)">😈 Dare</div>
+        </div>
+        <div class="prompt-box"><div><div class="prompt-cat" id="2todCat">tap next</div><div class="prompt-txt" id="2todTxt">Truth or Dare?</div></div></div>
+        <button class="btn btn-pink" onclick="next('2tod')">Next →</button>
+      </div>
+    </div>
+
+    <div class="gpanel" id="tg-2mlt">
+      <div class="card">
+        <div class="mode-row">
+          <div class="mpill on" onclick="setM('2mlt','bestie',this)">👯 Besties</div>
+          <div class="mpill adult" id="2mltA" onclick="setM('2mlt','adult',this)">🔞 Adult</div>
         </div>
         <div class="mlt-prompt"><div class="mlt-txt" id="2mltTxt">Most likely to…</div></div>
-        <div style="display:flex;gap:8px;margin-bottom:.9rem">
-          <button class="mlt-vote-btn" id="2mltV1" onclick="vote2Mlt(1)">P1</button>
-          <button class="mlt-vote-btn" id="2mltV2" onclick="vote2Mlt(2)">P2</button>
-          <button class="mlt-vote-btn" id="2mltVBoth" onclick="vote2Mlt(0)">Both 😭</button>
+        <div style="display:flex;gap:7px;margin-bottom:.85rem">
+          <button class="vote-btn" id="2mv1" onclick="v2mlt(1)">P1</button>
+          <button class="vote-btn" id="2mv2" onclick="v2mlt(2)">P2</button>
+          <button class="vote-btn" id="2mvB" onclick="v2mlt(0)">Both 😭</button>
         </div>
-        <button class="primary-btn purple" onclick="nextPrompt('2mlt')">Next →</button>
+        <button class="btn btn-purple" onclick="next('2mlt')">Next →</button>
       </div>
     </div>
 
-    <!-- 2P HOT SEAT -->
-    <div class="game-panel" id="tg-2hs">
+    <div class="gpanel" id="tg-2hs">
       <div class="card">
-        <div class="card-title">Who's in the hot seat?</div>
-        <div style="display:flex;gap:8px;margin-bottom:.9rem">
-          <button class="mlt-vote-btn" id="hs2v1" onclick="setHs2(1)">P1</button>
-          <button class="mlt-vote-btn" id="hs2v2" onclick="setHs2(2)">P2</button>
+        <div class="card-label">Who's in the seat?</div>
+        <div style="display:flex;gap:7px;margin-bottom:.85rem">
+          <button class="vote-btn" id="hs2v1" onclick="setHs2(1)">P1</button>
+          <button class="vote-btn" id="hs2v2" onclick="setHs2(2)">P2</button>
         </div>
-        <div class="card-title">Vibe</div>
+        <div class="hotseat-box"><div class="hotseat-name" id="hs2Name">—</div><div class="hotseat-sub">is being grilled 🔥</div></div>
         <div class="mode-row">
-          <div class="mode-pill active" onclick="setMode('2hs','bestie',this)">👯 Besties</div>
-          <div class="mode-pill" onclick="setMode('2hs','couple',this)">💑 Couples</div>
-          <div class="mode-pill adult" id="2hsAdult" onclick="setMode('2hs','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('2hs','bestie',this)">👯 Besties</div>
+          <div class="mpill adult" id="2hsA" onclick="setM('2hs','adult',this)">🔞 Adult</div>
         </div>
-        <div class="hotseat-player" id="hs2PlayerBox">
-          <div class="hotseat-name" id="hs2Name">—</div>
-          <div class="hotseat-sub">is being grilled 🔥</div>
-        </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="2hsCat">pick who's in the seat</div><div class="prompt-txt" id="2hsTxt">Questions about one person, answered by both.</div></div></div>
-        <button class="primary-btn" style="background:var(--red);color:#fff" onclick="nextPrompt('2hs')">Next question →</button>
+        <div class="prompt-box"><div><div class="prompt-cat" id="2hsCat">pick who's in the seat</div><div class="prompt-txt" id="2hsTxt">Questions about one person.</div></div></div>
+        <button class="btn btn-red" onclick="next('2hs')">Next question →</button>
       </div>
     </div>
 
-    <!-- 2 TRUTHS 1 LIE -->
-    <div class="game-panel" id="tg-2ttl">
+    <div class="gpanel" id="tg-2ttl">
       <div class="card">
-        <div class="card-title">2 Truths 1 Lie</div>
-        <div style="font-size:.82rem;color:var(--muted);margin-bottom:.9rem">Take turns. Say 3 things — 2 true, 1 lie. The other person guesses the lie. Wrong guess = drink!</div>
+        <div class="card-label">2 Truths 1 Lie</div>
+        <div style="font-size:.8rem;color:var(--mu);margin-bottom:.85rem;line-height:1.6">Take turns. Say 3 things — 2 true, 1 lie. Other person guesses the lie. Wrong = drink!</div>
         <div class="mode-row">
-          <div class="mode-pill active" onclick="setMode('ttl','bestie',this)">👯 Besties</div>
-          <div class="mode-pill" onclick="setMode('ttl','couple',this)">💑 Couples</div>
-          <div class="mode-pill adult" id="ttlAdult" onclick="setMode('ttl','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="setM('ttl','bestie',this)">👯 Besties</div>
+          <div class="mpill adult" id="ttlA" onclick="setM('ttl','adult',this)">🔞 Adult</div>
         </div>
-        <div class="prompt-box"><div><div class="prompt-cat" id="ttlCat">tap for a topic idea</div><div class="prompt-txt" id="ttlTxt">Need a topic idea?</div></div></div>
-        <button class="primary-btn" onclick="nextPrompt('ttl')">Get a topic idea →</button>
-        <div style="margin-top:.9rem;background:var(--surface2);border-radius:var(--rs);padding:10px 12px">
-          <div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">HOW TO PLAY</div>
-          <div style="font-size:.8rem;color:var(--text);line-height:1.6">
-            1. P1 says 3 statements (2 true, 1 lie)<br>
-            2. P2 guesses which is the lie<br>
-            3. Wrong guess = P2 drinks · Right guess = P1 drinks<br>
-            4. Swap turns
-          </div>
+        <div class="prompt-box"><div><div class="prompt-cat" id="ttlCat">tap for topic idea</div><div class="prompt-txt" id="ttlTxt">Need a topic idea?</div></div></div>
+        <button class="btn btn-gold" onclick="next('ttl')">Get a topic →</button>
+        <div style="margin-top:.85rem;background:var(--s2);border-radius:var(--rs);padding:10px 12px;font-size:.78rem;color:var(--mu);line-height:1.7">
+          <b style="color:var(--tx)">How to play:</b><br>
+          1. P1 says 3 statements (2 true, 1 lie)<br>
+          2. P2 guesses the lie<br>
+          3. Wrong = P2 drinks · Right = P1 drinks<br>
+          4. Swap turns
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- COUPLE MODE PAGE -->
+  <div class="page" id="page-couple">
+    <div class="adult-note" id="coupleAdultNote">💑 Couple mode — designed for two people who know each other well</div>
+    <div class="couple-card">
+      <div class="card-label" style="color:var(--pink)">Question type</div>
+      <div class="mode-row" id="coupleModes">
+        <div class="mpill cpill on" onclick="setCoupleM('deep',this)">💭 Deep</div>
+        <div class="mpill cpill" onclick="setCoupleM('spicy',this)">🌶️ Spicy</div>
+        <div class="mpill cpill" onclick="setCoupleM('fun',this)">😂 Fun</div>
+        <div class="mpill cpill adult" id="coupleHorny" onclick="setCoupleM('horny',this)">🔥 Horny</div>
+      </div>
+    </div>
+    <div class="couple-prompt">
+      <div><div class="couple-cat" id="coupleCat">tap next to start</div><div class="couple-txt" id="coupleTxt">Questions for just the two of you.</div></div>
+    </div>
+    <button class="btn btn-pink" onclick="nextCouple()">Next question →</button>
+    <button class="btn btn-ghost" onclick="nextCouple()">Skip this one</button>
+    <div style="margin-top:.85rem;background:var(--s2);border-radius:var(--rs);padding:10px 12px;font-size:.78rem;color:var(--mu);line-height:1.6">
+      <b style="color:var(--tx)">How to play:</b> Take turns answering. Both must answer before moving on. Drink if you dodge the question!
+    </div>
+  </div>
+
+  <!-- HORSE RACING PAGE -->
+  <div class="page" id="page-horses">
+    <div class="card">
+      <div class="card-label">🏇 Pick your horse</div>
+      <div class="bet-grid" id="betGrid"></div>
+      <div class="race-status" id="raceStatus">Place your bet then start the race!</div>
+    </div>
+    <div class="card">
+      <div class="card-label">🏁 Track</div>
+      <div class="horse-track" id="horseTrack"></div>
+    </div>
+    <button class="btn btn-gold" id="raceBtn" onclick="startRace()">🏁 Start Race!</button>
+    <button class="btn btn-ghost" id="resetRaceBtn" onclick="resetRace()" style="display:none">New race</button>
+  </div>
+
+</div><!-- /sApp -->
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══ FIREBASE SETUP ═══════════════════════════════════════════
-// Replace this config with yours from console.firebase.google.com
-// Project Settings → Your apps → Web → Config
-const FB_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+// ═══════════════════════════════════════════
+// FIREBASE CONFIG — YOUR REAL CREDENTIALS
+// ═══════════════════════════════════════════
+const FB = {
+  apiKey: "AIzaSyBTy5nIZf2BzN84pwTHf_6QTSP86pcwr7o",
+  authDomain: "prethegame-7b0a6.firebaseapp.com",
+  databaseURL: "https://prethegame-7b0a6-default-rtdb.firebaseio.com",
+  projectId: "prethegame-7b0a6",
+  storageBucket: "prethegame-7b0a6.firebasestorage.app",
+  messagingSenderId: "640230918522",
+  appId: "1:640230918522:web:899da7d1bd0c51d78c6ec3",
+  measurementId: "G-Z46N7XXD74"
 };
-// ═══════════════════════════════════════════════════════════════
 
-// ── CONTENT ──────────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// CONTENT
+// ═══════════════════════════════════════════
 const C = {
-  nhie: {
-    mild: [
-      "gone skinny dipping","stayed up all night","lied to get out of plans","cried at a movie","eaten an entire pizza alone",
-      "ghosted someone","re-gifted a present","stalked an ex on social media","accidentally texted the wrong person",
-      "fallen asleep in public","forgotten someone's name mid-convo","faked being sick to skip something","laughed at the wrong moment",
-      "talked to myself out loud in public","pretended to like a gift","hit reply-all by mistake","lied about reading a book",
-      "judged someone's playlist","ordered food and hated it but said it was fine","binge-watched an entire series in one day"
-    ],
-    spicy: [
-      "kissed someone I just met that night","snuck out of the house","been kicked out of a bar","made out with a friend's ex",
-      "pretended to be drunker than I was","dated two people at the same time","broken someone's heart","had my heart broken",
-      "done something embarrassing I still think about","lied about my age","crashed a party","stolen something",
-      "sent a risky text and immediately regretted it","hooked up with someone and never spoken again",
-      "kissed someone in this room","skinny dipped with strangers","made out with someone way older than me",
-    ],
-    wild: [
-      "woken up not knowing how I got home","done something illegal and gotten away with it",
-      "made out with two people in the same night","done a walk of shame","been banned from a place",
-      "hooked up with a coworker or classmate","done something so embarrassing I've never told anyone",
-      "fallen for someone I absolutely shouldn't have","been in a screaming argument in public",
-      "slid into someone's DMs and deeply regretted it","drunkenly called an ex","lied to get into somewhere",
-    ],
-    adult: [
-      "sent an unsolicited spicy photo","had sex in a public place","faked it","done it with someone in this room",
-      "had a friends-with-benefits situation","been attracted to someone's partner","sexted during a family event",
-      "had a one-night stand on a trip","done it while someone else was in the room","had a secret crush on a best friend",
-      "hooked up with someone significantly older or younger","watched adult content with someone else",
-      "been walked in on","done something in bed I'm embarrassed to admit","had a situationship drag on too long",
-    ]
+  nhie:{
+    mild:["gone skinny dipping","stayed up all night to avoid plans","lied to get out of something","cried at a movie alone","eaten a full pizza by myself","ghosted someone I liked","re-gifted a present","stalked an ex online","accidentally texted the wrong person","fallen asleep in public","forgotten someone's name mid-conversation","faked being sick","laughed at completely the wrong moment","talked to myself out loud in public","pretended to like a gift","hit reply-all by accident","binge-watched a full series in one day","judged someone's playlist without telling them","ordered food and hated it but said nothing","lied about having read a book"],
+    spicy:["kissed someone I just met that night","snuck out of the house","been kicked out of somewhere","made out with a friend's ex","pretended to be drunker than I was","dated two people at the same time","broken someone's heart on purpose","sent a risky text I immediately regretted","hooked up with someone and never spoken to them again","kissed someone in this room","crashed a party I wasn't invited to","lied about my age to get in somewhere","stolen something small","made out with someone way older than me","had feelings for my best friend"],
+    wild:["woken up not knowing how I got home","done something illegal and gotten away with it","made out with two people in the same night","done a walk of shame","been banned from a venue","hooked up with a coworker or classmate","done something so embarrassing I've never told anyone","fallen for someone I absolutely shouldn't have","been in a screaming argument in public","drunkenly called an ex at 3am","lied to get into somewhere exclusive","had feelings for my friend's partner"],
+    adult:["sent an unsolicited spicy photo","had sex in a public place","faked it convincingly","done it with someone in this room","had a friends-with-benefits situation go wrong","been attracted to someone's partner","sexted during a work call","had a one-night stand abroad","been walked in on","had a secret crush on a best friend for over a year","hooked up with someone significantly older","done it while someone was asleep nearby","had a situationship drag on way too long"]
   },
-  tod: {
-    truth: {
-      mild: [
-        "What's the most embarrassing thing that's happened this year?","What's your biggest irrational fear?",
-        "What's the worst date you've ever been on?","What's something you pretend to like but secretly hate?",
-        "What's a weird habit you have that you don't tell people?","Who in this room would you swap lives with?",
-        "What's the most childish thing you still do?","What's your most embarrassing childhood memory?",
-        "What's a dealbreaker that most people would find weird?","What song is always on your playlist but you'd deny it?",
-      ],
-      spicy: [
-        "What's the biggest lie you've told someone you loved?","Who was your worst kiss?",
-        "Have you ever cheated on a test or a partner?","Who in this room do you find most attractive?",
-        "What's something you did that you're genuinely ashamed of?","Who was the last person you cried because of?",
-        "What's the most embarrassing thing on your phone right now?","Have you ever talked bad about someone in this room?",
-        "What's the most illegal thing you've done?","What's something you've done you hope your parents never find out?",
-      ],
-      adult: [
-        "What's your number?","What's the most spontaneous place you've hooked up?",
-        "What's one thing you wish your partner did more in bed?","Have you ever done something intimate you immediately regretted?",
-        "What's the most adventurous thing you've ever done with someone?","Have you ever had feelings for a friend's partner?",
-        "What's your biggest insecurity in a relationship?","What's something you've never told a partner but wanted to?",
-        "Who in this room could you see yourself with?","What's one thing you secretly want to try but haven't?",
-      ]
+  tod:{
+    truth:{
+      mild:["What's your most embarrassing moment this year?","What's your biggest irrational fear?","What's the worst date you've been on?","What do you pretend to like but secretly hate?","What weird habit do you hide from most people?","Who in this room would you swap lives with?","What's the most childish thing you still do?","What's your most embarrassing childhood memory?","What's a dealbreaker most people would find weird?","What song do you secretly love but deny?"],
+      spicy:["What's the biggest lie you've told someone you loved?","Who was your worst kiss?","Have you ever cheated on a test or a partner?","Who in this room do you find most attractive?","What have you done that you're genuinely ashamed of?","Who was the last person you cried because of?","What's the most embarrassing thing on your phone right now?","Have you ever talked bad about someone in this room?","What's the most illegal thing you've done?","What do you hope your parents never find out?"],
+      adult:["What's your number?","Where's the most spontaneous place you've hooked up?","What's one thing you wish your partner did more in bed?","What's the most adventurous thing you've done with someone?","Have you ever had feelings for a friend's partner?","What's your biggest insecurity in a relationship?","Who in this room could you see yourself with?","What's one thing you secretly want to try?","Have you ever done something intimate you immediately regretted?","What's something you've never told a partner but wanted to?"]
     },
-    dare: {
-      mild: [
-        "Text your most recent contact something dramatic with no explanation.",
-        "Do your best impression of someone in the room — they have to guess who.",
-        "Call someone you haven't talked to in months and pretend you pocket-dialed them.",
-        "Speak in an accent for the next 3 rounds.",
-        "Do a dramatic reading of your most recent text conversation.",
-        "Show the last thing you Googled.",
-        "Let someone draw on your arm with a marker.",
-        "Talk in only questions for the next 2 minutes.",
-        "Do your best runway walk across the room.",
-        "Let the group pick a contact you have to text something embarrassing.",
-      ],
-      spicy: [
-        "Let the group go through your camera roll for 30 seconds.",
-        "Send a thumbs-up to the first 5 people in your messages.",
-        "Recreate your most embarrassing moment from high school.",
-        "Do 10 push-ups or take a shot.",
-        "Let someone send one text from your phone.",
-        "Swap an item of clothing with the person to your left for the next round.",
-        "Give a 30-second speech about why [point at someone] is secretly your favourite person here.",
-        "Call someone on speaker and tell them you miss them.",
-        "Show your most embarrassing selfie.",
-        "Do a shot with no hands.",
-      ],
-      adult: [
-        "Give someone in the room a 10-second back massage.",
-        "Tell the room your most embarrassing intimate story.",
-        "Whisper something flirty to the person on your right.",
-        "Let someone in the room go through your DMs for 30 seconds.",
-        "Do a body shot off whoever you choose.",
-        "Tell the room who here you'd kiss if you had to.",
-        "Sit on someone's lap for the next round.",
-        "Describe your ideal night in explicit detail.",
-        "Text your most recent ex one word — then show the group.",
-        "Let the room dare you to text anyone in your contacts.",
-      ]
+    dare:{
+      mild:["Text your most recent contact something dramatic with no context.","Do your best impression of someone in the room — they guess who.","Call someone you haven't spoken to in months and pretend you pocket-dialled.","Speak in an accent for the next 3 rounds.","Do a dramatic reading of your most recent text conversation.","Show the last thing you Googled.","Talk in only questions for 2 minutes.","Do your best runway walk across the room.","Let the group pick a contact you have to text something embarrassing.","Recreate your most embarrassing moment from school."],
+      spicy:["Let the group go through your camera roll for 30 seconds.","Send a thumbs-up to the first 5 people in your messages.","Let someone send one text from your phone.","Call someone on speaker and tell them you miss them.","Show your most embarrassing selfie.","Give a 30-second speech about why [point at someone] is secretly your favourite person.","Swap an item of clothing with the person to your left for the next round.","Show your screen time from this week.","Do a shot with no hands.","Let someone go through your DMs for 30 seconds."],
+      adult:["Give someone in the room a 10-second back massage.","Tell the room your most embarrassing intimate story.","Whisper something genuinely flirty to the person on your right.","Do a body shot off whoever you choose.","Tell the room who you'd kiss if you absolutely had to.","Sit on someone's lap for the next round.","Describe your ideal night in explicit detail.","Text your most recent ex one word — then show the group.","Let the room dare you to text anyone in your contacts.","Give a compliment about someone's physical appearance — be specific."]
     }
   },
-  mlt: {
-    fun: [
-      "forget their best friend's birthday","trip and fall in public","accidentally like a 3-year-old photo",
-      "cry at a commercial","talk to animals like they're people","be late to their own wedding",
-      "eat something off the floor","show up to the wrong event","send a voice note by accident",
-      "accidentally like their own post on a fake account","fall asleep at the party","go home with someone's jacket",
-      "be voted class clown","still sleep with a stuffed animal","know every word to a Disney song",
-    ],
-    real: [
-      "be the most successful in 10 years","end up moving abroad","get married first","stay in this city forever",
-      "write a book someday","have the biggest glow-up","be the last one to settle down",
-      "give the best advice","keep in touch with everyone forever","have the most kids",
-      "become famous","change careers completely","be the godparent everyone wants",
-    ],
-    adult: [
-      "match with someone in this room on a dating app","end up in a situationship for way too long",
-      "fall for someone unavailable","be the most adventurous in bed","have a secret admirer right now",
-      "slide into a celebrity's DMs","date someone with a huge age gap","have the most interesting past",
-      "be the best in bed","have the wildest story nobody knows about",
-    ]
+  mlt:{
+    fun:["forget their best friend's birthday","trip and fall in public","accidentally like a 3-year-old photo","cry at a commercial","talk to animals like people","be late to their own wedding","eat something off the floor","show up to the wrong event","fall asleep at the party","go home with someone's jacket","still sleep with a stuffed animal","know every word to a Disney song"],
+    real:["be the most successful in 10 years","end up moving abroad","get married first","stay in this city forever","write a book someday","have the biggest glow-up","be the last to settle down","keep in touch with everyone forever","have the most kids","become famous","change careers completely"],
+    adult:["match with someone in this room on a dating app","end up in a situationship way too long","fall for someone unavailable","be the most adventurous in bed","have a secret admirer right now","date someone with a huge age gap","have the wildest story nobody knows about","be the best in bed","have the most interesting past"]
   },
-  hs: {
-    fun: [
-      "What's the weirdest thing in your room right now?","What's your most embarrassing text conversation?",
-      "What's something you believed as a kid that was completely wrong?","What's your guiltiest pleasure?",
-      "What's the most embarrassing thing you've said to a crush?","What app do you use the most that you're ashamed of?",
-      "What's the worst fashion choice you ever made?","What's a conspiracy theory you actually believe?",
-      "What's the most ridiculous thing you've ever argued about?","If your search history was public, what would surprise people most?",
-    ],
-    deep: [
-      "What's something you've never told anyone in this room?","Who here do you trust the most, and why?",
-      "What's your biggest regret from the last year?","What's something you're working on about yourself?",
-      "What's a relationship in your life that changed you?","What do you wish people understood about you?",
-      "What's something you're afraid of that you've never said out loud?","What's the kindest thing someone's ever done for you?",
-      "What would you do differently if you could redo last year?","What does your ideal life look like in 5 years?",
-    ],
-    adult: [
-      "What's your biggest turn-on that you've never admitted?","Who in your life do you have unresolved feelings for?",
-      "What's something you've done in secret you haven't told a partner?","What's your wildest story?",
-      "Who was your most unexpected attraction?","Have you ever had feelings for someone in this room?",
-      "What's something you want but haven't told anyone?","What's the most reckless thing you've done for someone?",
-      "What's one thing you've never done but think about?","What's the most surprising thing about your romantic history?",
-    ]
+  hs:{
+    fun:["What's the weirdest thing in your room right now?","What's your most embarrassing text conversation?","What did you believe as a kid that was completely wrong?","What's your guiltiest pleasure?","What's the most embarrassing thing you've said to a crush?","What app do you use the most that you're ashamed of?","What's the worst fashion choice you've ever made?","What conspiracy theory do you actually believe?","What's the most ridiculous thing you've argued about?","If your search history was public, what would surprise people most?"],
+    deep:["What's something you've never told anyone in this room?","Who here do you trust the most and why?","What's your biggest regret from the last year?","What are you working on about yourself?","What relationship in your life changed you the most?","What do you wish people understood about you?","What are you afraid of that you've never said out loud?","What's the kindest thing someone's done for you?","What would you do differently if you could redo last year?","What does your ideal life look like in 5 years?"],
+    adult:["What's your biggest turn-on you've never admitted?","Who do you have unresolved feelings for?","What's something you've done in secret you haven't told a partner?","What's your wildest story?","Who was your most unexpected attraction?","Have you ever had feelings for someone in this room?","What's the most reckless thing you've done for someone?","What's something you've never done but think about?"]
   },
-
-  // 2-PLAYER VERSIONS
-  "2nhie": {
-    bestie: [
-      "lied to each other","talked about the other person behind their back (even just a little)","been jealous of each other",
-      "kept a secret from the other for longer than a month","cancelled plans on each other last minute",
-      "had a fight that really hurt","been in love with someone the other disapproved of",
-      "gone a full week without texting","read the other's messages when they weren't looking",
-      "cried about something the other one did","been annoyed by something but never said it",
-      "told someone else something the other shared in confidence","pretended to be fine when we weren't",
-    ],
-    couple: [
-      "thought about breaking up","had a fight over something completely stupid","snooped on the other's phone",
-      "been jealous without admitting it","lied to avoid an argument","pretended to be asleep to avoid talking",
-      "googled something embarrassing about the relationship","said 'I'm fine' when I wasn't",
-      "fallen asleep angry","texted someone about a fight before telling each other",
-      "doubted us","missed who we were at the start","compared us to another couple",
-    ],
-    adult: [
-      "thought about someone else during an intimate moment","faked it","wanted to try something we haven't",
-      "been attracted to one of each other's friends","gone longer than we'd admit without being intimate",
-      "done something intimate outside of the bedroom","had a dream about someone unexpected",
-      "fantasized about someone from our past","sent a risky message I immediately regretted",
-      "lied about my number","been genuinely surprised by what I liked in bed",
-    ]
+  "2nhie":{
+    bestie:["lied to each other","talked about the other person behind their back","been jealous of each other","kept a secret from the other for over a month","cancelled plans on each other last minute","had a fight that really hurt","been annoyed by something and never said it","cried about something the other did","told someone else something shared in confidence","pretended to be fine when we weren't"],
+    adult:["thought about someone else during an intimate moment","faked it","wanted to try something we haven't yet","been attracted to one of each other's friends","done something intimate outside the bedroom","fantasised about someone from our past","lied about our number","been genuinely surprised by what we liked"]
   },
-  "2tod": {
-    truth: {
-      bestie: [
-        "What's something I do that drives you crazy but you've never said?",
-        "Have you ever been jealous of something I had or did?",
-        "What's the biggest lie you've told me?",
-        "Is there something you wish I'd ask you about?",
-        "What's a version of me you wish would come back?",
-        "What's one thing you've never told me because you thought I'd judge you?",
-        "What's something you've done that you hope I never find out about?",
-        "If you had to roast me right now, what would you say?",
-        "What do you actually think about [my partner / my ex]?",
-        "What's the one thing that would end our friendship?",
-      ],
-      couple: [
-        "What's something you've never told me because you were scared of my reaction?",
-        "What's your favourite memory of us?","What's something you wish we did more?",
-        "What's the moment you knew you were falling for me?",
-        "What's something I do that drives you crazy (in a bad way)?",
-        "Is there something you've wanted in the relationship but never asked for?",
-        "What's the last thing that really hurt your feelings?",
-        "What's a version of me you miss?","What does your ideal life with me look like?",
-        "What's something you're afraid to tell me?",
-      ],
-      adult: [
-        "What's something you've always wanted to try with me but haven't asked?",
-        "What's the most attractive thing I've ever done?",
-        "Have you ever thought about someone else during an intimate moment with me?",
-        "What's a fantasy you've never told me?","What do I do that turns you on the most?",
-        "Is there something you've faked or held back?","What's something you wish we'd done by now?",
-        "What's the boldest thing you've ever done with someone?",
-        "What's one thing you wish I knew about what you want?",
-        "What's a moment where you were most attracted to me?",
-      ]
+  "2tod":{
+    truth:{
+      bestie:["What's something I do that drives you crazy but you've never said?","Have you ever been jealous of something I had?","What's the biggest lie you've told me?","What's something you wish I'd ask you about?","What's a version of me you wish would come back?","What's one thing you've never told me because you thought I'd judge you?","What do you actually think about [my partner / my ex]?","If you had to roast me right now, what would you say?","What would end our friendship?","What's something you've done you hope I never find out?"],
+      adult:["What's something you've always wanted to try but haven't asked?","What's the most attractive thing I've ever done?","Have you ever thought about me during an intimate moment?","What's a fantasy you've never told me?","What do I do that turns you on?","Is there something you've held back?","What's something you wish we'd done by now?","What's one thing you wish I knew about what you want?"]
     },
-    dare: {
-      bestie: [
-        "Send an embarrassing photo of yourself to the other person right now.",
-        "Call someone and tell them the other person is your favourite human — on speaker.",
-        "Show each other the most embarrassing photo on your camera roll.",
-        "Read the last voice note you sent anyone out loud.",
-        "Do your best impression of the other person. They rate it.",
-        "Tell the other person one genuine compliment they've never heard from you.",
-        "Show each other your screen time from this week.",
-        "Let the other person post whatever they want on your story for 60 seconds.",
-        "Reenact your most embarrassing shared memory.",
-        "Let the other person pick one person from your contacts to text something funny.",
-      ],
-      couple: [
-        "Write a 3-word love letter and read it out loud.",
-        "Recreate your first date moment right now.",
-        "Say the cheesiest thing you've ever wanted to say but held back.",
-        "Let your partner pick your lock screen photo for the next hour.",
-        "Send your partner the most romantic text you can think of right now.",
-        "Describe what you love most about them in under 30 seconds.",
-        "Give a 60-second speech about why you picked this person.",
-        "Let your partner change one thing about your appearance right now.",
-        "Share a song that makes you think of them and explain why.",
-        "Tell them one thing that scared you about falling for them.",
-      ],
-      adult: [
-        "Give a 10-second massage somewhere unexpected.",
-        "Whisper something you've always wanted to say.",
-        "Describe exactly what you'd plan for a perfect private night together.",
-        "Reenact your most memorable intimate moment.",
-        "Tell each other one thing you want more of.",
-        "Pick a number from 1–10 that represents how satisfied you are lately — then explain it.",
-        "Do a body shot.",
-        "Tell the other person the one thing they do that drives you wildest.",
-        "Give the other person a compliment about their body — be specific.",
-        "Write something you've wanted to say on their arm with your finger and let them guess it.",
-      ]
+    dare:{
+      bestie:["Send an embarrassing photo of yourself to the other person right now.","Call someone and tell them on speaker that the other person is your favourite human.","Show each other your most embarrassing camera roll photo.","Read the last voice note you sent anyone out loud.","Do your best impression of the other person — they rate it.","Tell them one genuine compliment they've never heard from you.","Show each other your screen time this week.","Let the other post whatever they want to your story for 60 seconds.","Reenact your most embarrassing shared memory.","Let the other person text anyone from your contacts."],
+      adult:["Give a 10-second massage somewhere unexpected.","Whisper something you've always wanted to say.","Describe your ideal private night together in detail.","Tell each other one thing you want more of.","Pick a number 1–10 for how satisfied you are lately — then explain.","Do a body shot.","Tell them the one thing they do that drives you wildest.","Give a compliment about their body — be specific.","Write something you've wanted to say on their arm with your finger.","Describe what you love most about them physically — take your time."]
     }
   },
-  "2mlt": {
-    bestie: [
-      "end up living together someday","be the first to get married","make the group laugh at a funeral",
-      "ghost someone they were really into","still talk about this night in 20 years",
-      "move abroad without telling many people","be voted most likely to be famous","accidentally start drama",
-      "be the other's maid of honour / best man","have the most surprising glow-up",
-      "cry first if we had to say goodbye","be the better liar","be funnier on a first date",
-    ],
-    couple: [
-      "apologise first after a fight","be the better cook","be the reason we're always late",
-      "fall asleep during a movie every time","be more stubborn","remember anniversaries without being reminded",
-      "get emotional at the wedding","plan the better surprise","be the spontaneous one",
-      "still make the other laugh in 30 years","be the first to say I love you again today",
-      "get lost without GPS","want more pets","pick the restaurant",
-    ],
-    adult: [
-      "initiate more often","have the higher stamina","be more adventurous in bed",
-      "suggest something new first","be bolder on a night away","say yes to almost anything",
-      "be more confident","have the wilder past","surprise the other the most","want it more right now",
-    ]
+  "2mlt":{
+    bestie:["end up living together someday","get married first","make the group laugh at a funeral","ghost someone they were really into","still talk about this night in 20 years","move abroad without telling many people","accidentally start drama","be the other's maid of honour or best man","cry first if we had to say goodbye","be the better liar","be funnier on a first date"],
+    adult:["initiate more often","have higher stamina","be more adventurous","suggest something new first","be bolder on a night away","say yes to almost anything","have the wilder past","want it more right now"]
   },
-  "2hs": {
-    bestie: [
-      "What's the most embarrassing thing you know about [P2]?",
-      "When did you realise [P2] was your real best friend?",
-      "What's something [P2] does that you've always wanted to call them out on?",
-      "What's something you'd never do that [P2] definitely would?",
-      "What's the biggest difference between who [P2] is in public vs in private?",
-      "Describe [P2] in 3 words — and explain each one.",
-      "What's a bad habit of [P2]'s that you've just accepted at this point?",
-      "What would [P2]'s villain origin story be?",
-      "What's something [P2] said once that you think about all the time?",
-      "If [P2] could change one thing about you, what do you think it would be?",
-    ],
-    couple: [
-      "What's something [P2] does that you find unexpectedly attractive?",
-      "Describe the moment you realised you were in love with [P2].",
-      "What's the hardest thing about being with [P2]?",
-      "What's something you'd change about yourself for [P2], not for them — just because of them?",
-      "What does [P2] do that nobody else could get away with?",
-      "What's your favourite version of [P2]?",
-      "What's something you've never told [P2] because you didn't want to make them feel awkward?",
-      "What would [P2]'s perfect Sunday look like, and how do you fit into it?",
-      "When do you feel most loved by [P2]?",
-      "What's something [P2] doesn't know they do that you love?",
-    ],
-    adult: [
-      "What does [P2] do that immediately gets your attention?",
-      "What's something [P2] does in bed that you wish they did more?",
-      "Describe [P2]'s most attractive quality in detail.",
-      "What's the boldest thing [P2] has ever done with you?",
-      "What's one thing you've always wanted to ask [P2] about intimacy but haven't?",
-      "What part of [P2] do you find hardest to resist?",
-      "What's something [P2] doesn't know they do that drives you wild?",
-      "If you could plan one perfect evening with [P2], what would it include?",
-      "What's the most unexpectedly attractive moment [P2] has had?",
-      "What's something you've wanted to try with [P2] but never brought up?",
-    ]
+  "2hs":{
+    bestie:["What's the most embarrassing thing you know about [SEAT]?","When did you realise [SEAT] was your real best friend?","What does [SEAT] do that you've always wanted to call them out on?","What's the biggest difference between who [SEAT] is in public vs in private?","Describe [SEAT] in 3 words — explain each.","What bad habit of [SEAT]'s have you just accepted?","What would [SEAT]'s villain origin story be?","What did [SEAT] say once that you still think about?","If [SEAT] could change one thing about you, what would it be?","What's something [SEAT] does that nobody else could get away with?"],
+    adult:["What does [SEAT] do that you find unexpectedly attractive?","Describe the moment you realised you were into [SEAT].","What's the hardest thing about being with [SEAT]?","What does [SEAT] do that nobody else could get away with?","What's your favourite version of [SEAT]?","When do you feel most attracted to [SEAT]?","What does [SEAT] do in bed that you love most?","What's something [SEAT] doesn't know they do that drives you wild?","If you could plan one perfect evening with [SEAT], what would it include?","What's the most unexpectedly hot moment [SEAT] has had?"]
   },
-  ttl: {
-    bestie: [
-      "A secret","Something you've done that they'd never guess","An embarrassing moment","A fear","A crush","Something you've lied about","A habit you hide","An opinion you've kept quiet","A feeling you've had about each other","Something that changed you"],
-    couple: [
-      "How we met (your version)","Your first impression of me","Something you love but won't admit","A moment that scared you about us","Something you want to try","A feeling you haven't said out loud","Something about your past","A dream you've had about me","Your real opinion on something we disagree on","A moment you'll never forget"],
-    adult: [
-      "Something in your search history","A fantasy","A past experience","Something you've wanted to ask","A boundary you've crossed","Something that surprised you about yourself","An attraction you've had","Something you've done that nobody knows","Something you'd never do again","A desire you've kept secret"]
+  ttl:{
+    bestie:["A secret","Something you've done they'd never guess","An embarrassing moment","A fear","A crush","Something you've lied about","A hidden habit","An opinion you've kept quiet","A feeling you've had about each other","Something that changed you"],
+    adult:["Something in your search history","A fantasy","A past experience","Something you want to ask","A desire you've kept secret","Something that surprised you about yourself","An attraction you've had","Something you've done nobody knows","Something you'd never do again","A boundary you've crossed"]
+  },
+  couple:{
+    deep:["What's something about yourself you've never told me?","What's the moment you knew you were in love with me?","What's something you're scared to tell me?","What's the hardest thing about being with me?","What does your ideal life with me look like?","What do you wish I understood about you better?","What's a version of me you miss?","What's something you want more of in this relationship?","When do you feel most loved by me?","What's something you've never told me because you didn't want to make things awkward?","What does loving me feel like when it's hard?","What do you want more of that you haven't asked for?"],
+    spicy:["What's something I do that drives you crazy — in a good way?","What's the most attractive thing I've ever done?","When do you find me most irresistible?","What's something I don't know about what you want?","What's something you've always wanted to tell me in the moment but held back?","What's a memory of us that still gives you butterflies?","What do you love most about how we are together?","Describe the moment you felt most connected to me.","What's something I do that you've never told me you love?","What's a side of yourself only I get to see?"],
+    fun:["What's the most embarrassing thing I've ever done in front of you?","If you had to roast me for 60 seconds, what would you say?","What's the weirdest thing you love about me?","What habit of mine have you just accepted at this point?","What would our reality TV show be called?","What's your funniest memory of us?","If we swapped lives for a day, what's the first thing you'd do?","What's a bad habit of mine you've given up trying to fix?","What would our couple Halloween costume be and why?","If I was a food, what would I be?"],
+    horny:["What's something you want to try with me that we haven't?","What do I do that turns you on the most?","What's a fantasy you've never told me?","What's something you want more of in bed?","What's the most turned on you've ever been with me?","What's one thing I could do right now that you'd love?","What's something bold you've always wanted to say to me?","Describe your perfect night with me — in full detail.","What part of me do you find hardest to resist?","What's something you've wanted to ask about in bed but haven't?","What's something about our intimate life that surprised you?","What do you wish I'd initiate more?"]
   }
 };
 
-// ── STATE ─────────────────────────────────────────────────────
-const COLORS=['#e8a235','#5b9cf6','#4caf7d','#d45f3c','#b76ef5','#f06292','#26c6da'];
-const WIDMARK={m:.68,f:.55}, FOOD_F={none:1,snack:.85,meal:.7,big:.55};
-const DSTD={beer:.6,wine:1.5,shot:1,cocktail:1.8}, DCAL={beer:150,wine:125,shot:70,cocktail:180};
+// ═══════════════════════════════════════════
+// HORSES
+// ═══════════════════════════════════════════
+const HORSES = [
+  {name:"Thunder",emoji:"🐴",color:"#f0a500"},
+  {name:"Blaze",emoji:"🦄",color:"#9060f0"},
+  {name:"Storm",emoji:"🐎",color:"#4d8ef0"},
+  {name:"Shadow",emoji:"🖤",color:"#30c8b0"},
+  {name:"Rocket",emoji:"⚡",color:"#e84040"}
+];
 
-let adultUnlocked=false;
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const COLORS=['#f0a500','#4d8ef0','#3ecf6e','#e84040','#9060f0','#e060a8','#30c8b0','#f07040'];
+const WIDMARK={m:.68,f:.55};
+const FOOD_F={none:1,snack:.85,meal:.7,big:.55};
+const DSTD={beer:.6,wine:1.5,shot:1,cocktail:1.8};
+const DCAL={beer:150,wine:125,shot:70,cocktail:180};
+
+let adult=false;
 let me={name:'',sex:'m',weight:160,food:'snack',drinks:{beer:0,wine:0,shot:0,cocktail:0},minutes:60,color:COLORS[0]};
-let myKey=null, fbDb=null, sessionMembers={};
+let myKey=null, db=null, squad={};
 
-// mode state per game
 const modes={nhie:'mild',tod:'mild',todType:'random',mlt:'fun',hs:'fun',
-  '2nhie':'bestie','2tod':'bestie','2todType':'random','2mlt':'bestie','2hs':'bestie','ttl':'bestie'};
+  '2nhie':'bestie','2tod':'bestie','2todType':'random','2mlt':'bestie','2hs':'bestie','ttl':'bestie',
+  couple:'deep'};
 const used={};
-let hsPlayer=null, hs2Player=1, twopPicks=[];
-let kingsDeck=[];
-let wheelAngle=0;
+let hsPlayer=null, hs2p=1, twopPicks=[];
 
-// ── AGE GATE ─────────────────────────────────────────────────
-function showJoin(adult){
-  adultUnlocked=adult;
-  document.getElementById('ageGate').style.display='none';
-  document.getElementById('joinScreen').style.display='flex';
-  if(!adult){
-    ['nhieAdult','todAdult','mltAdult','hsAdult','2nhieAdult','2todAdult','2mltAdult','2hsAdult','ttlAdult']
+// horses
+let myBet=-1, raceRunning=false, racePositions=[0,0,0,0,0], raceFinished=false;
+
+// ═══════════════════════════════════════════
+// AGE + JOIN
+// ═══════════════════════════════════════════
+function startJoin(a){
+  adult=a;
+  show('sJoin');
+  if(!a){
+    ['nhieA','todA','mltA','hsA','2nhieA','2todA','2mltA','2hsA','ttlA','coupleHorny']
       .forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none'});
   }
 }
 
-// ── JOIN ─────────────────────────────────────────────────────
-function joinSession(){
+function doJoin(){
   const name=document.getElementById('jName').value.trim();
-  if(!name){showToast('Enter your name!');return;}
-  me.name=name; me.sex=document.getElementById('jSex').value;
+  if(!name){toast('Enter your name!');return;}
+  me.name=name;
+  me.sex=document.getElementById('jSex').value;
   me.weight=parseFloat(document.getElementById('jWeight').value)||160;
   me.color=COLORS[Math.floor(Math.random()*COLORS.length)];
 
-  document.getElementById('joinScreen').style.display='none';
-  document.getElementById('appShell').style.display='flex';
+  document.getElementById('sJoin').classList.remove('active');
+  document.getElementById('sApp').classList.add('active');
+  document.getElementById('sJoin').style.display='none';
+  document.getElementById('sApp').style.display='flex';
 
   const av=document.getElementById('topAv');
   av.textContent=name.slice(0,2).toUpperCase();
@@ -891,362 +728,564 @@ function joinSession(){
   document.getElementById('myW').value=me.weight;
   document.getElementById('outW').textContent=me.weight+' lb';
 
-  initFirebase();
-  updateMyBAC(); buildKings(); renderWheel(); renderTwopSquad();
+  initFB();
+  calcMyBAC(); buildKings(); drawWheel(); buildHorses(); renderTwopSquad();
 }
 
-// ── FIREBASE ─────────────────────────────────────────────────
-function initFirebase(){
-  try{
-    const mod=FB_CONFIG.apiKey!=='YOUR_API_KEY';
-    if(!mod){startLocal();return;}
-    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js').then(({initializeApp})=>{
-      import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(
-        ({getDatabase,ref,set,push,onValue,remove})=>{
-          const app=initializeApp(FB_CONFIG); fbDb=getDatabase(app);
-          const mRef=ref(fbDb,'squad/members');
-          myKey=push(mRef).key;
-          const myRef=ref(fbDb,'squad/members/'+myKey);
-          pushData(ref,set,myRef);
-          onValue(mRef,snap=>{sessionMembers=snap.val()||{};renderMembers();renderTwopSquad();renderWheel();renderHsSeatGrid();});
-          window.addEventListener('beforeunload',()=>remove(myRef));
-        });
-    });
-  }catch(e){startLocal();}
-}
-function startLocal(){myKey='local';sessionMembers={local:{...me,ts:Date.now()}};renderMembers();renderTwopSquad();renderWheel();}
-function pushData(ref,set,myRef){
-  if(!fbDb||!myKey)return;
-  set(myRef,{name:me.name,sex:me.sex,weight:me.weight,food:me.food,drinks:{...me.drinks},minutes:me.minutes,color:me.color,ts:Date.now()});
+// ═══════════════════════════════════════════
+// FIREBASE
+// ═══════════════════════════════════════════
+function initFB(){
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js').then(({initializeApp})=>{
+    import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(
+      ({getDatabase,ref,set,push,onValue,remove,serverTimestamp})=>{
+        try{
+          const app=initializeApp(FB);
+          db=getDatabase(app);
+          const membersRef=ref(db,'squadnight/members');
+          myKey=push(membersRef).key;
+          pushMe(ref,set);
+          onValue(membersRef,snap=>{
+            squad=snap.val()||{};
+            renderSquad(); renderRace(); renderMltVotes(); renderTwopSquad(); renderHsGrid();
+          });
+          window.addEventListener('beforeunload',()=>remove(ref(db,'squadnight/members/'+myKey)));
+        }catch(e){fallbackLocal();}
+      });
+  }).catch(()=>fallbackLocal());
 }
 
-// ── TABS ─────────────────────────────────────────────────────
-function switchTab(t){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['tracker','mine','group','twop'][i]===t));
-  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
+function fallbackLocal(){
+  myKey='local';
+  squad={local:{...me,drinks:{...me.drinks},ts:Date.now()}};
+  renderSquad(); renderRace(); renderTwopSquad(); renderHsGrid();
 }
 
-// ── SQUAD TRACKER ─────────────────────────────────────────────
-function renderMembers(){
-  const list=document.getElementById('memberList');
-  const entries=Object.entries(sessionMembers).sort((a,b)=>a[1].ts-b[1].ts);
-  if(!entries.length){list.innerHTML='<div style="color:var(--muted);font-size:.85rem">Waiting for squad…</div>';return;}
-  list.innerHTML=entries.map(([k,p])=>{
-    const bac=calcBAC(p);const {col,vibe}=bacInfo(bac);const isMe=k===myKey;
-    const init=(p.name||'?').slice(0,2).toUpperCase();const c=p.color||COLORS[0];
-    const dr=p.drinks?Object.entries(p.drinks).map(([d,v])=>v>0?v+'× '+d:'').filter(Boolean).join(', '):'';
-    return`<div class="member-row${isMe?' me':''}">
-      <div class="av-lg" style="background:${c};color:#000">${init}</div>
-      <div><div class="member-name">${p.name||'?'}${isMe?' <span style="font-size:.68rem;color:var(--accent)">(you)</span>':''}</div>
-      <div class="member-sub">${dr||'no drinks yet'}</div></div>
-      <div><div class="bac-badge" style="color:${col}">${(bac*100).toFixed(2)}%</div>
-      <div class="bac-vibe">${vibe}</div></div></div>`;
-  }).join('');
+function pushMe(ref,set){
+  if(!db||!myKey)return;
+  set(ref(db,'squadnight/members/'+myKey),{
+    name:me.name,sex:me.sex,weight:me.weight,food:me.food,
+    drinks:{...me.drinks},minutes:me.minutes,color:me.color,ts:Date.now()
+  });
 }
 
-// ── MINE ─────────────────────────────────────────────────────
-function slChange(){
-  me.weight=+document.getElementById('myW').value;
-  me.minutes=+document.getElementById('myT').value;
-  document.getElementById('outW').textContent=me.weight+' lb';
-  document.getElementById('outT').textContent=fmtTime(me.minutes);
-  updateMyBAC();pushMyData();
-}
-function setSex(s){me.sex=s;document.getElementById('sexM').classList.toggle('active',s==='m');document.getElementById('sexF').classList.toggle('active',s==='f');updateMyBAC();pushMyData();}
-function setFood(f,el){me.food=f;document.querySelectorAll('.food-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');updateMyBAC();pushMyData();}
-function addDrink(t){me.drinks[t]++;document.getElementById('dc-'+t).textContent=me.drinks[t];updateMyBAC();pushMyData();showToast('+1 '+t+' 🍻');}
-function resetDrinks(){me.drinks={beer:0,wine:0,shot:0,cocktail:0};['beer','wine','shot','cocktail'].forEach(d=>document.getElementById('dc-'+d).textContent=0);updateMyBAC();pushMyData();}
-function pushMyData(){
-  if(!fbDb||!myKey||myKey==='local'){sessionMembers[myKey||'local']={...me,drinks:{...me.drinks},ts:Date.now()};renderMembers();return;}
-  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(({ref,set})=>
-    set(ref(fbDb,'squad/members/'+myKey),{name:me.name,sex:me.sex,weight:me.weight,food:me.food,drinks:{...me.drinks},minutes:me.minutes,color:me.color,ts:Date.now()})
-  );
+function syncMe(){
+  if(myKey==='local'||!db){
+    squad[myKey]={...me,drinks:{...me.drinks},ts:Date.now()};
+    renderSquad(); renderRace(); return;
+  }
+  import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(({ref,set})=>pushMe(ref,set));
 }
 
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+const PAGES=['squad','mine','group','twop','couple','horses'];
+function goPage(p){
+  document.querySelectorAll('.navbtn').forEach((b,i)=>b.classList.toggle('active',PAGES[i]===p));
+  document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  if(p==='squad'){renderSquad();renderRace();}
+  if(p==='group'&&document.getElementById('gg-dice').classList.contains('active'))drawWheel();
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ═══════════════════════════════════════════
+// SQUAD + RACE
+// ═══════════════════════════════════════════
 function calcBAC(p){
   const std=Object.entries(p.drinks||{}).reduce((s,[k,v])=>s+v*(DSTD[k]||0),0);
-  const kg=(p.weight||160)*.453592;const r=WIDMARK[p.sex||'m'];
+  const kg=(p.weight||160)*.453592;
+  const r=WIDMARK[p.sex||'m'];
   const ff=FOOD_F[p.food||'snack'];
   return Math.max(0,(std*14*ff)/(kg*1000*r)-0.015*((p.minutes||60)/60));
 }
-function bacInfo(bac){
-  if(bac<.02)return{col:'var(--muted)',vibe:'sober'};
-  if(bac<.05)return{col:'var(--green)',vibe:'warm'};
-  if(bac<.08)return{col:'var(--green)',vibe:'buzzed'};
-  if(bac<.10)return{col:'var(--amber, #e8a235)',vibe:'tipsy'};
-  if(bac<.15)return{col:'#e8a235',vibe:'drunk'};
-  if(bac<.20)return{col:'var(--red)',vibe:'very drunk'};
-  return{col:'var(--red)',vibe:'⚠️ danger'};
+function bacInfo(b){
+  if(b<.02)return{col:'var(--mu)',v:'sober'};
+  if(b<.05)return{col:'var(--green)',v:'warm'};
+  if(b<.08)return{col:'var(--green)',v:'buzzed'};
+  if(b<.10)return{col:'var(--gold)',v:'tipsy'};
+  if(b<.15)return{col:'var(--gold)',v:'drunk'};
+  if(b<.20)return{col:'var(--red)',v:'very drunk'};
+  return{col:'var(--red)',v:'⚠️ danger'};
 }
-function updateMyBAC(){
-  const bac=calcBAC(me);const {col,vibe}=bacInfo(bac);
+
+function renderSquad(){
+  const list=document.getElementById('memberList');
+  const entries=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
+  if(!entries.length){list.innerHTML='<div style="color:var(--mu);font-size:.82rem">Nobody here yet…</div>';return;}
+  list.innerHTML=entries.map(([k,p])=>{
+    const bac=calcBAC(p);const{col,v}=bacInfo(bac);const isMe=k===myKey;
+    const init=(p.name||'?').slice(0,2).toUpperCase();
+    const dr=p.drinks?Object.entries(p.drinks).map(([d,n])=>n>0?n+'×'+d:'').filter(Boolean).join(' '):'-';
+    return`<div class="member-row${isMe?' me':''}">
+      <div class="av av-md" style="background:${p.color||COLORS[0]};color:#000">${init}</div>
+      <div><div class="member-name">${p.name||'?'}${isMe?' <span style="font-size:.65rem;color:var(--gold)">(you)</span>':''}</div>
+      <div class="member-sub">${dr}</div></div>
+      <div><div class="bac-badge" style="color:${col}">${(bac*100).toFixed(2)}%</div>
+      <div class="bac-vibe">${v}</div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderRace(){
+  const track=document.getElementById('raceTrack');
+  const entries=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
+  if(!entries.length){track.innerHTML='<div style="color:var(--mu);font-size:.82rem">Waiting…</div>';return;}
+  // max drinks for scaling
+  const maxD=Math.max(1,...entries.map(([,p])=>Object.values(p.drinks||{}).reduce((s,v)=>s+v,0)));
+  track.innerHTML=entries.map(([k,p])=>{
+    const total=Object.values(p.drinks||{}).reduce((s,v)=>s+v,0);
+    const pct=Math.round((total/maxD)*100);
+    const init=(p.name||'?').slice(0,2).toUpperCase();
+    return`<div class="race-lane">
+      <div class="race-name">${p.name||'?'}</div>
+      <div class="race-bar-wrap">
+        <div class="race-bar" style="width:${Math.max(pct,4)}%;background:${p.color||COLORS[0]}">
+          ${total>0?'<span class="race-bar-num">'+total+'</span>':''}
+        </div>
+      </div>
+      <div class="race-drinks">${total}🍺</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// MINE / BAC
+// ═══════════════════════════════════════════
+function slUp(){
+  me.weight=+document.getElementById('myW').value;
+  me.minutes=+document.getElementById('myT').value;
+  document.getElementById('outW').textContent=me.weight+' lb';
+  document.getElementById('outT').textContent=fmtMin(me.minutes);
+  calcMyBAC(); syncMe();
+}
+function setSex(s){
+  me.sex=s;
+  document.getElementById('sexM').classList.toggle('on',s==='m');
+  document.getElementById('sexF').classList.toggle('on',s==='f');
+  calcMyBAC(); syncMe();
+}
+function setFood(f,el){
+  me.food=f;
+  document.querySelectorAll('.food-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); calcMyBAC(); syncMe();
+}
+function addD(t){
+  me.drinks[t]++;
+  document.getElementById('dc-'+t).textContent=me.drinks[t];
+  calcMyBAC(); syncMe(); toast('+1 '+t+' 🍻');
+}
+function resetD(){
+  me.drinks={beer:0,wine:0,shot:0,cocktail:0};
+  ['beer','wine','shot','cocktail'].forEach(d=>document.getElementById('dc-'+d).textContent=0);
+  calcMyBAC(); syncMe();
+}
+function calcMyBAC(){
+  const bac=calcBAC(me);const{col}=bacInfo(bac);
   const pct=Math.min(bac/.2,1)*100;
   document.getElementById('myBacNum').textContent=(bac*100).toFixed(2)+'%';
   document.getElementById('myBacNum').style.color=col;
   document.getElementById('myFill').style.width=pct.toFixed(1)+'%';
   document.getElementById('myFill').style.background=col;
-  const VIBES=['Completely sober 😶','Just warming up 🙂','Nicely buzzed 😄','Legally drunk 😆','Notably drunk 🥴','Very drunk 😵','Stop & hydrate 🚨'];
+  const VIBES=['Completely sober 😶','Just warming up 🙂','Nicely buzzed 😄','Legally tipsy 😆','Drunk 🥴','Very drunk 😵','Stop & hydrate 🚨'];
   const vi=bac<.02?0:bac<.05?1:bac<.08?2:bac<.10?3:bac<.15?4:bac<.20?5:6;
-  document.getElementById('myVibe').textContent=VIBES[vi];
-  document.getElementById('myVibe').style.color=col;
+  document.getElementById('myVibeTxt').textContent=VIBES[vi];
+  document.getElementById('myVibeTxt').style.color=col;
   const std=Object.entries(me.drinks).reduce((s,[k,v])=>s+v*(DSTD[k]||0),0);
   const cal=Object.entries(me.drinks).reduce((s,[k,v])=>s+v*(DCAL[k]||0),0);
   document.getElementById('stStd').textContent=std.toFixed(1);
   document.getElementById('stCal').textContent=Math.round(cal);
   const sh=bac>.005?bac/.015:0;
-  document.getElementById('stSob').textContent=sh>0?fmtTime(Math.round(sh*60)):'—';
+  document.getElementById('stSob').textContent=sh>0?fmtMin(Math.round(sh*60)):'—';
 }
 
-// ── GAME NAV ─────────────────────────────────────────────────
-function switchGame(g, tab){
-  const prefix=tab==='group'?'gg-':'tg-';
-  const container=document.getElementById('tab-'+tab);
-  container.querySelectorAll('.gtab').forEach((b,i)=>{
-    const games=tab==='group'?['kings','nhie','tod','mlt','hotseat','dice']:['2nhie','2tod','2mlt','2hs','2ttl'];
-    b.classList.toggle('active',games[i]===g);
-  });
-  container.querySelectorAll('.game-panel').forEach(p=>p.classList.remove('active'));
+// ═══════════════════════════════════════════
+// GAME NAV
+// ═══════════════════════════════════════════
+const GROUP_GAMES=['kings','nhie','tod','mlt','hotseat','dice'];
+const TWOP_GAMES=['2nhie','2tod','2mlt','2hs','2ttl'];
+
+function switchG(g,tab){
+  const isGroup=tab==='group';
+  const games=isGroup?GROUP_GAMES:TWOP_GAMES;
+  const prefix=isGroup?'gg-':'tg-';
+  const tabsId=isGroup?'gGroupTabs':'g2pTabs';
+  document.getElementById(tabsId).querySelectorAll('.gtab').forEach((b,i)=>b.classList.toggle('on',games[i]===g));
+  document.querySelectorAll('#page-'+tab+' .gpanel').forEach(p=>p.classList.remove('active'));
   const panel=document.getElementById(prefix+g);
   if(panel)panel.classList.add('active');
-  if(g==='hotseat'||g==='2hs')renderHsSeatGrid();
-  if(g==='dice'||g==='kings')renderWheel();
+  if(g==='hotseat'||g==='2hs')renderHsGrid();
+  if(g==='dice')drawWheel();
 }
 
-// ── MODES ─────────────────────────────────────────────────────
-function setMode(game,mode,el){
-  modes[game]=mode;
-  used[game]=new Set();
-  const row=el.parentElement;
-  row.querySelectorAll('.mode-pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
+// ═══════════════════════════════════════════
+// MODES
+// ═══════════════════════════════════════════
+function setM(game,mode,el){
+  modes[game]=mode; used[game]=new Set();
+  el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
 }
-function setTodType(t,el){modes.todType=t;document.querySelectorAll('#gg-tod .mode-row:first-child .mode-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');}
-function setTodType2(t,el){modes['2todType']=t;el.parentElement.querySelectorAll('.mode-pill').forEach(p=>p.classList.remove('active'));el.classList.add('active');}
+function setTT(t,el){modes.todType=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+function setTT2(t,el){modes['2todType']=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+function setCoupleM(m,el){modes.couple=m;used.couple=new Set();el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
 
-// ── PROMPT ENGINE ─────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// PROMPT ENGINE
+// ═══════════════════════════════════════════
 function pick(arr,key){
   if(!used[key])used[key]=new Set();
   const avail=arr.map((v,i)=>({v,i})).filter(({i})=>!used[key].has(i));
   if(!avail.length){used[key]=new Set();return pick(arr,key);}
   const item=avail[Math.floor(Math.random()*avail.length)];
-  used[key].add(item.i);return item.v;
+  used[key].add(item.i); return item.v;
 }
 
-function nextPrompt(game){
+function next(game){
   const m=modes[game];
-  let cat='',txt='';
   if(game==='nhie'){
     const pool=C.nhie[m]||C.nhie.mild;
-    txt='Never have I ever… '+pick(pool,'nhie');cat=m+' mode';
-    document.getElementById('nhieCat').textContent=cat;
-    document.getElementById('nhieTxt').textContent=txt;
+    document.getElementById('nhieCat').textContent=m+' mode';
+    document.getElementById('nhieTxt').textContent='Never have I ever… '+pick(pool,'nhie_'+m);
   } else if(game==='tod'){
     const isTruth=modes.todType==='truth'||(modes.todType==='random'&&Math.random()<.5);
-    const type=isTruth?'truth':'dare';
-    const pool=(C.tod[type][m]||C.tod[type].mild);
-    txt=pick(pool,'tod_'+type+'_'+m);cat=(isTruth?'🤔 Truth':'😈 Dare')+' · '+m;
-    document.getElementById('todCat').textContent=cat;
-    document.getElementById('todTxt').textContent=txt;
+    const pool=isTruth?(C.tod.truth[m]||C.tod.truth.mild):(C.tod.dare[m]||C.tod.dare.mild);
+    document.getElementById('todCat').textContent=(isTruth?'🤔 Truth':'😈 Dare')+' · '+m;
+    document.getElementById('todTxt').textContent=pick(pool,'tod_'+(isTruth?'t':'d')+'_'+m);
   } else if(game==='mlt'){
     const pool=C.mlt[m]||C.mlt.fun;
-    txt='Most likely to… '+pick(pool,'mlt_'+m);
-    document.getElementById('mltTxt').textContent=txt;
+    document.getElementById('mltTxt').textContent='Most likely to… '+pick(pool,'mlt_'+m);
     renderMltVotes();
   } else if(game==='hs'){
     const pool=C.hs[m]||C.hs.fun;
-    txt=pick(pool,'hs_'+m);cat=hsPlayer?'🔥 '+hsPlayer+' is in the hot seat':'pick a player above';
-    document.getElementById('hsCat').textContent=cat;
-    document.getElementById('hsTxt').textContent=txt;
+    document.getElementById('hsCat').textContent=hsPlayer?'🔥 '+hsPlayer:'pick a player above';
+    document.getElementById('hsTxt').textContent=pick(pool,'hs_'+m);
   } else if(game==='2nhie'){
     const pool=C['2nhie'][m]||C['2nhie'].bestie;
-    txt='Never have I ever… '+pick(pool,'2nhie_'+m);cat=m+' mode';
-    document.getElementById('2nhieCat').textContent=cat;
-    document.getElementById('2nhieTxt').textContent=txt;
+    document.getElementById('2nhieCat').textContent=m+' mode';
+    document.getElementById('2nhieTxt').textContent='Never have I ever… '+pick(pool,'2nhie_'+m);
   } else if(game==='2tod'){
     const isTruth=modes['2todType']==='truth'||(modes['2todType']==='random'&&Math.random()<.5);
     const pool=isTruth?(C['2tod'].truth[m]||C['2tod'].truth.bestie):(C['2tod'].dare[m]||C['2tod'].dare.bestie);
-    txt=pick(pool,'2tod_'+(isTruth?'t':'d')+'_'+m);cat=(isTruth?'🤔 Truth':'😈 Dare')+' · '+m;
-    document.getElementById('2todCat').textContent=cat;
-    document.getElementById('2todTxt').textContent=txt;
+    document.getElementById('2todCat').textContent=(isTruth?'🤔 Truth':'😈 Dare');
+    document.getElementById('2todTxt').textContent=pick(pool,'2tod_'+(isTruth?'t':'d')+'_'+m);
   } else if(game==='2mlt'){
-    const p1=document.getElementById('p1Name').value||'Player 1';
-    const p2=document.getElementById('p2Name').value||'Player 2';
+    const p1=document.getElementById('p1').value||'Player 1';
+    const p2=document.getElementById('p2').value||'Player 2';
     const pool=C['2mlt'][m]||C['2mlt'].bestie;
-    txt='Between '+p1+' & '+p2+': most likely to… '+pick(pool,'2mlt_'+m);
-    document.getElementById('2mltTxt').textContent=txt;
-    const v1=document.getElementById('2mltV1'),v2=document.getElementById('2mltV2'),vb=document.getElementById('2mltVBoth');
-    v1.textContent=p1;v2.textContent=p2;
-    [v1,v2,vb].forEach(b=>b.classList.remove('voted'));
+    document.getElementById('2mltTxt').textContent='Between '+p1+' & '+p2+': most likely to… '+pick(pool,'2mlt_'+m);
+    document.getElementById('2mv1').textContent=p1;
+    document.getElementById('2mv2').textContent=p2;
+    [document.getElementById('2mv1'),document.getElementById('2mv2'),document.getElementById('2mvB')].forEach(b=>b.classList.remove('voted'));
   } else if(game==='2hs'){
+    const p1=document.getElementById('p1').value||'Player 1';
+    const p2=document.getElementById('p2').value||'Player 2';
+    const seat=hs2p===1?p1:p2;
     const pool=C['2hs'][m]||C['2hs'].bestie;
-    const p1=document.getElementById('p1Name').value||'Player 1';
-    const p2=document.getElementById('p2Name').value||'Player 2';
-    const seat=hs2Player===1?p1:p2;
-    let raw=pick(pool,'2hs_'+m);raw=raw.replace(/\[P2\]/g,seat);
+    let raw=pick(pool,'2hs_'+m); raw=raw.replace(/\[SEAT\]/g,seat);
     document.getElementById('2hsCat').textContent='🔥 About '+seat;
     document.getElementById('2hsTxt').textContent=raw;
   } else if(game==='ttl'){
     const pool=C.ttl[m]||C.ttl.bestie;
-    const topic=pick(pool,'ttl_'+m);
     document.getElementById('ttlCat').textContent='topic idea · '+m;
-    document.getElementById('ttlTxt').textContent='Share 2 truths & 1 lie about: '+topic;
+    document.getElementById('ttlTxt').textContent='Share 2 truths & 1 lie about: '+pick(pool,'ttl_'+m);
   }
 }
 
-// ── MLT VOTES ─────────────────────────────────────────────────
-function renderMltVotes(){
-  const members=Object.values(sessionMembers);
-  const vDiv=document.getElementById('mltVotes');
-  if(!members.length){vDiv.innerHTML='';return;}
-  vDiv.innerHTML=members.map(p=>`<button class="mlt-vote-btn" onclick="voteMlt(this)">${p.name}</button>`).join('');
-}
-function voteMlt(el){el.classList.toggle('voted');}
-function vote2Mlt(n){
-  const p1=document.getElementById('p1Name').value||'Player 1';
-  const p2=document.getElementById('p2Name').value||'Player 2';
-  const v1=document.getElementById('2mltV1'),v2=document.getElementById('2mltV2'),vb=document.getElementById('2mltVBoth');
-  [v1,v2,vb].forEach(b=>b.classList.remove('voted'));
-  if(n===1)v1.classList.add('voted');
-  else if(n===2)v2.classList.add('voted');
-  else vb.classList.add('voted');
-  const who=n===1?p1:n===2?p2:'both 😭';
-  showToast(who+' is most likely! 👆');
+function nextCouple(){
+  const m=modes.couple;
+  const pool=C.couple[m]||C.couple.deep;
+  const labels={deep:'💭 Deep',spicy:'🌶️ Spicy',fun:'😂 Fun',horny:'🔥 Horny'};
+  document.getElementById('coupleCat').textContent=labels[m]||m;
+  document.getElementById('coupleTxt').textContent=pick(pool,'couple_'+m);
 }
 
-// ── HOT SEAT ─────────────────────────────────────────────────
-function renderHsSeatGrid(){
-  const grid=document.getElementById('hsSeatGrid');
-  const members=Object.values(sessionMembers);
-  if(!members.length){grid.innerHTML='<div style="color:var(--muted);font-size:.8rem">Squad not loaded yet</div>';return;}
-  grid.innerHTML=members.map(p=>`<div class="player-select-btn${hsPlayer===p.name?' active':''}" onclick="selectHsPlayer('${p.name}',this)">
-    <div class="psname">${p.name}</div></div>`).join('');
+// ═══════════════════════════════════════════
+// MLT VOTES
+// ═══════════════════════════════════════════
+function renderMltVotes(){
+  const vDiv=document.getElementById('mltVotes');
+  const members=Object.values(squad);
+  if(!members.length){vDiv.innerHTML='';return;}
+  vDiv.innerHTML=members.map(p=>`<button class="vote-btn" onclick="this.classList.toggle('voted')">${p.name}</button>`).join('');
 }
-function selectHsPlayer(name,el){
+function v2mlt(n){
+  const p1=document.getElementById('p1').value||'Player 1';
+  const p2=document.getElementById('p2').value||'Player 2';
+  ['2mv1','2mv2','2mvB'].forEach(id=>document.getElementById(id).classList.remove('voted'));
+  if(n===1)document.getElementById('2mv1').classList.add('voted');
+  else if(n===2)document.getElementById('2mv2').classList.add('voted');
+  else document.getElementById('2mvB').classList.add('voted');
+  toast((n===1?p1:n===2?p2:'both')+' is most likely! 👆');
+}
+
+// ═══════════════════════════════════════════
+// HOT SEAT
+// ═══════════════════════════════════════════
+function renderHsGrid(){
+  const grid=document.getElementById('hsSeatGrid');
+  if(!grid)return;
+  const members=Object.values(squad);
+  if(!members.length){grid.innerHTML='<div style="color:var(--mu);font-size:.78rem">Squad not loaded</div>';return;}
+  grid.innerHTML=members.map(p=>`<div class="seat-btn${hsPlayer===p.name?' on':''}" onclick="pickHs('${p.name}',this)">${p.name}</div>`).join('');
+}
+function pickHs(name,el){
   hsPlayer=name;
-  document.querySelectorAll('#hsSeatGrid .player-select-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('hsPlayerBox').style.display='block';
+  document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('hsBox').style.display='block';
   document.getElementById('hsName').textContent=name;
   document.getElementById('hsCat').textContent='🔥 '+name+' is in the hot seat';
 }
 function setHs2(n){
-  hs2Player=n;
-  const p1=document.getElementById('p1Name').value||'Player 1';
-  const p2=document.getElementById('p2Name').value||'Player 2';
+  hs2p=n;
+  const p1=document.getElementById('p1').value||'Player 1';
+  const p2=document.getElementById('p2').value||'Player 2';
   document.getElementById('hs2v1').classList.toggle('voted',n===1);
   document.getElementById('hs2v2').classList.toggle('voted',n===2);
   document.getElementById('hs2Name').textContent=n===1?p1:p2;
   document.getElementById('2hsCat').textContent='🔥 '+(n===1?p1:p2)+' is being grilled';
 }
 
-// ── KINGS ─────────────────────────────────────────────────────
-const SUITS=['♠','♥','♦','♣'];const RANKS=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-const KING_RULES={A:{n:'Waterfall',d:"Everyone starts drinking. You can't stop until the person before you does."},
-  '2':{n:'You',d:'Point at someone — they drink.'},'3':{n:'Me',d:'You drink.'},
-  '4':{n:'Floor',d:'Last person to touch the floor drinks!'},'5':{n:'Guys drink',d:'All guys take a sip.'},
-  '6':{n:'Girls drink',d:'All girls take a sip.'},'7':{n:'Heaven',d:'Last to raise hand drinks!'},
-  '8':{n:'Mate',d:'Pick someone to drink with you for the rest of the game.'},
-  '9':{n:'Bust a rhyme',d:'Say a word. Go around rhyming — first to fail drinks.'},
-  '10':{n:'Categories',d:'Pick a category (e.g. car brands). First to fail drinks.'},
-  J:{n:'Never Have I Ever',d:'Hold up 3 fingers. Take turns — if you\'ve done it, put one down. First to zero drinks.'},
-  Q:{n:'Question Master',d:'You\'re Question Master — anyone who answers your question drinks!'},
-  K:{n:'Make a rule! 👑',d:'Create any rule you want for the rest of the game.'}};
-function buildKings(){kingsDeck=[];for(const s of SUITS)for(const r of RANKS)kingsDeck.push({r,s});for(let i=kingsDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[kingsDeck[i],kingsDeck[j]]=[kingsDeck[j],kingsDeck[i]];}}
-function drawKing(){
-  if(!kingsDeck.length){showToast('Deck empty!');buildKings();return;}
-  const c=kingsDeck.pop();const red=c.s==='♥'||c.s==='♦';const rule=KING_RULES[c.r];
-  document.getElementById('kDisplay').innerHTML=`<div class="playing-card"><div class="card-rank" style="color:${red?'#c00':'#111'}">${c.r}</div><div class="card-suit" style="color:${red?'#c00':'#111'}">${c.s}</div></div><div class="card-rule-name">${rule.n}</div><div class="card-rule-desc">${rule.d}</div>`;
-  document.getElementById('kInfo').textContent=kingsDeck.length+' cards remaining';
+// ═══════════════════════════════════════════
+// 2P
+// ═══════════════════════════════════════════
+function twopUp(){
+  const p1=document.getElementById('p1').value;
+  const p2=document.getElementById('p2').value;
+  const hdr=document.getElementById('vsHdr');
+  if(p1||p2){
+    hdr.style.display='flex';
+    document.getElementById('vsP1').textContent=p1||'P1';
+    document.getElementById('vsP2').textContent=p2||'P2';
+  }
+  const v1=document.getElementById('2mv1'),v2=document.getElementById('2mv2');
+  if(v1)v1.textContent=p1||'Player 1';
+  if(v2)v2.textContent=p2||'Player 2';
 }
-function resetKings(){buildKings();document.getElementById('kDisplay').innerHTML='<div style="color:var(--muted);font-size:.88rem">Deck reshuffled! Tap draw.</div>';document.getElementById('kInfo').textContent='Full deck · 52 cards remaining';}
+function renderTwopSquad(){
+  const grid=document.getElementById('twopSquad');
+  if(!grid)return;
+  const members=Object.values(squad);
+  if(!members.length){grid.innerHTML='';return;}
+  grid.innerHTML=members.map(p=>`<div class="seat-btn" onclick="pickTwop('${p.name}',this)">${p.name}</div>`).join('');
+}
+function pickTwop(name,el){
+  el.classList.toggle('on');
+  const picked=[...document.querySelectorAll('#twopSquad .seat-btn.on')].map(b=>b.textContent);
+  if(picked[0])document.getElementById('p1').value=picked[0];
+  if(picked[1])document.getElementById('p2').value=picked[1];
+  twopUp();
+}
 
-// ── DICE ─────────────────────────────────────────────────────
+// ═══════════════════════════════════════════
+// KINGS
+// ═══════════════════════════════════════════
+const SUITS=['♠','♥','♦','♣'];
+const RANKS=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const KRULES={
+  A:{n:'Waterfall',d:"Everyone starts drinking. You can't stop until the person before you does."},
+  '2':{n:'You',d:'Point at someone — they drink.'},
+  '3':{n:'Me',d:'You drink.'},
+  '4':{n:'Floor',d:'Last to touch the floor drinks!'},
+  '5':{n:'Guys drink',d:'All guys take a sip.'},
+  '6':{n:'Girls drink',d:'All girls take a sip.'},
+  '7':{n:'Heaven',d:'Raise your hand — last one up drinks!'},
+  '8':{n:'Mate',d:'Pick someone to drink with you all game.'},
+  '9':{n:'Rhyme',d:'Say a word. Go around rhyming — first to fail drinks.'},
+  '10':{n:'Categories',d:'Pick a category — first to fail drinks.'},
+  J:{n:'Never Have I Ever',d:"Hold up 3 fingers. Take turns — if you've done it, put one down. First to zero drinks."},
+  Q:{n:'Question Master',d:'Anyone who answers your question drinks!'},
+  K:{n:'Make a rule! 👑',d:'Create any rule you want for the rest of the game.'}
+};
+let kDeck=[];
+function buildKings(){kDeck=[];for(const s of SUITS)for(const r of RANKS)kDeck.push({r,s});shuffle(kDeck);}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
+function drawKing(){
+  if(!kDeck.length){toast('Deck empty!');buildKings();return;}
+  const c=kDeck.pop();const red=c.s==='♥'||c.s==='♦';const rule=KRULES[c.r];
+  document.getElementById('kDisplay').innerHTML=`
+    <div class="playing-card"><div class="card-rank" style="color:${red?'#c00':'#111'}">${c.r}</div>
+    <div class="card-suit" style="color:${red?'#c00':'#111'}">${c.s}</div></div>
+    <div class="card-rule">${rule.n}</div>
+    <div class="card-rule-desc">${rule.d}</div>`;
+  document.getElementById('kInfo').textContent=kDeck.length+' cards remaining';
+}
+function resetKings(){buildKings();document.getElementById('kDisplay').innerHTML='<div style="color:var(--mu)">Reshuffled! Tap draw.</div>';document.getElementById('kInfo').textContent='52 cards remaining';}
+
+// ═══════════════════════════════════════════
+// DICE
+// ═══════════════════════════════════════════
 const DFACES=['⚀','⚁','⚂','⚃','⚄','⚅'];
 const DRULES=['Sip once.','Take 2 sips.','Give 3 sips to someone.','Everyone drinks!','Make a mini-rule for 1 round.','Take a shot — or give 2 sips each to 2 people.'];
 function rollDice(){
   const el=document.getElementById('diceFace');
-  el.classList.remove('rolling');void el.offsetWidth;el.classList.add('rolling');
-  let n=0;const iv=setInterval(()=>{n=Math.floor(Math.random()*6);el.textContent=DFACES[n];},80);
-  setTimeout(()=>{clearInterval(iv);el.classList.remove('rolling');document.getElementById('diceRes').textContent='Rolled a '+(n+1);document.getElementById('diceCon').textContent=DRULES[n];},600);
+  el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');
+  let n=0;
+  const iv=setInterval(()=>{n=Math.floor(Math.random()*6);el.textContent=DFACES[n];},80);
+  setTimeout(()=>{clearInterval(iv);document.getElementById('diceRes').textContent='Rolled a '+(n+1);document.getElementById('diceCon').textContent=DRULES[n];},600);
 }
 
-// ── WHEEL ─────────────────────────────────────────────────────
-let wheelNames=[];
-function renderWheel(){
-  wheelNames=Object.values(sessionMembers).map(p=>p.name);
-  if(wheelNames.length<2)wheelNames=['Player 1','Player 2','Player 3'];
-  drawWheel(wheelAngle);
+// ═══════════════════════════════════════════
+// WHEEL
+// ═══════════════════════════════════════════
+let wheelA=0, wheelNames=[];
+function drawWheel(){
+  wheelNames=Object.values(squad).map(p=>p.name);
+  if(wheelNames.length<2)wheelNames=['Friend 1','Friend 2','Friend 3'];
+  paintWheel(wheelA);
 }
-function drawWheel(angle){
-  const cv=document.getElementById('wheelCanvas');if(!cv)return;
-  const ctx=cv.getContext('2d');const cx=120,cy=120,r=115,n=wheelNames.length;
+function paintWheel(angle){
+  const cv=document.getElementById('wheelCv');if(!cv)return;
+  const ctx=cv.getContext('2d'),cx=120,cy=120,r=116,n=wheelNames.length;
   ctx.clearRect(0,0,240,240);
   for(let i=0;i<n;i++){
     const s=angle+(i/n)*Math.PI*2,e=angle+((i+1)/n)*Math.PI*2;
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();
     ctx.fillStyle=COLORS[i%COLORS.length];ctx.fill();
     ctx.save();ctx.translate(cx,cy);ctx.rotate(s+(e-s)/2);
-    ctx.textAlign='right';ctx.fillStyle='#000';ctx.font='bold 13px Syne,sans-serif';
-    ctx.fillText(wheelNames[i],r-8,5);ctx.restore();
+    ctx.textAlign='right';ctx.fillStyle='rgba(0,0,0,.8)';ctx.font='bold 13px "Archivo Black",sans-serif';
+    ctx.fillText(wheelNames[i],r-10,5);ctx.restore();
   }
-  ctx.beginPath();ctx.moveTo(cx+r-12,cy-8);ctx.lineTo(cx+r+12,cy);ctx.lineTo(cx+r-12,cy+8);ctx.closePath();
+  ctx.beginPath();ctx.moveTo(cx+r-10,cy-8);ctx.lineTo(cx+r+14,cy);ctx.lineTo(cx+r-10,cy+8);ctx.closePath();
   ctx.fillStyle='#fff';ctx.fill();
 }
 function spinWheel(){
-  if(!wheelNames.length)return;
-  document.getElementById('wheelResult').textContent='…';
-  const spins=(Math.random()*6+4)*Math.PI*2,duration=3000,start=performance.now(),startA=wheelAngle;
-  function anim(now){
-    const t=Math.min((now-start)/duration,1),ease=1-Math.pow(1-t,3);
-    wheelAngle=startA+spins*ease;drawWheel(wheelAngle);
-    if(t<1){requestAnimationFrame(anim);}else{
-      const fa=wheelAngle%(Math.PI*2);
+  document.getElementById('wheelRes').textContent='…';
+  const spins=(Math.random()*6+5)*Math.PI*2,dur=3200,t0=performance.now(),a0=wheelA;
+  function frame(now){
+    const t=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-t,3);
+    wheelA=a0+spins*ease; paintWheel(wheelA);
+    if(t<1){requestAnimationFrame(frame);}else{
+      const fa=wheelA%(Math.PI*2);
       const pct=((2*Math.PI-fa)%(Math.PI*2))/(Math.PI*2);
       const idx=Math.floor(pct*wheelNames.length)%wheelNames.length;
-      document.getElementById('wheelResult').textContent=wheelNames[idx]+' drinks! 🍺';
+      document.getElementById('wheelRes').textContent=wheelNames[idx]+' drinks! 🍺';
     }
   }
-  requestAnimationFrame(anim);
+  requestAnimationFrame(frame);
 }
 
-// ── 2P HELPERS ───────────────────────────────────────────────
-function renderTwopHeader(){
-  const p1=document.getElementById('p1Name').value||'';
-  const p2=document.getElementById('p2Name').value||'';
-  const hdr=document.getElementById('twopHeader');
-  if(p1||p2){
-    hdr.style.display='flex';
-    document.getElementById('twopP1').textContent=p1||'P1';
-    document.getElementById('twopP2').textContent=p2||'P2';
+// ═══════════════════════════════════════════
+// HORSE RACING
+// ═══════════════════════════════════════════
+function buildHorses(){
+  // bet grid
+  const bg=document.getElementById('betGrid');
+  bg.innerHTML=HORSES.map((h,i)=>`
+    <div class="bet-btn" id="bet-${i}" onclick="placeBet(${i})">
+      <div style="font-size:1.4rem">${h.emoji}</div>
+      <div class="bet-horse-name" style="color:${h.color}">${h.name}</div>
+    </div>`).join('');
+  // track
+  buildTrack();
+}
+function buildTrack(){
+  const track=document.getElementById('horseTrack');
+  track.innerHTML=HORSES.map((h,i)=>`
+    <div class="horse-lane">
+      <div class="horse-name" style="color:${h.color}">${h.name}</div>
+      <div class="horse-bar-bg">
+        <div class="horse-bar" id="hbar-${i}" style="width:4%;background:${h.color}">
+          <span class="horse-emoji">${h.emoji}</span>
+        </div>
+      </div>
+    </div>`).join('');
+  racePositions=[0,0,0,0,0];
+}
+function placeBet(i){
+  if(raceRunning||raceFinished)return;
+  myBet=i;
+  document.querySelectorAll('.bet-btn').forEach((b,j)=>b.classList.toggle('selected',j===i));
+  document.getElementById('raceStatus').textContent='Betting on '+HORSES[i].name+' '+HORSES[i].emoji+' — ready!';
+}
+function startRace(){
+  if(raceRunning)return;
+  if(myBet<0){toast('Pick a horse first!');return;}
+  raceRunning=true; raceFinished=false;
+  document.getElementById('raceBtn').style.display='none';
+  document.getElementById('raceStatus').textContent='3…';
+
+  let cd=3;
+  const cdInt=setInterval(()=>{
+    cd--;
+    if(cd>0)document.getElementById('raceStatus').textContent=cd+'…';
+    else{
+      clearInterval(cdInt);
+      document.getElementById('raceStatus').textContent='🏇 They\'re off!';
+      runRace();
+    }
+  },800);
+}
+function runRace(){
+  // assign each horse a random "speed profile"
+  const speeds=HORSES.map(()=>Math.random()*.4+.6); // .6–1.0
+  let winner=-1;
+
+  const interval=setInterval(()=>{
+    // each tick: advance horses by random amount weighted by speed
+    for(let i=0;i<5;i++){
+      const surge=speeds[i]*(Math.random()*3+.5);
+      racePositions[i]=Math.min(racePositions[i]+surge,100);
+      const bar=document.getElementById('hbar-'+i);
+      if(bar)bar.style.width=Math.max(racePositions[i],4)+'%';
+    }
+    // check winner
+    const maxPos=Math.max(...racePositions);
+    if(maxPos>=100){
+      winner=racePositions.indexOf(maxPos);
+      clearInterval(interval);
+      finishRace(winner);
+    }
+  },60);
+}
+function finishRace(winner){
+  raceRunning=false; raceFinished=true;
+  const won=winner===myBet;
+  const horse=HORSES[winner];
+
+  // color bet buttons
+  document.querySelectorAll('.bet-btn').forEach((b,i)=>{
+    b.classList.remove('selected');
+    if(i===winner)b.classList.add('winner');
+    else b.classList.add('loser');
+  });
+
+  if(won){
+    document.getElementById('raceStatus').textContent=horse.name+' wins! 🏆 You picked right — give out 3 sips!';
+    toast('🏆 '+horse.name+' wins! Give out 3 sips!');
+  } else {
+    document.getElementById('raceStatus').textContent=horse.name+' wins! 🏆 You lost — drink up! 🍺';
+    toast('😭 '+HORSES[myBet].name+' lost — drink!');
   }
-  // update 2p mlt vote buttons
-  const v1=document.getElementById('2mltV1'),v2=document.getElementById('2mltV2');
-  if(v1)v1.textContent=p1||'Player 1';
-  if(v2)v2.textContent=p2||'Player 2';
+
+  document.getElementById('resetRaceBtn').style.display='block';
 }
-function renderTwopSquad(){
-  const grid=document.getElementById('twopSquadGrid');
-  const members=Object.values(sessionMembers);
-  if(!members.length){grid.innerHTML='';return;}
-  grid.innerHTML=members.map(p=>`<div class="player-select-btn" onclick="pickTwop('${p.name}',this)"><div class="psname">${p.name}</div></div>`).join('');
-}
-function pickTwop(name,el){
-  el.classList.toggle('active');
-  const picked=document.querySelectorAll('#twopSquadGrid .player-select-btn.active');
-  const names=[...picked].map(b=>b.querySelector('.psname').textContent);
-  if(names[0])document.getElementById('p1Name').value=names[0];
-  if(names[1])document.getElementById('p2Name').value=names[1];
-  renderTwopHeader();
+function resetRace(){
+  myBet=-1; raceRunning=false; raceFinished=false;
+  document.querySelectorAll('.bet-btn').forEach(b=>{b.classList.remove('selected','winner','loser');});
+  document.getElementById('raceStatus').textContent='Place your bet then start the race!';
+  document.getElementById('raceBtn').style.display='block';
+  document.getElementById('resetRaceBtn').style.display='none';
+  buildTrack();
 }
 
-// ── UTILS ─────────────────────────────────────────────────────
-function fmtTime(min){if(min===0)return'0 min';if(min<60)return min+' min';const h=Math.floor(min/60),m=min%60;return h+'h'+(m?' '+m+'m':'');}
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function fmtMin(m){if(!m)return'0m';if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return h+'h'+(r?' '+r+'m':'');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
 
-// init
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('jName').addEventListener('keydown',e=>{if(e.key==='Enter')joinSession();});
+  document.getElementById('jName').addEventListener('keydown',e=>{if(e.key==='Enter')doJoin();});
   buildKings();
 });
 </script>
