@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,13 +66,12 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .navbtn{flex:1;min-width:55px;padding:10px 3px 9px;border:none;background:transparent;color:var(--mu);font-family:var(--fb);font-size:.62rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s;letter-spacing:.01em;text-transform:uppercase}
 .navbtn.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-.page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:5rem}
+.page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:2rem}
 .page.active{display:block}
 
-/* BANNERS */
+/* HOST BANNER */
 .host-banner{background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.25);border-radius:var(--rs);padding:8px 12px;font-size:.75rem;color:var(--gold);text-align:center;margin-bottom:.85rem}
 .guest-banner{background:rgba(77,142,240,.06);border:1px solid rgba(77,142,240,.2);border-radius:var(--rs);padding:8px 12px;font-size:.75rem;color:var(--blue);text-align:center;margin-bottom:.85rem}
-.sync-note{font-size:.7rem;color:var(--mu);text-align:center;margin-bottom:.5rem}
 
 /* CARDS */
 .card{background:var(--s1);border:1px solid var(--br);border-radius:var(--r);padding:1rem 1.1rem;margin-bottom:.85rem}
@@ -221,26 +221,9 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .btn+.btn{margin-top:7px}
 .btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
-/* DRINK LOGGER — floating bottom bar */
-#drinkBar{
-  position:fixed;bottom:0;left:0;right:0;z-index:200;
-  background:rgba(10,10,11,.96);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-top:1px solid var(--br2);
-  padding:6px 10px 10px;
-  display:none;
-}
-#drinkBar.show{display:block}
-.db-row{display:flex;align-items:center;gap:6px}
-.db-bac{font-family:var(--ff);font-size:.85rem;padding:0 6px;white-space:nowrap;flex-shrink:0}
-.db-btns{display:flex;gap:5px;flex:1}
-.db-btn{flex:1;background:var(--s2);border:1px solid var(--br2);border-radius:8px;padding:8px 2px 6px;text-align:center;cursor:pointer;position:relative;transition:all .12s;user-select:none;-webkit-user-select:none;min-width:0}
-.db-btn:active{transform:scale(.88);background:var(--s3);border-color:var(--gold)}
-.db-icon{font-size:1.2rem;line-height:1;display:block}
-.db-lbl{font-size:.55rem;color:var(--mu);display:block;margin-top:2px;white-space:nowrap;overflow:hidden}
-.db-cnt{position:absolute;top:2px;right:4px;font-family:var(--ff);font-size:.72rem;color:var(--gold);line-height:1}
-.db-undo{background:transparent;border:1px solid var(--br);border-radius:8px;padding:8px 8px;color:var(--mu);font-size:.7rem;cursor:pointer;white-space:nowrap;font-family:var(--fb);flex-shrink:0}
-.db-undo:active{background:var(--s3)}
+/* GUEST LOCK */
+.guest-locked{opacity:.45;pointer-events:none;position:relative}
+.guest-lock-msg{text-align:center;font-size:.78rem;color:var(--blue);margin-bottom:.85rem;padding:8px;background:rgba(77,142,240,.06);border-radius:var(--rs);border:1px solid rgba(77,142,240,.15)}
 
 /* TOAST */
 .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--s2);border:1px solid var(--br2);border-radius:var(--rs);padding:9px 18px;font-size:.8rem;opacity:0;pointer-events:none;transition:all .3s;z-index:999;white-space:nowrap;max-width:90vw;text-align:center}
@@ -252,8 +235,46 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
   .drink-grid{grid-template-columns:repeat(2,1fr)}
   .bet-grid{grid-template-columns:repeat(3,1fr)}
   .kings-sheet{grid-template-columns:1fr}
-  .db-btns{gap:4px}
 }
+
+/* JENGA */
+.jenga-wrap{display:flex;justify-content:center;padding:.3rem 0 .6rem}
+.jenga-tower{display:flex;flex-direction:column;gap:2px;transform-origin:center 95%}
+.jenga-tower.wobble-sm{animation:jw1 1.1s ease-in-out infinite}
+.jenga-tower.wobble-md{animation:jw2 .7s ease-in-out infinite}
+.jenga-tower.wobble-lg{animation:jw3 .4s ease-in-out infinite}
+.jenga-tower.falling{animation:jfall 1s ease-in forwards;pointer-events:none}
+@keyframes jw1{0%,100%{transform:rotate(0)}50%{transform:rotate(1.2deg)}}
+@keyframes jw2{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
+@keyframes jw3{0%,100%{transform:rotate(-4.5deg)}50%{transform:rotate(4.5deg)}}
+@keyframes jfall{0%{transform:rotate(0) translateY(0);opacity:1}25%{transform:rotate(-8deg) translateY(8px)}100%{transform:rotate(38deg) translateY(420px);opacity:0}}
+.jenga-row{display:flex;gap:2px;justify-content:center}
+.jblock{height:15px;width:58px;border-radius:2px;cursor:pointer;transition:filter .1s,transform .1s;border-bottom:2px solid rgba(0,0,0,.22);user-select:none;-webkit-user-select:none}
+.jblock:hover{filter:brightness(1.25);transform:scaleY(1.08)}
+.jblock:active{transform:scale(.88)}
+.jb-g{background:#3ecf6e}
+.jb-y{background:#f0a500}
+.jb-r{background:#e84040}
+.jblock-noturn{opacity:.45;cursor:default}
+.jblock-noturn:hover{filter:none!important;transform:none!important}
+.jblock-gone{opacity:0!important;pointer-events:none!important;border-color:transparent!important;background:transparent!important}
+
+/* SOBER BAR */
+.sober-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(10,10,11,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--br2);padding:10px 1.2rem 14px;cursor:pointer;user-select:none;-webkit-user-select:none;align-items:center;justify-content:space-between}
+.sober-bar.vis{display:flex}
+.sober-label{font-size:.62rem;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
+.sober-pct{font-family:var(--ff);font-size:1.3rem;line-height:1.1}
+.sober-hint{font-size:.68rem;color:var(--mu);display:flex;align-items:center;gap:4px}
+.sober-drawer{position:fixed;bottom:0;left:0;right:0;z-index:310;background:var(--s1);border-top:2px solid var(--br2);border-radius:18px 18px 0 0;padding:0 1rem 2rem;max-height:82vh;overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,.72,0,1)}
+.sober-drawer.open{transform:translateY(0)}
+.drawer-handle{width:38px;height:4px;background:var(--br2);border-radius:2px;margin:12px auto 1rem}
+.sober-row{margin-bottom:14px}
+.sober-row-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.sober-name{font-size:.85rem;font-weight:600}
+.sober-val{font-family:var(--ff);font-size:.85rem}
+.sober-track{height:22px;background:var(--s3);border-radius:11px;overflow:hidden}
+.sober-fill{height:100%;border-radius:11px;transition:width .5s cubic-bezier(.34,1.56,.64,1);min-width:4px}
+.page{padding-bottom:5rem}
 </style>
 </head>
 <body>
@@ -263,8 +284,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
   <div class="logo-big">Pre<br>The<br>Game</div>
   <div class="logo-sub">a drinking game app for your crew</div>
   <div class="age-btns">
-    <button class="age-btn gold" onclick="startJoin(true)">18+ — unlock everything 🔞</button>
-    <button class="age-btn" onclick="startJoin(false)">Under 18 — keep it clean 😇</button>
+    <button class="age-btn gold" onclick="startJoin(true)">Enter</button>
   </div>
 </div>
 
@@ -285,11 +305,11 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
     <div class="role-pick">
       <button class="role-btn host-btn" onclick="doJoin('host')">
         👑 Be the Host
-        <span class="role-sub">First one in — you draw cards, pick prompts, start races</span>
+        <span class="role-sub">You control the games — everyone follows your screen</span>
       </button>
       <button class="role-btn" onclick="doJoin('guest')">
         🍺 Join as Guest
-        <span class="role-sub">Flip next questions, bet on horses — everyone participates</span>
+        <span class="role-sub">Follow along — host picks the games</span>
       </button>
     </div>
   </div>
@@ -308,7 +328,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
     <button class="navbtn active" onclick="goPage('squad')">🍺 Squad</button>
     <button class="navbtn" onclick="goPage('mine')">🥴 BAC</button>
     <button class="navbtn" onclick="goPage('group')">🎲 Group</button>
-    <button class="navbtn" onclick="goPage('twop')">👫 2P</button>
+    <button class="navbtn" onclick="goPage('twop')">👫 2 Person</button>
     <button class="navbtn" onclick="goPage('couple')">💑 Couple</button>
     <button class="navbtn" onclick="goPage('horses')">🏇 Horses</button>
   </div>
@@ -368,15 +388,16 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 
   <!-- GROUP GAMES PAGE -->
   <div class="page" id="page-group">
-    <div id="hostGroupBanner" class="host-banner" style="display:none">👑 Host — you draw cards & pick prompts. Guests can also flip next.</div>
-    <div id="guestGroupBanner" class="guest-banner" style="display:none">🍺 Guest — tap Next to flip a question for everyone!</div>
+    <div id="hostGroupBanner" class="host-banner" style="display:none">👑 You're the host — your game choices sync to everyone</div>
+    <div id="guestGroupBanner" class="guest-banner" style="display:none">🍺 Guest mode — following the host's game screen</div>
     <div class="gtabs" id="gGroupTabs">
-      <button class="gtab on" onclick="syncSwitchG('kings','group')">👑 Kings</button>
-      <button class="gtab" onclick="syncSwitchG('nhie','group')">🙈 NHIE</button>
-      <button class="gtab" onclick="syncSwitchG('tod','group')">🎭 T or D</button>
-      <button class="gtab" onclick="syncSwitchG('mlt','group')">🤔 Most Likely</button>
-      <button class="gtab" onclick="syncSwitchG('hotseat','group')">🔥 Hot Seat</button>
-      <button class="gtab" onclick="syncSwitchG('dice','group')">🎲 Dice</button>
+      <button class="gtab on" onclick="hostSwitchG('kings','group')">👑 Kings</button>
+      <button class="gtab" onclick="hostSwitchG('nhie','group')">🙈 NHIE</button>
+      <button class="gtab" onclick="hostSwitchG('tod','group')">🎭 T or D</button>
+      <button class="gtab" onclick="hostSwitchG('mlt','group')">🤔 Most Likely</button>
+      <button class="gtab" onclick="hostSwitchG('hotseat','group')">🔥 Hot Seat</button>
+      <button class="gtab" onclick="hostSwitchG('dice','group')">🎲 Dice</button>
+      <button class="gtab" onclick="hostSwitchG('jenga','group')">🪵 Jenga</button>
     </div>
 
     <div class="gpanel active" id="gg-kings">
@@ -404,14 +425,13 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Mode</div>
         <div class="mode-row" id="nhieModes">
-          <div class="mpill on" onclick="syncSetM('nhie','mild',this)">😇 Mild</div>
-          <div class="mpill" onclick="syncSetM('nhie','spicy',this)">🌶️ Spicy</div>
-          <div class="mpill" onclick="syncSetM('nhie','wild',this)">🔥 Wild</div>
-          <div class="mpill adult" id="nhieA" onclick="syncSetM('nhie','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="hostSetM('nhie','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="hostSetM('nhie','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill" onclick="hostSetM('nhie','wild',this)">🔥 Wild</div>
+          <div class="mpill adult" id="nhieA" onclick="hostSetM('nhie','adult',this)">🔞 Adult</div>
         </div>
         <div class="prompt-box"><div><div class="prompt-cat" id="nhieCat">tap next</div><div class="prompt-txt" id="nhieTxt">Never have I ever…</div></div></div>
-        <div class="sync-note" id="nhieWho"></div>
-        <button class="btn btn-gold" id="btnNhie" onclick="doNextPrompt('nhie')">Next →</button>
+        <button class="btn btn-gold" id="btnNhie" onclick="hostNext('nhie')">Next →</button>
       </div>
     </div>
 
@@ -419,19 +439,18 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Type</div>
         <div class="mode-row">
-          <div class="mpill on" onclick="syncSetTT('random',this)">🎲 Random</div>
-          <div class="mpill" onclick="syncSetTT('truth',this)">🤔 Truth only</div>
-          <div class="mpill" onclick="syncSetTT('dare',this)">😈 Dare only</div>
+          <div class="mpill on" onclick="hostSetTT('random',this)">🎲 Random</div>
+          <div class="mpill" onclick="hostSetTT('truth',this)">🤔 Truth only</div>
+          <div class="mpill" onclick="hostSetTT('dare',this)">😈 Dare only</div>
         </div>
         <div class="card-label">Spice</div>
         <div class="mode-row" id="todModes">
-          <div class="mpill on" onclick="syncSetM('tod','mild',this)">😇 Mild</div>
-          <div class="mpill" onclick="syncSetM('tod','spicy',this)">🌶️ Spicy</div>
-          <div class="mpill adult" id="todA" onclick="syncSetM('tod','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="hostSetM('tod','mild',this)">😇 Mild</div>
+          <div class="mpill" onclick="hostSetM('tod','spicy',this)">🌶️ Spicy</div>
+          <div class="mpill adult" id="todA" onclick="hostSetM('tod','adult',this)">🔞 Adult</div>
         </div>
         <div class="prompt-box"><div><div class="prompt-cat" id="todCat">tap next</div><div class="prompt-txt" id="todTxt">Truth or Dare?</div></div></div>
-        <div class="sync-note" id="todWho"></div>
-        <button class="btn btn-red" id="btnTod" onclick="doNextPrompt('tod')">Next →</button>
+        <button class="btn btn-red" id="btnTod" onclick="hostNext('tod')">Next →</button>
       </div>
     </div>
 
@@ -439,31 +458,29 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
       <div class="card">
         <div class="card-label">Mode</div>
         <div class="mode-row" id="mltModes">
-          <div class="mpill on" onclick="syncSetM('mlt','fun',this)">😂 Fun</div>
-          <div class="mpill" onclick="syncSetM('mlt','real',this)">💭 Real talk</div>
-          <div class="mpill adult" id="mltA" onclick="syncSetM('mlt','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="hostSetM('mlt','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="hostSetM('mlt','real',this)">💭 Real talk</div>
+          <div class="mpill adult" id="mltA" onclick="hostSetM('mlt','adult',this)">🔞 Adult</div>
         </div>
         <div class="mlt-prompt"><div class="mlt-txt" id="mltTxt">Most likely to…</div></div>
-        <div class="sync-note" id="mltWho"></div>
         <div class="vote-row" id="mltVotes"></div>
-        <button class="btn btn-purple" id="btnMlt" onclick="doNextPrompt('mlt')">Next prompt →</button>
+        <button class="btn btn-purple" id="btnMlt" onclick="hostNext('mlt')">Next prompt →</button>
       </div>
     </div>
 
     <div class="gpanel" id="gg-hotseat">
       <div class="card">
-        <div class="card-label">Pick who's in the seat <span style="font-size:.65rem;color:var(--mu)">(host only)</span></div>
+        <div class="card-label">Pick who's in the seat</div>
         <div class="seat-grid" id="hsSeatGrid"></div>
         <div class="card-label">Mode</div>
         <div class="mode-row" id="hsModes">
-          <div class="mpill on" onclick="syncSetM('hs','fun',this)">😂 Fun</div>
-          <div class="mpill" onclick="syncSetM('hs','deep',this)">💭 Deep</div>
-          <div class="mpill adult" id="hsA" onclick="syncSetM('hs','adult',this)">🔞 Adult</div>
+          <div class="mpill on" onclick="hostSetM('hs','fun',this)">😂 Fun</div>
+          <div class="mpill" onclick="hostSetM('hs','deep',this)">💭 Deep</div>
+          <div class="mpill adult" id="hsA" onclick="hostSetM('hs','adult',this)">🔞 Adult</div>
         </div>
         <div class="hotseat-box" id="hsBox" style="display:none"><div class="hotseat-name" id="hsName">—</div><div class="hotseat-sub">is in the hot seat 🔥</div></div>
         <div class="prompt-box"><div><div class="prompt-cat" id="hsCat">pick a player above</div><div class="prompt-txt" id="hsTxt">Everyone fires questions at them.</div></div></div>
-        <div class="sync-note" id="hsWho"></div>
-        <button class="btn btn-red" id="btnHs" onclick="doNextPrompt('hs')">Next question 🔥</button>
+        <button class="btn btn-red" id="btnHs" onclick="hostNext('hs')">Next question 🔥</button>
       </div>
     </div>
 
@@ -480,6 +497,29 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
           <div class="wheel-result" id="wheelRes">—</div>
         </div>
         <button class="btn btn-red" id="btnSpin" style="margin-top:10px" onclick="doSpinWheel()">Spin!</button>
+      </div>
+    </div>
+
+    <div class="gpanel" id="gg-jenga">
+      <div class="card">
+        <div id="jengaTurnBanner" style="background:rgba(255,255,255,.04);border:1px solid var(--br);border-radius:var(--rs);padding:9px 12px;font-size:.78rem;text-align:center;margin-bottom:.7rem;color:var(--mu)">Build the tower to start</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div class="card-label" style="margin-bottom:0">🏗️ Tower instability</div>
+          <div id="jengaInstabVal" style="font-family:var(--ff);font-size:.75rem;color:var(--green)">🟢 Safe</div>
+        </div>
+        <div class="bac-meter" style="margin:.4rem 0 .5rem"><div id="jengaInstabFill" class="bac-fill" style="width:0%;background:var(--green)"></div></div>
+        <div style="display:flex;gap:10px;margin-bottom:.6rem;font-size:.65rem">
+          <span style="color:var(--green)">🟢 Fun</span>
+          <span style="color:var(--gold)">🟡 Dare</span>
+          <span style="color:var(--red)">🔴 Intense</span>
+        </div>
+        <div class="jenga-wrap"><div id="jengaTower" class="jenga-tower"></div></div>
+        <div class="prompt-box" style="margin-top:.85rem;min-height:90px">
+          <div><div class="prompt-cat" id="jengaCat">waiting for tower…</div>
+          <div class="prompt-txt" id="jengaChallenge" style="color:var(--mu)">Host switches to Jenga to build the tower</div></div>
+        </div>
+        <button class="btn btn-ghost" id="btnJengaScope" onclick="openJengaScope()" style="margin-top:4px">🔍 Scope out remaining blocks</button>
+        <button class="btn btn-ghost" id="btnJengaReset" onclick="doResetJenga()" style="display:none;margin-top:6px">🪵 New Tower</button>
       </div>
     </div>
   </div>
@@ -572,118 +612,193 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 
   <!-- HORSES PAGE -->
   <div class="page" id="page-horses">
-    <div id="hostHorseBanner" class="host-banner" style="display:none">👑 You start & reset the race. Everyone bets on their own phone!</div>
-    <div id="guestHorseBanner" class="guest-banner" style="display:none">🍺 Place your bet — host starts the race!</div>
+    <div id="hostHorseBanner" class="host-banner" style="display:none">👑 You control the race — everyone sees the same race</div>
+    <div id="guestHorseBanner" class="guest-banner" style="display:none">🍺 Watch the race — host is in control</div>
     <div class="card">
-      <div class="card-label">🏇 Pick your horse — everyone bets independently</div>
+      <div class="card-label">🏇 Pick your horse</div>
       <div class="bet-grid" id="betGrid"></div>
-      <div class="race-status" id="raceStatus">Place your bet then wait for the host!</div>
+      <div class="race-status" id="raceStatus">Place your bet then start the race!</div>
     </div>
     <div class="card">
       <div class="card-label">🏁 Track</div>
       <div class="horse-track" id="horseTrack"></div>
     </div>
-    <button class="btn btn-gold" id="raceBtn" onclick="doStartRace()" style="display:none">🏁 Start Race! (host)</button>
-    <button class="btn btn-ghost" id="resetRaceBtn" onclick="doResetRace()" style="display:none">New race (host)</button>
+    <button class="btn btn-gold" id="raceBtn" onclick="doStartRace()">🏁 Start Race!</button>
+    <button class="btn btn-ghost" id="resetRaceBtn" onclick="doResetRace()" style="display:none">New race</button>
   </div>
 
 </div><!-- /sApp -->
+<div class="toast" id="toast"></div>
 
-<!-- DRINK LOGGER BAR -->
-<div id="drinkBar">
-  <div class="db-row">
-    <div class="db-bac" id="dbBac" style="color:var(--green)">0.00%</div>
-    <div class="db-btns">
-      <div class="db-btn" onclick="addD('beer')"><span class="db-cnt" id="dbc-beer">0</span><span class="db-icon">🍺</span><span class="db-lbl">Beer</span></div>
-      <div class="db-btn" onclick="addD('wine')"><span class="db-cnt" id="dbc-wine">0</span><span class="db-icon">🍷</span><span class="db-lbl">Wine</span></div>
-      <div class="db-btn" onclick="addD('shot')"><span class="db-cnt" id="dbc-shot">0</span><span class="db-icon">🥃</span><span class="db-lbl">Shot</span></div>
-      <div class="db-btn" onclick="addD('cocktail')"><span class="db-cnt" id="dbc-cocktail">0</span><span class="db-icon">🍹</span><span class="db-lbl">Mix</span></div>
-    </div>
-    <button class="db-undo" onclick="undoLastDrink()">↩</button>
+<!-- SOBRIETY BOTTOM BAR -->
+<div id="soberBar" class="sober-bar" onclick="openSoberDrawer()">
+  <div>
+    <div class="sober-label">Group Sobriety</div>
+    <div class="sober-pct" id="soberBarPct" style="color:var(--green)">—</div>
   </div>
+  <div class="sober-hint">Tap % to see all ↑</div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- SOBRIETY DRAWER -->
+<div id="soberOverlay" onclick="closeSoberDrawer()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300"></div>
+<div id="soberDrawer" class="sober-drawer">
+  <div class="drawer-handle"></div>
+  <div style="font-family:var(--ff);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:1.2rem">Squad Sobriety Levels</div>
+  <div id="soberChart"></div>
+  <button class="btn btn-ghost" style="margin-top:.5rem" onclick="closeSoberDrawer()">Close</button>
+</div>
+
+<!-- JENGA SCOPE DRAWER -->
+<div id="jengaScopeOverlay" onclick="closeJengaScope()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300"></div>
+<div id="jengaScopeDrawer" class="sober-drawer">
+  <div class="drawer-handle"></div>
+  <div style="font-family:var(--ff);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mu);margin-bottom:1.2rem">Remaining Blocks</div>
+  <div id="jengaScopeList"></div>
+  <button class="btn btn-ghost" style="margin-top:.5rem" onclick="closeJengaScope()">Close</button>
+</div>
 
 <script>
 // ══════════════════════════════════════════════
-// FIREBASE CONFIG
+// FIREBASE
 // ══════════════════════════════════════════════
-const FB_CONFIG = {
+const FB = {
   apiKey: "AIzaSyBTy5nIZf2BzN84pwTHf_6QTSP86pcwr7o",
   authDomain: "prethegame-7b0a6.firebaseapp.com",
   databaseURL: "https://prethegame-7b0a6-default-rtdb.firebaseio.com",
   projectId: "prethegame-7b0a6",
   storageBucket: "prethegame-7b0a6.firebasestorage.app",
   messagingSenderId: "640230918522",
-  appId: "1:640230918522:web:899da7d1bd0c51d78c6ec3"
+  appId: "1:640230918522:web:899da7d1bd0c51d78c6ec3",
+  measurementId: "G-Z46N7XXD74"
 };
 
 // ══════════════════════════════════════════════
-// CONTENT LIBRARY
+// CONTENT
 // ══════════════════════════════════════════════
 const C = {
   nhie:{
-    mild:["gone skinny dipping","stayed up all night to avoid plans","lied to get out of something","cried at a movie alone","eaten a full pizza by myself","ghosted someone I liked","re-gifted a present","stalked an ex online","accidentally texted the wrong person","fallen asleep in public","forgotten someone's name mid-conversation","faked being sick","laughed at completely the wrong moment","talked to myself out loud in public","pretended to like a gift","hit reply-all by accident","binge-watched a full series in one day","judged someone's playlist without telling them","ordered food and hated it but said nothing","lied about having read a book"],
-    spicy:["kissed someone I just met that night","snuck out of the house","been kicked out of somewhere","made out with a friend's ex","pretended to be drunker than I was","dated two people at the same time","broken someone's heart on purpose","sent a risky text I immediately regretted","hooked up with someone and never spoken to them again","kissed someone in this room","crashed a party I wasn't invited to","lied about my age to get in somewhere","stolen something small","made out with someone way older than me","had feelings for my best friend"],
-    wild:["woken up not knowing how I got home","done something illegal and gotten away with it","made out with two people in the same night","done a walk of shame","been banned from a venue","hooked up with a coworker or classmate","done something so embarrassing I've never told anyone","fallen for someone I absolutely shouldn't have","been in a screaming argument in public","drunkenly called an ex at 3am","lied to get into somewhere exclusive","had feelings for my friend's partner"],
-    adult:["sent an unsolicited spicy photo","had sex in a public place","faked it convincingly","done it with someone in this room","had a friends-with-benefits situation go wrong","been attracted to someone's partner","sexted during a work call","had a one-night stand abroad","been walked in on","had a secret crush on a best friend for over a year","hooked up with someone significantly older","had a situationship drag on way too long"]
+    mild:["gone skinny dipping","stayed up all night to avoid plans","lied to get out of something","cried at a movie alone","eaten a full pizza by myself","ghosted someone I liked","re-gifted a present","stalked an ex online","accidentally texted the wrong person","fallen asleep in public","forgotten someone's name mid-conversation","faked being sick","laughed at completely the wrong moment","talked to myself out loud in public","pretended to like a gift","hit reply-all by accident","binge-watched a full series in one day","judged someone's playlist without telling them","ordered food and hated it but said nothing","lied about having read a book","tried a food and pretended to like it","binge-watched a reality show I'm embarrassed about","stalked my own profile to see how others see it","cancelled plans and then gone out anyway","screenshotted a conversation to show someone else","laugh-cried at something completely inappropriate","told a white lie to avoid a social event","accidentally waved back at someone who wasn't waving at me","bought something expensive and hidden it from people I know","talked to a pet like they understood every word","set multiple alarms but still been late","started a new series while still mid-way through another","panic-cleaned before someone came over","forgotten the lyrics to a song I claimed to love","felt personally offended by a stranger's opinion online","rewatched a movie I'd already seen that week","had a full argument planned in my head before it happened","eaten cereal for dinner and been totally fine with it","googled myself","convinced myself I was coming down with something serious after mild symptoms","forgotten a word mid-sentence and just stopped talking","judged someone's home the second I walked in","cried on public transport and pretended to be fine","muted someone's story instead of unfollowing to avoid drama","lost an argument and then thought of the perfect comeback hours later","said 'you too' to a waiter who said 'enjoy your meal'","sent a voice note then immediately regretted it","liked my own post from a different account","spent over an hour doing nothing on my phone","made up a fake emergency to leave somewhere early"],
+    spicy:["kissed someone I just met that night","snuck out of the house","been kicked out of somewhere","made out with a friend's ex","pretended to be drunker than I was","dated two people at the same time","broken someone's heart on purpose","sent a risky text I immediately regretted","hooked up with someone and never spoken to them again","kissed someone in this room","crashed a party I wasn't invited to","lied about my age to get in somewhere","stolen something small","made out with someone way older than me","had feelings for my best friend","flirted my way out of a situation","liked someone's photo from 3 years ago while stalking their profile","told someone I was single when I wasn't","started drama by telling one person something 'in confidence'","sent a message to the wrong group chat","lied about my job or education to impress someone","slid into someone's DMs after a few drinks","ghosted someone after a really good first date","kissed two people at the same party","made a playlist for someone I had feelings for","drunk-texted someone then deleted the conversation","told my friend what I really thought of their partner","made out with someone in a taxi","pulled a fake excuse to bump into someone I liked","gone through a partner's phone when they were asleep","pretended I didn't see someone I knew in public","cancelled on a friend to spend time with someone I was seeing","told someone I loved them before I actually meant it","pulled a sickie the day after a big night","blocked and unblocked someone more than once","kept texting an ex when I knew I shouldn't","crushed on a friend's partner and never said anything","had a full dramatic argument over text and then acted normal in person"],
+    wild:["woken up not knowing how I got home","done something illegal and gotten away with it","made out with two people in the same night","done a walk of shame","been banned from a venue","hooked up with a coworker or classmate","done something so embarrassing I've never told anyone","fallen for someone I absolutely shouldn't have","been in a screaming argument in public","drunkenly called an ex at 3am","lied to get into somewhere exclusive","had feelings for my friend's partner","woken up in an unfamiliar city","been in trouble with the police","blacked out and remembered nothing the next day","stayed up until sunrise more than once in a month","skinny dipped in a pool that wasn't mine","gatecrashed a wedding or fancy event","started a fight that got out of hand","made a major life decision while very drunk","stolen something from a hotel room","driven when I probably shouldn't have","kissed my best friend's ex knowing they'd be hurt","had a near-miss I've never told anyone about","told someone I hated them and partly meant it","had a fake ID","got a tattoo I haven't told everyone about","done a dare that genuinely scared me in the moment","passed out somewhere embarrassing and woken up later"],
+    adult:["sent an unsolicited spicy photo","had sex in a public place","faked it convincingly","done it with someone in this room","had a friends-with-benefits situation go wrong","been attracted to someone's partner","sexted during a work call","had a one-night stand abroad","been walked in on","had a secret crush on a best friend for over a year","hooked up with someone significantly older","had a situationship drag on way too long","filmed something I immediately deleted","had a situationship end worse than an actual relationship","gone further than I intended on a first date","done something intimate in a vehicle","lied about how experienced I was","been attracted to someone at the most inappropriate time","matched with someone on an app then seen them in real life the same day","done it with the TV on the whole time","received a risky photo I never asked for","been walked in on and just continued","given someone a fake number after a really fun night","done something I'd never admit sober","thought about someone else mid-way","had an ex text me right after I'd moved on","snuck someone in or out of a place","had a crush on a friend's sibling","done something impulsive with someone I barely knew and had no regrets"]
   },
   tod:{
     truth:{
-      mild:["What's your most embarrassing moment this year?","What's your biggest irrational fear?","What's the worst date you've been on?","What do you pretend to like but secretly hate?","What weird habit do you hide from most people?","Who in this room would you swap lives with?","What's the most childish thing you still do?","What's your most embarrassing childhood memory?","What song do you secretly love but deny?","What's a dealbreaker most people would find weird?"],
-      spicy:["What's the biggest lie you've told someone you loved?","Who was your worst kiss?","Have you ever cheated on a test or a partner?","Who in this room do you find most attractive?","What have you done that you're genuinely ashamed of?","Who was the last person you cried because of?","What's the most embarrassing thing on your phone right now?","Have you ever talked bad about someone in this room?","What's the most illegal thing you've done?","What do you hope your parents never find out?"],
-      adult:["What's your number?","Where's the most spontaneous place you've hooked up?","What's one thing you wish your partner did more in bed?","Have you ever had feelings for a friend's partner?","What's your biggest insecurity in a relationship?","Who in this room could you see yourself with?","What's one thing you secretly want to try?","Have you ever done something intimate you immediately regretted?","What's something you've never told a partner but wanted to?","What's the most adventurous thing you've done with someone?"]
+      mild:["What's your most embarrassing moment this year?","What's your biggest irrational fear?","What's the worst date you've been on?","What do you pretend to like but secretly hate?","What weird habit do you hide from most people?","Who in this room would you swap lives with?","What's the most childish thing you still do?","What's your most embarrassing childhood memory?","What song do you secretly love but deny?","What's a dealbreaker most people would find weird?","What's something you'd only admit after a few drinks?","What do you wish people didn't know about you?","What's the most embarrassing thing you've ever Googled?","What's the last lie you told and to whom?","What habit are you most embarrassed about?","If your inner monologue was broadcast publicly, when would you be most embarrassed?","What's a social situation you always dread but say yes to anyway?","What do you genuinely think happens after we die?","When was the last time you said what you didn't mean?","What's something you've done alone you'd never admit in company?","What opinion do you keep quiet to avoid arguments?","What do you pretend to like to fit in?","Who's the last person you judged unfairly?","What's a personality trait you'd change if you could?","What's the weirdest conversation you've had with yourself?","What's the most cringe-worthy phase you went through?","What's an opinion you hold that most people here would disagree with?","What's something you tell yourself to feel better that you know isn't true?","What's the most embarrassing thing you've done to impress someone?","What's your biggest insecurity that you're actually working on?"],
+      spicy:["What's the biggest lie you've told someone you loved?","Who was your worst kiss?","Have you ever cheated on a test or a partner?","Who in this room do you find most attractive?","What have you done that you're genuinely ashamed of?","Who was the last person you cried because of?","What's the most embarrassing thing on your phone right now?","Have you ever talked bad about someone in this room?","What's the most illegal thing you've done?","What do you hope your parents never find out?","What's the most toxic thing you've done in a relationship?","When did you last lie to protect yourself, not someone else?","Who in this room have you thought about differently after tonight?","What's the most desperate thing you've done for attention?","Have you ever ended something just to see if they'd fight for you?","What's the most hypocritical thing you believe?","Have you ever stayed in something just because leaving felt worse?","What's the most selfish thing you've done recently?","Who here would you actually trust with a real secret?","What's something you said behind someone's back that you'd die if they heard?","What's the most reckless decision you've made for someone who wasn't worth it?","What do you find attractive that you'd be embarrassed to admit?","Who here have you lied to and never told them?","What's the biggest mistake you made and never apologized for?","Have you ever wanted something bad to happen to someone?"],
+      adult:["What's your number?","Where's the most spontaneous place you've hooked up?","What's one thing you wish your partner did more in bed?","Have you ever had feelings for a friend's partner?","What's your biggest insecurity in a relationship?","Who in this room could you see yourself with?","What's one thing you secretly want to try?","Have you ever done something intimate you immediately regretted?","What's something you've never told a partner but wanted to?","What's the most adventurous thing you've done with someone?","Describe your ideal type physically — be specific.","What's something you've done that surprised yourself in an intimate context?","What's the furthest you've gone on a first date?","Have you ever pursued someone you knew was wrong for you just for the thrill?","What's the most intimate thing you've shared with someone you barely knew?","What's the most physical attention you've wanted but didn't ask for?","Who in your life are you most physically attracted to right now?","When were you most vulnerable with someone and it completely backfired?","What's something you pretend not to enjoy but secretly love?","What's your biggest green flag that others might see as a red flag?"]
     },
     dare:{
-      mild:["Text your most recent contact something dramatic with no context.","Do your best impression of someone in the room.","Call someone you haven't spoken to in months and pretend you pocket-dialled.","Speak in an accent for the next 3 rounds.","Do a dramatic reading of your most recent text conversation.","Show the last thing you Googled.","Talk in only questions for 2 minutes.","Do your best runway walk across the room.","Let the group pick a contact you have to text something embarrassing.","Recreate your most embarrassing moment from school."],
-      spicy:["Let the group go through your camera roll for 30 seconds.","Send a thumbs-up to the first 5 people in your messages.","Let someone send one text from your phone.","Call someone on speaker and tell them you miss them.","Show your most embarrassing selfie.","Give a 30-second speech about why someone here is secretly your favourite person.","Swap clothing with the person to your left for the next round.","Do a shot with no hands.","Let someone go through your DMs for 30 seconds.","Show your screen time from this week."],
-      adult:["Give someone in the room a 10-second back massage.","Tell the room your most embarrassing intimate story.","Whisper something genuinely flirty to the person on your right.","Do a body shot off whoever you choose.","Tell the room who you'd kiss if you absolutely had to.","Sit on someone's lap for the next round.","Describe your ideal night in explicit detail.","Text your most recent ex one word — then show the group.","Let the room dare you to text anyone in your contacts.","Give a specific compliment about someone's physical appearance."]
+      mild:["Text your most recent contact something dramatic with no context.","Do your best impression of someone in the room.","Call someone you haven't spoken to in months and pretend you pocket-dialled.","Speak in an accent for the next 3 rounds.","Do a dramatic reading of your most recent text conversation.","Show the last thing you Googled.","Talk in only questions for 2 minutes.","Do your best runway walk across the room.","Let the group pick a contact you have to text something embarrassing.","Recreate your most embarrassing moment from school.","Do your best impression of someone else's laugh.","Give a sincere, specific compliment to every person in the room.","Read the last 5 texts from your first conversation in your inbox out loud.","Stand up and give a 30-second motivational speech about absolutely nothing.","Demonstrate how you walk into a room when you think someone's watching.","Call a random contact and sing the first line of a song when they answer.","Show everyone your camera roll from exactly one year ago.","Describe your ideal partner to the group like a product listing.","Do your best newsreader impression using whatever's on your phone screen.","Act out your morning routine with no words.","Let the group choose a word you have to work into every sentence for 3 minutes.","Show everyone your first-ever profile picture.","Text someone 'we need to talk' — show the group their response.","Narrate everything you do for the next 3 minutes in third person.","Do your best robot voice impression and describe your day."],
+      spicy:["Let the group go through your camera roll for 30 seconds.","Send a thumbs-up to the first 5 people in your messages.","Let someone send one text from your phone.","Call someone on speaker and tell them you miss them.","Show your most embarrassing selfie.","Give a 30-second speech about why someone here is secretly your favourite person.","Swap clothing with the person to your left for the next round.","Do a shot with no hands.","Let someone go through your DMs for 30 seconds.","Show your screen time from this week.","Let the group write a post for your social media.","Tell each person in the group one genuine specific thing you've noticed about them tonight.","Let someone in the group pick a contact — send that person a voice note.","Share your most recent internet search.","Show the group the last photo you edited before posting it.","Let the group look through your bookmarks for 30 seconds.","Say something you'd normally only think in your head about someone here.","Show the group the last person you looked up on social media.","Read aloud the last paragraph of the most recent email in your inbox.","Rate each person in the room on a vibe scale 1–10 and justify every score.","Let the group pick a name in your phone — you have to call them right now.","Tell the room your most embarrassing autocorrect fail.","Show the group your most-used emoji and explain why.","Let someone pick your next Instagram story caption and post it.","Do an impression of how each person in the room texts."],
+      adult:["Give someone in the room a 10-second back massage.","Tell the room your most embarrassing intimate story.","Whisper something genuinely flirty to the person on your right.","Do a body shot off whoever you choose.","Tell the room who you'd kiss if you absolutely had to.","Sit on someone's lap for the next round.","Describe your ideal night in explicit detail.","Text your most recent ex one word — then show the group.","Let the room dare you to text anyone in your contacts.","Give a specific compliment about someone's physical appearance.","Tell the group your number — no hesitation.","Describe in explicit detail what you find most physically attractive in a partner.","Tell the group about a time you were most attracted to someone completely unexpected.","Give a specific compliment to the most attractive person in the room.","Tell the person to your left one thing you found attractive about them tonight.","Demonstrate your most convincing flirting technique on whoever the group picks.","Give the group a rating and explanation for each person's 'most likely to be a good time.'","Whisper something to the person on your right that you wouldn't say out loud.","Let someone pick a person in your contacts to text something flirty.","Show the group the most incriminating photo on your phone right now."]
     }
   },
   mlt:{
-    fun:["forget their best friend's birthday","trip and fall in public","accidentally like a 3-year-old photo","cry at a commercial","talk to animals like people","be late to their own wedding","eat something off the floor","show up to the wrong event","fall asleep at the party","go home with someone's jacket","still sleep with a stuffed animal","know every word to a Disney song"],
-    real:["be the most successful in 10 years","end up moving abroad","get married first","stay in this city forever","write a book someday","have the biggest glow-up","be the last to settle down","keep in touch with everyone forever","become famous","change careers completely"],
-    adult:["match with someone in this room on a dating app","end up in a situationship way too long","fall for someone unavailable","be the most adventurous in bed","have a secret admirer right now","date someone with a huge age gap","have the wildest story nobody knows about","be the best in bed"]
+    fun:["forget their best friend's birthday","trip and fall in public","accidentally like a 3-year-old photo","cry at a commercial","talk to animals like people","be late to their own wedding","eat something off the floor","show up to the wrong event","fall asleep at the party","go home with someone's jacket","still sleep with a stuffed animal","know every word to a Disney song","accidentally reply-all to a company-wide email","show up to the wrong venue","drop their phone in the toilet and put it in rice immediately","send a voice note they didn't mean to","get genuinely too invested in a reality show","save every meme and never actually send them","start 12 things and finish none of them","be 'just 5 minutes away' when they haven't left yet","lose their keys every single time","buy a self-help book and never read it","have the most chaotic bag contents","be in a situationship right now and not admit it","stay up until 3am for absolutely no reason","use 'sounds good!' to end every single conversation","argue with a stranger online and win but tell no one","panic-clean before someone comes over but leave one drawer a complete disaster","fall in love in the wrong city","eat their feelings after a bad day and feel completely justified about it","be the last to realize everyone already knows their secret"],
+    real:["be the most successful in 10 years","end up moving abroad","get married first","stay in this city forever","write a book someday","have the biggest glow-up","be the last to settle down","keep in touch with everyone forever","become famous","change careers completely","have the clearest sense of who they are","still be friends with everyone here in 10 years","take the biggest leap of faith","find what they're meant to do latest","reinvent themselves completely","live the most unconventional life","be the most content in 20 years","build something that lasts","surprise everyone with where they end up","hold on to someone they should let go of","make the decision they've been putting off first","be happiest with the simplest life","be the one everyone calls when things go wrong","move somewhere completely unexpected within 5 years","end up exactly where they planned and be thrilled about it"],
+    adult:["match with someone in this room on a dating app","end up in a situationship way too long","fall for someone unavailable","be the most adventurous in bed","have a secret admirer right now","date someone with a huge age gap","have the wildest story nobody knows about","be the best in bed","have the most interesting story from last weekend","catch feelings when they said they wouldn't","be the most fun at 2am","be the hardest to read","take the longest to say what they actually want","be the most selective about who they let in","have the best stories they'll never tell their parents","go home with someone if it were that kind of night","be involved in drama they claim to be completely above","be exactly who they seem on the outside — and that's a good thing"]
   },
   hs:{
-    fun:["What's the weirdest thing in your room right now?","What's your most embarrassing text conversation?","What did you believe as a kid that was completely wrong?","What's your guiltiest pleasure?","What's the most embarrassing thing you've said to a crush?","What app do you use most that you're ashamed of?","What's the worst fashion choice you've ever made?","What conspiracy theory do you actually believe?","What's the most ridiculous thing you've argued about?","If your search history was public, what would surprise people most?"],
-    deep:["What's something you've never told anyone in this room?","Who here do you trust the most and why?","What's your biggest regret from the last year?","What are you working on about yourself?","What relationship changed you the most?","What do you wish people understood about you?","What are you afraid of that you've never said out loud?","What's the kindest thing someone's done for you?","What would you do differently if you could redo last year?","What does your ideal life look like in 5 years?"],
-    adult:["What's your biggest turn-on you've never admitted?","Who do you have unresolved feelings for?","What's something you've done in secret you haven't told a partner?","What's your wildest story?","Who was your most unexpected attraction?","Have you ever had feelings for someone in this room?","What's the most reckless thing you've done for someone?","What's something you've never done but think about?"]
+    fun:["What's the weirdest thing in your room right now?","What's your most embarrassing text conversation?","What did you believe as a kid that was completely wrong?","What's your guiltiest pleasure?","What's the most embarrassing thing you've said to a crush?","What app do you use most that you're ashamed of?","What's the worst fashion choice you've ever made?","What conspiracy theory do you actually believe?","What's the most ridiculous thing you've argued about?","If your search history was public, what would surprise people most?","What's the most embarrassing voicemail you've ever left?","What's a weird skill you have that nobody asked about?","What's the last thing you watched alone that you'd never recommend?","What's your most irrational daily ritual?","What's something you're weirdly competitive about?","What's a 'fun fact' about yourself that's actually just embarrassing?","If your life was a movie genre right now, what would it be?","What's the most overdramatic thing you've ever done?","What's your most expensive impulse buy?","What habit of yours would a roommate find the most annoying?","What's your most embarrassing nickname and where did it come from?","What's something you do in private that you'd never do in public?","What's the worst advice you've ever given someone?","What fictional character do you think you're most like but probably aren't?","What's a phase you went through that you're glad is over?","What's the weirdest thing you've ever Googled late at night?","What's something you've done that you'd rate a 10/10 in hindsight embarrassment?","What's your go-to song when you're alone and pretend you're performing it live?"],
+    deep:["What's something you've never told anyone in this room?","Who here do you trust the most and why?","What's your biggest regret from the last year?","What are you working on about yourself?","What relationship changed you the most?","What do you wish people understood about you?","What are you afraid of that you've never said out loud?","What's the kindest thing someone's done for you?","What would you do differently if you could redo last year?","What does your ideal life look like in 5 years?","What's something you want that you don't know how to ask for?","What version of yourself are you most proud of?","What's something you've been running from?","What's the hardest conversation you've had to have?","When did you last feel truly seen by someone?","What's a belief you held strongly that you've completely changed?","What's something you're afraid to want?","Who do you call when things are really bad?","What's the most you've ever changed for someone?","What part of your past still has a hold on you?","What's something you've never told the people closest to you?","What's the most important thing you've learned about yourself this year?","What would a younger version of you think of who you are today?","What do you need more of right now that you're not getting?","What's the thing about yourself you find hardest to accept?"],
+    adult:["What's your biggest turn-on you've never admitted?","Who do you have unresolved feelings for?","What's something you've done in secret you haven't told a partner?","What's your wildest story?","Who was your most unexpected attraction?","Have you ever had feelings for someone in this room?","What's the most reckless thing you've done for someone?","What's something you've never done but think about?","What's your most unconventional attraction?","Have you ever pursued someone knowing it would complicate everything?","What do you think you project that's different from who you actually are?","What's something you've wanted to try but been too proud to bring up?","What's the most connection you've felt in a very short amount of time?","Who here have you been more curious about than you've let on?","Have you ever been attracted to someone and been completely wrong about them?","What's the most unexpectedly intimate moment that's happened to you?","What's the part of intimacy that matters most to you — be honest?","What would people be most surprised to learn about your romantic history?"]
   },
   "2nhie":{
-    bestie:["lied to each other","talked about the other person behind their back","been jealous of each other","kept a secret from the other for over a month","cancelled plans on each other last minute","had a fight that really hurt","been annoyed by something and never said it","cried about something the other did","told someone else something shared in confidence","pretended to be fine when we weren't"],
-    adult:["thought about someone else during an intimate moment","faked it","wanted to try something we haven't yet","been attracted to one of each other's friends","done something intimate outside the bedroom","fantasised about someone from our past","lied about our number","been genuinely surprised by what we liked"]
+    bestie:["lied to each other","talked about the other person behind their back","been jealous of each other","kept a secret from the other for over a month","cancelled plans on each other last minute","had a fight that really hurt","been annoyed by something and never said it","cried about something the other did","told someone else something shared in confidence","pretended to be fine when we weren't","had a dream about each other and not told the other","been embarrassed by something the other said in public","talked about the other to someone we both know","wished we could swap one thing about ourselves","supported a bad decision because we didn't want to fight","felt jealous of something the other had","kept a secret about someone we both know","lied about being busy to get out of plans with the other","been in a mood because of something the other did and never said it","secretly wished the other would just ask us what was wrong","googled something embarrassing and immediately thought about telling the other","had a moment where we realized we were more alike than we'd admit","started a sentence with 'don't take this the wrong way' and fully meant it"],
+    adult:["thought about someone else during an intimate moment","faked it","wanted to try something we haven't yet","been attracted to one of each other's friends","done something intimate outside the bedroom","fantasised about someone from our past","lied about our number","been genuinely surprised by what we liked","been attracted to a stranger and immediately wanted to tell the other","had a dream that was way too much to share","done something bold and immediately replayed it wondering if it was too much","felt something shift between us and said nothing","matched with someone on an app and recognized them in a weird way"]
   },
   "2tod":{
     truth:{
-      bestie:["What's something I do that drives you crazy but you've never said?","Have you ever been jealous of something I had?","What's the biggest lie you've told me?","What's one thing you've never told me because you thought I'd judge you?","What do you actually think about my ex?","If you had to roast me right now, what would you say?","What would end our friendship?","What's something you've done you hope I never find out?","What's a version of me you wish would come back?","What's something you wish I'd ask you about?"],
-      adult:["What's something you've always wanted to try but haven't asked?","What's the most attractive thing I've ever done?","Have you ever thought about me during an intimate moment?","What's a fantasy you've never told me?","What do I do that turns you on?","What's something you wish we'd done by now?","What's one thing you wish I knew about what you want?","Is there something you've held back with me?"]
+      bestie:["What's something I do that drives you crazy but you've never said?","Have you ever been jealous of something I had?","What's the biggest lie you've told me?","What's one thing you've never told me because you thought I'd judge you?","What do you actually think about my ex?","If you had to roast me right now, what would you say?","What would end our friendship?","What's something you've done you hope I never find out?","What's a version of me you wish would come back?","What's something you wish I'd ask you about?","What's something I do that you've always wanted to call me out on?","What's the biggest difference between who I am in public vs in private?","Describe me in 3 words — explain each one.","What bad habit of mine have you just fully accepted at this point?","What would my villain origin story be?","What did I say once that you still think about?","If I could change one thing about you, what would it be — honestly?","What's something I do that nobody else could get away with?","What's a version of me you've seen that you hope comes back?","What's something about our friendship you'd never tell anyone else?"],
+      adult:["What's something you've always wanted to try but haven't asked?","What's the most attractive thing I've ever done?","Have you ever thought about me during an intimate moment?","What's a fantasy you've never told me?","What do I do that turns you on?","What's something you wish we'd done by now?","What's one thing you wish I knew about what you want?","Is there something you've held back with me?","What's something unexpectedly attractive I've done that you've never mentioned?","Describe the moment you realised you were into me.","What's the hardest part about whatever this is between us?","What's your favourite version of me?","When do you feel most attracted to me — be specific?"]
     },
     dare:{
-      bestie:["Send an embarrassing photo of yourself to the other person right now.","Call someone on speaker and say the other person is your favourite human.","Show each other your most embarrassing camera roll photo.","Read the last voice note you sent anyone out loud.","Do your best impression of the other — they rate it.","Tell them one genuine compliment they've never heard from you.","Show each other your screen time this week.","Let the other post whatever they want to your story for 60 seconds.","Reenact your most embarrassing shared memory.","Let the other person text anyone from your contacts."],
-      adult:["Give a 10-second massage somewhere unexpected.","Whisper something you've always wanted to say.","Describe your ideal private night together in detail.","Tell each other one thing you want more of.","Do a body shot.","Tell them the one thing they do that drives you wildest.","Give a compliment about their body — be specific.","Write something you've wanted to say on their arm with your finger.","Describe what you love most about them physically.","Pick a number 1–10 for how satisfied you are lately — then explain."]
+      bestie:["Send an embarrassing photo of yourself to the other person right now.","Call someone on speaker and say the other person is your favourite human.","Show each other your most embarrassing camera roll photo.","Read the last voice note you sent anyone out loud.","Do your best impression of the other — they rate it.","Tell them one genuine compliment they've never heard from you.","Show each other your screen time this week.","Let the other post whatever they want to your story for 60 seconds.","Reenact your most embarrassing shared memory.","Let the other person text anyone from your contacts.","Send each other your most embarrassing photo from this year.","Do an impression of how the other one walks into a room.","Let the other pick a contact — you have to call them and recommend the other person.","Read your most recent sent voice note to them out loud, dramatically.","Let the other person look at your DMs for 45 seconds — they pick who to respond to."],
+      adult:["Give a 10-second massage somewhere unexpected.","Whisper something you've always wanted to say.","Describe your ideal private night together in detail.","Tell each other one thing you want more of.","Do a body shot.","Tell them the one thing they do that drives you wildest.","Give a compliment about their body — be specific.","Write something you've wanted to say on their arm with your finger.","Describe what you love most about them physically.","Pick a number 1–10 for how satisfied you are lately — then explain.","Say something out loud you've only thought.","Give a compliment that's both physical and emotional — no skipping either.","Describe a moment recently that made you want them more.","Tell them what you think about when things get quiet between you.","Do something for 10 seconds that you think they'd like but haven't asked for."]
     }
   },
   "2mlt":{
-    bestie:["end up living together someday","get married first","make the group laugh at a funeral","ghost someone they were really into","still talk about this night in 20 years","move abroad without telling many people","accidentally start drama","cry first if we had to say goodbye","be the better liar","be funnier on a first date"],
-    adult:["initiate more often","have higher stamina","be more adventurous","suggest something new first","be bolder on a night away","say yes to almost anything","have the wilder past","want it more right now"]
+    bestie:["end up living together someday","get married first","make the group laugh at a funeral","ghost someone they were really into","still talk about this night in 20 years","move abroad without telling many people","accidentally start drama","cry first if we had to say goodbye","be the better liar","be funnier on a first date","end up exactly where they planned and be happy about it","be the one everyone relies on","have the most unexpected life in 10 years","stay in touch with the most people from their past","be the better secret keeper","embarrass themselves the most in front of someone they like","change the most in the next 5 years","be the first to write something others would actually read","have the worst poker face","give the best advice while ignoring it themselves"],
+    adult:["initiate more often","have higher stamina","be more adventurous","suggest something new first","be bolder on a night away","say yes to almost anything","have the wilder past","want it more right now","be the better kisser","take longer to figure out what they want","have the most interesting story from last month","catch feelings fastest","be harder to read than they appear","have the most unexpectedly wild side"]
   },
   "2hs":{
-    bestie:["What's the most embarrassing thing you know about [SEAT]?","When did you realise [SEAT] was your real best friend?","What does [SEAT] do that you've always wanted to call them out on?","What's the biggest difference between who [SEAT] is in public vs in private?","Describe [SEAT] in 3 words — explain each.","What bad habit of [SEAT]'s have you just accepted?","What would [SEAT]'s villain origin story be?","What did [SEAT] say once that you still think about?","If [SEAT] could change one thing about you, what would it be?","What's something [SEAT] does that nobody else could get away with?"],
-    adult:["What does [SEAT] do that you find unexpectedly attractive?","Describe the moment you realised you were into [SEAT].","What's the hardest thing about being with [SEAT]?","What's your favourite version of [SEAT]?","When do you feel most attracted to [SEAT]?","What does [SEAT] do in bed that you love most?","What's something [SEAT] doesn't know they do that drives you wild?","If you could plan one perfect evening with [SEAT], what would it include?","What's the most unexpectedly attractive moment [SEAT] has had?","What's something you've wanted to try with [SEAT] but haven't brought up?"]
+    bestie:["What's the most embarrassing thing you know about [SEAT]?","When did you realise [SEAT] was your real best friend?","What does [SEAT] do that you've always wanted to call them out on?","What's the biggest difference between who [SEAT] is in public vs in private?","Describe [SEAT] in 3 words — explain each.","What bad habit of [SEAT]'s have you just accepted?","What would [SEAT]'s villain origin story be?","What did [SEAT] say once that you still think about?","If [SEAT] could change one thing about you, what would it be?","What's something [SEAT] does that nobody else could get away with?","What's a version of [SEAT] you miss?","What's something about [SEAT] that people misread?","When is [SEAT] at their absolute best?","What's something [SEAT] doesn't know about how you see them?","What's the funniest thing [SEAT] has ever done in front of you?","What would [SEAT]'s dating profile say if you wrote it?","What's one thing [SEAT] does that says more about them than they realise?","What's the most [SEAT] thing [SEAT] has ever done?"],
+    adult:["What does [SEAT] do that you find unexpectedly attractive?","Describe the moment you realised you were into [SEAT].","What's the hardest thing about being with [SEAT]?","What's your favourite version of [SEAT]?","When do you feel most attracted to [SEAT]?","What does [SEAT] do that you love most?","What's something [SEAT] doesn't know they do that drives you wild?","If you could plan one perfect evening with [SEAT], what would it include?","What's the most unexpectedly attractive moment [SEAT] has had?","What's something you've wanted to try with [SEAT] but haven't brought up?","What's the thing about [SEAT] that's hardest to resist?","When does [SEAT] look most attractive to you — be specific?","What's something about [SEAT] physically that you've never said?","What's a moment recently that made you want [SEAT] more?"]
   },
   ttl:{
     bestie:["A secret","Something you've done they'd never guess","An embarrassing moment","A fear","A crush","Something you've lied about","A hidden habit","An opinion you've kept quiet","A feeling you've had about each other","Something that changed you"],
     adult:["Something in your search history","A fantasy","A past experience","Something you want to ask","A desire you've kept secret","Something that surprised you about yourself","An attraction you've had","Something you've done nobody knows","Something you'd never do again","A boundary you've crossed"]
   },
   couple:{
-    deep:["What's something about yourself you've never told me?","What's the moment you knew you were in love with me?","What's something you're scared to tell me?","What's the hardest thing about being with me?","What does your ideal life with me look like?","What do you wish I understood about you better?","What's a version of me you miss?","What's something you want more of in this relationship?","When do you feel most loved by me?","What's something you've never told me because you didn't want to make things awkward?","What does loving me feel like when it's hard?","What do you want more of that you haven't asked for?"],
-    spicy:["What's something I do that drives you crazy in a good way?","What's the most attractive thing I've ever done?","When do you find me most irresistible?","What's something I don't know about what you want?","What's something you've always wanted to tell me in the moment but held back?","What's a memory of us that still gives you butterflies?","What do you love most about how we are together?","Describe the moment you felt most connected to me.","What's something I do that you've never told me you love?","What's a side of yourself only I get to see?"],
-    fun:["What's the most embarrassing thing I've ever done in front of you?","If you had to roast me for 60 seconds, what would you say?","What's the weirdest thing you love about me?","What habit of mine have you just accepted at this point?","What would our reality TV show be called?","What's your funniest memory of us?","If we swapped lives for a day, what's the first thing you'd do?","What would our couple Halloween costume be and why?","If I was a food, what would I be?","What's a bad habit of mine you've given up trying to fix?"],
-    horny:["What's something you want to try with me that we haven't?","What do I do that turns you on the most?","What's a fantasy you've never told me?","What's something you want more of in bed?","What's the most turned on you've ever been with me?","What's one thing I could do right now that you'd love?","What's something bold you've always wanted to say to me?","Describe your perfect night with me in full detail.","What part of me do you find hardest to resist?","What's something you've wanted to ask about in bed but haven't?","What's something about our intimate life that surprised you?","What do you wish I'd initiate more?"]
+    deep:["What's something about yourself you've never told me?","What's the moment you knew you were in love with me?","What's something you're scared to tell me?","What's the hardest thing about being with me?","What does your ideal life with me look like?","What do you wish I understood about you better?","What's a version of me you miss?","What's something you want more of in this relationship?","When do you feel most loved by me?","What's something you've never told me because you didn't want to make things awkward?","What does loving me feel like when it's hard?","What do you want more of that you haven't asked for?","What's something you hope I never stop doing?","What's the version of me you fell in love with?","If we could live anywhere together, where and why?","What's something about us that you think people don't see?","What does commitment mean to you right now?","What's something I've taught you about yourself?","When do you feel most us?","What's something I haven't given you enough credit for?","What's the thing about our relationship you're most proud of?","What do you need from me that has nothing to do with anyone else?","What's a fear about us you've never said out loud?","What would you want me to do differently — honestly?","When do you feel most like yourself around me?"],
+    spicy:["What's something I do that drives you crazy in a good way?","What's the most attractive thing I've ever done?","When do you find me most irresistible?","What's something I don't know about what you want?","What's something you've always wanted to tell me in the moment but held back?","What's a memory of us that still gives you butterflies?","What do you love most about how we are together?","Describe the moment you felt most connected to me.","What's something I do that you've never told me you love?","What's a side of yourself only I get to see?","What do I do that you'd never get tired of?","What's a memory of ours that still makes you feel something electric?","What's the most effortless we've ever been together?","What's something you love about how I look that you've never told me?","What's the most charged moment between us that didn't lead anywhere?","What's something I've done that caught you completely off guard in the best way?","When do I look most attractive to you?","What's a version of us you want more of?","What's the most connected you've felt to me recently?","What's something physical about me you've never mentioned but love?"],
+    fun:["What's the most embarrassing thing I've ever done in front of you?","If you had to roast me for 60 seconds, what would you say?","What's the weirdest thing you love about me?","What habit of mine have you just accepted at this point?","What would our reality TV show be called?","What's your funniest memory of us?","If we swapped lives for a day, what's the first thing you'd do?","What would our couple Halloween costume be and why?","If I was a food, what would I be?","What's a bad habit of mine you've given up trying to fix?","What's the dumbest argument we've ever had?","If you had to describe me in one meme, which one?","What's a 'us' thing that would confuse literally anyone else?","What's the most you've laughed because of me?","What's something I do that you've described to your friends exactly?","If someone followed us around for a day, what's the moment they'd find weirdest?","What's the thing about me you can't explain but love anyway?","What's the most chaotic thing we've done together?"],
+    horny:["What's something you want to try with me that we haven't?","What do I do that turns you on the most?","What's a fantasy you've never told me?","What's something you want more of in bed?","What's the most turned on you've ever been with me?","What's one thing I could do right now that you'd love?","What's something bold you've always wanted to say to me?","Describe your perfect night with me in full detail.","What part of me do you find hardest to resist?","What's something you've wanted to ask about in bed but haven't?","What's something about our intimate life that surprised you?","What do you wish I'd initiate more?","What's something you've thought about trying but felt nervous to suggest?","What's the most turned on you've been without either of us acknowledging it?","If you could replay one night between us, which one and why?","What's something physical you want to explore with me?","What do I do that drives you completely wild?","What's something you want to say in the moment but usually hold back?","If tonight was completely ours with no limits, what would you want?","What's the most attracted you've been to me recently and what caused it?","What's something you love that we haven't done in a while?","What part of us physically do you want to focus more on?"]
   }
 };
+
+const JENGA_GREEN=[
+  "🔋 Whoever has the lowest battery % right now — drinks!",
+  "📱 Whoever has the most Instagram followers in the room — drinks!",
+  "📨 Whoever has the most unread texts — takes 2 sips",
+  "📊 Show your screen time this week — highest total drinks",
+  "👆 Last to point at the ceiling — drinks!",
+  "🙌 Last to put both hands on their head — drinks!",
+  "✌️ Rock Paper Scissors with the person to your left — loser drinks",
+  "😂 The next person who laughs has to drink — starting right now",
+  "📵 Next person to check their phone has to drink",
+  "🌊 Waterfall! Current player starts — go around, you can't stop till the person before you does",
+  "🎯 Categories! Current player picks a topic — first to fail drinks",
+  "🎤 Rhyme time — say a word, go around rhyming. First to fail drinks!",
+  "👶 The youngest person in the room — drinks!",
+  "🎂 The oldest person in the room — drinks!",
+  "💔 Whoever's been single the longest — drinks!",
+  "🎭 Best celebrity impression — worst one drinks",
+  "❓ Speak only in questions for the next 2 rounds — fail = drink",
+  "👻 Everyone who's been ghosted — drinks!",
+  "😬 Everyone currently in a situationship — drinks!",
+  "🥂 Everyone cheers and takes a sip together!"
+];
+const JENGA_YELLOW=[
+  "📲 Text your most recent contact something dramatic with no context",
+  "📷 Show the group your most embarrassing selfie — no skipping",
+  "🗣️ Give a 30-second speech about why someone here is secretly your favorite person",
+  "💬 Let the group write 1 text from your phone to whoever they choose — or drink 3",
+  "🎙️ Let the group pick a contact — send them a voice note right now",
+  "📱 Let the group scroll your camera roll for 30 seconds",
+  "💌 DM any celebrity right now — or drink 2 sips",
+  "🕵️ Let someone look through your DMs for 30 seconds",
+  "🔄 Pass your drink to the left — everyone drinks what they receive!",
+  "🤫 Tell the group one genuine thing you've noticed about someone here tonight",
+  "🪞 Do your best impression of whoever the group picks",
+  "📊 Show everyone your most-used emoji and explain why",
+  "🤳 Let the group pick your next Instagram story — you post it for 10 mins or drink 3",
+  "🎲 Flip a coin — heads: you drink 2, tails: you assign 2 sips to whoever you want",
+  "👑 Current player assigns 3 sips to whoever they want — no questions asked",
+  "🥂 Everyone gives 1 sip to the person they think needs to loosen up",
+  "📞 Call someone on speaker and say 'I miss you' — or take 3 sips",
+  "🎤 Speak in an accent the group chooses for the next 2 rounds",
+  "👁️ Group vote: who's been on their phone most tonight — most votes drinks!",
+  "🖐️ Never Have I Ever (quick round) — hold 3 fingers, first to zero drinks!"
+];
+const JENGA_RED=[
+  "📱 Text your ex right now — or drink 4 sips",
+  "😱 Show the group your most embarrassing text from this month — or drink 4 sips",
+  "💔 Reveal your most recent crush to the group — or drink 4 sips",
+  "🔢 Say your body count out loud — or drink 3 sips",
+  "🤥 Tell us the last lie you told and to who — or drink 3 sips",
+  "❤️ Tell the person you find most attractive in this room that you find them attractive — or drink 5 sips",
+  "😳 Tell the group the most embarrassing thing that happened to you this month — or drink 3 sips",
+  "📞 Call someone you haven't spoken to in 6+ months and wing it — or drink 4 sips",
+  "💬 Tell someone in this room something you've thought about them but never said — or drink 4 sips",
+  "😈 Show the group one photo in your camera roll you're genuinely embarrassed about — or drink 5 sips",
+  "🔥 Tell someone in this room one thing you'd change about them — to their face — or drink 5 sips",
+  "🌙 Tell the group the last thing you did that you're not proud of — or drink 3 sips",
+  "🃏 2 Truths 1 Lie — group guesses wrong = they all drink. Right = you drink 4 sips",
+  "😬 Rate everyone in the room on vibe tonight 1–10 — no skipping or drink 4 sips",
+  "🎭 Reenact your most embarrassing moment from this month — or drink 4 sips"
+];
 
 const HORSES=[
   {name:"Thunder",emoji:"🐴",color:"#f0a500"},
@@ -697,7 +812,7 @@ const HORSES=[
 // STATE
 // ══════════════════════════════════════════════
 const COLORS=['#f0a500','#4d8ef0','#3ecf6e','#e84040','#9060f0','#e060a8','#30c8b0','#f07040'];
-const WIDMARK={m:.68,f:.55};
+const WIDMARK={m:.73,f:.66};
 const FOOD_F={none:1,snack:.85,meal:.7,big:.55};
 const DSTD={beer:.6,wine:1.5,shot:1,cocktail:1.8};
 const DCAL={beer:150,wine:125,shot:70,cocktail:180};
@@ -705,10 +820,10 @@ const DCAL={beer:150,wine:125,shot:70,cocktail:180};
 let adultMode=false;
 let isHost=false;
 let me={name:'',sex:'m',weight:160,food:'snack',drinks:{beer:0,wine:0,shot:0,cocktail:0},minutes:60,color:COLORS[0]};
-let lastDrinkType=null;
 let myKey=null, db=null, squad={};
-let dbRef,dbSet,dbPush,dbOnValue,dbRemove,dbOff;
+let dbRef, dbSet, dbPush, dbOnValue, dbRemove;
 
+// local modes (2p and couple don't sync)
 const modes={nhie:'mild',tod:'mild',todType:'random',mlt:'fun',hs:'fun',
   '2nhie':'bestie','2tod':'bestie','2todType':'random','2mlt':'bestie','2hs':'bestie','ttl':'bestie',couple:'deep'};
 const used={};
@@ -716,9 +831,12 @@ let hsPlayer=null, hs2p=1;
 let myBet=-1, raceRunning=false, raceFinished=false, racePositions=[0,0,0,0,0];
 let kDeck=[];
 let wheelA=0, wheelNames=[];
+let hostState={page:'squad',groupGame:'kings'};
+let jengaBlocks=[], jengaPlayerOrder=[], jengaCurrentTurn=0, jengaWasFallen=false, jengaLastPuller='';
+let dbOnDisconnect=null;
 
 // ══════════════════════════════════════════════
-// AGE + JOIN
+// AGE + JOIN FLOW
 // ══════════════════════════════════════════════
 function startJoin(a){
   adultMode=a;
@@ -749,7 +867,6 @@ function doJoin(role){
   document.getElementById('sJoin').style.display='none';
   document.getElementById('sApp').style.display='flex';
   document.getElementById('sApp').classList.add('active');
-  document.getElementById('drinkBar').classList.add('show');
 
   const av=document.getElementById('topAv');
   av.textContent=name.slice(0,2).toUpperCase();
@@ -760,162 +877,161 @@ function doJoin(role){
   document.getElementById('myW').value=me.weight;
   document.getElementById('outW').textContent=me.weight+' lb';
 
+  // show banners
   document.getElementById('hostGroupBanner').style.display=isHost?'block':'none';
   document.getElementById('guestGroupBanner').style.display=isHost?'none':'block';
   document.getElementById('hostHorseBanner').style.display=isHost?'block':'none';
   document.getElementById('guestHorseBanner').style.display=isHost?'none':'block';
-  document.getElementById('raceBtn').style.display=isHost?'block':'none';
+
+  // disable controls for guests on synced pages
+  applyGuestLocks();
 
   initFB();
   calcMyBAC(); buildKings(); drawWheel(); buildHorses(); renderTwopSquad();
 }
 
+function applyGuestLocks(){
+  if(isHost)return;
+  // lock group game action buttons — guests can see but not trigger
+  ['btnDrawKing','btnResetKings','btnNhie','btnTod','btnMlt','btnHs','btnDice','btnSpin','raceBtn','resetRaceBtn','btnJengaReset']
+    .forEach(id=>{const el=document.getElementById(id);if(el){el.disabled=true;el.title='Only the host can do this';}});
+  // lock mode pills in group games
+  document.querySelectorAll('#page-group .mpill, #page-group .gtab').forEach(el=>{
+    el.style.pointerEvents='none';el.style.opacity='.5';
+  });
+  document.querySelectorAll('#page-horses .bet-btn').forEach(el=>{
+    el.style.pointerEvents='none';el.style.opacity='.5';
+  });
+  // add lock message
+  const grp=document.getElementById('page-group');
+  const msg=document.createElement('div');
+  msg.className='guest-lock-msg';
+  msg.textContent='👀 Watching — host controls the games';
+  grp.insertBefore(msg,grp.querySelector('.gtabs'));
+}
+
 // ══════════════════════════════════════════════
-// FIREBASE
+// FIREBASE INIT
 // ══════════════════════════════════════════════
 function initFB(){
   import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js').then(({initializeApp})=>{
     import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js').then(m=>{
-      dbRef=m.ref; dbSet=m.set; dbPush=m.push; dbOnValue=m.onValue; dbRemove=m.remove;
+      dbRef=m.ref; dbSet=m.set; dbPush=m.push; dbOnValue=m.onValue; dbRemove=m.remove; dbOnDisconnect=m.onDisconnect;
       try{
-        const app=initializeApp(FB_CONFIG,'ptg-'+Date.now());
+        const app=initializeApp(FB);
         db=m.getDatabase(app);
-        const membersRef=dbRef(db,'ptg/members');
-        myKey=dbPush(membersRef).key;
+        const membersPath=dbRef(db,'ptg/members');
+        myKey=dbPush(membersPath).key;
         pushMe();
-        dbOnValue(membersRef,snap=>{
+        // watch members
+        dbOnValue(membersPath,snap=>{
           squad=snap.val()||{};
           renderSquad(); renderRace(); renderMltVotes(); renderTwopSquad(); renderHsGrid();
-          drawWheel();
         });
-        // Listen for game state from host
+        // watch game state (host pushes, guests receive)
         dbOnValue(dbRef(db,'ptg/gameState'),snap=>{
           const gs=snap.val();
-          if(gs) applyGameState(gs);
+          if(gs&&!isHost)applyGameState(gs);
         });
-        window.addEventListener('beforeunload',()=>{
-          if(myKey&&db)dbRemove(dbRef(db,'ptg/members/'+myKey));
+        // watch jenga state (any player can push on their turn)
+        dbOnValue(dbRef(db,'ptg/jengaState'),snap=>{
+          const js=snap.val();
+          if(js)applyJenga(js);
         });
-      }catch(e){console.error('FB error:',e);fallback();}
+        if(isHost){
+          dbSet(dbRef(db,'ptg/hostPresence'),{ts:Date.now(),name:me.name});
+          m.onDisconnect(dbRef(db,'ptg/hostPresence')).remove();
+          m.onDisconnect(dbRef(db,'ptg/members/'+myKey)).remove();
+          window.addEventListener('beforeunload',()=>{try{dbRemove(dbRef(db,'ptg/hostPresence'));dbRemove(dbRef(db,'ptg/members/'+myKey));}catch(e){}});
+        } else {
+          m.onDisconnect(dbRef(db,'ptg/members/'+myKey)).remove();
+          window.addEventListener('beforeunload',()=>{try{dbRemove(dbRef(db,'ptg/members/'+myKey));}catch(e){}});
+          dbOnValue(dbRef(db,'ptg/hostPresence'),snap=>{
+            if(!snap.val()){
+              setTimeout(()=>{
+                const sorted=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
+                if(!sorted.length)return;
+                const[nextKey,nextMember]=sorted[0];
+                if(nextKey===myKey){promoteToHost();}
+                else toast((nextMember.name||'Someone')+' is now the host 👑');
+              },600);
+            }
+          });
+        }
+      }catch(e){console.error(e);fallback();}
     });
   }).catch(()=>fallback());
 }
 
 function fallback(){
-  myKey='local_'+Date.now();
-  squad[myKey]={...me,drinks:{...me.drinks},ts:Date.now(),role:isHost?'host':'guest'};
-  renderSquad(); renderRace(); renderTwopSquad(); renderHsGrid(); drawWheel();
+  myKey='local';
+  squad={local:{...me,drinks:{...me.drinks},ts:Date.now(),role:isHost?'host':'guest'}};
+  renderSquad(); renderRace(); renderTwopSquad(); renderHsGrid();
 }
 
 function pushMe(){
-  if(!db||!myKey)return;
-  try{
-    dbSet(dbRef(db,'ptg/members/'+myKey),{
-      name:me.name,sex:me.sex,weight:me.weight,food:me.food,
-      drinks:{...me.drinks},minutes:me.minutes,color:me.color,
-      role:isHost?'host':'guest',ts:Date.now()
-    });
-  }catch(e){}
+  if(!db||!myKey||myKey==='local')return;
+  dbSet(dbRef(db,'ptg/members/'+myKey),{
+    name:me.name,sex:me.sex,weight:me.weight,food:me.food,
+    drinks:{...me.drinks},minutes:me.minutes,color:me.color,
+    role:isHost?'host':'guest',ts:Date.now()
+  });
 }
+
 function syncMe(){
-  if(squad[myKey])Object.assign(squad[myKey],{name:me.name,sex:me.sex,weight:me.weight,food:me.food,drinks:{...me.drinks},minutes:me.minutes,color:me.color});
-  renderSquad(); renderRace();
+  if(myKey==='local'||!db){
+    if(squad[myKey])Object.assign(squad[myKey],{...me,drinks:{...me.drinks}});
+    renderSquad();renderRace();return;
+  }
   pushMe();
 }
 
-// Push game state (any player can do this for prompts, only host for race/cards)
+// push game state so guests see same thing
 function pushGameState(state){
-  if(!db||!myKey){applyGameState(state);return;}
-  try{dbSet(dbRef(db,'ptg/gameState'),{...state,ts:Date.now(),by:me.name});}catch(e){applyGameState(state);}
+  if(!isHost)return;
+  Object.assign(hostState,state);
+  if(!db||myKey==='local'){applyGameState(hostState);return;}
+  dbSet(dbRef(db,'ptg/gameState'),{...hostState,ts:Date.now()});
 }
 
+// guests receive and apply game state
 function applyGameState(gs){
   if(!gs)return;
-  // Group game tab switch
-  if(gs.groupGame) switchGSilent(gs.groupGame,'group');
-  if(gs.page) goPageSilent(gs.page);
-  // Kings
-  if(gs.kCard!==undefined) renderKingCard(gs.kCard);
-  if(gs.kRemaining!==undefined) document.getElementById('kInfo').textContent=gs.kRemaining+' cards remaining';
-  // NHIE
-  if(gs.nhieCat){document.getElementById('nhieCat').textContent=gs.nhieCat;document.getElementById('nhieTxt').textContent=gs.nhieTxt||'';}
-  if(gs.nhieWho) document.getElementById('nhieWho').textContent=gs.nhieWho;
-  // TOD
-  if(gs.todCat){document.getElementById('todCat').textContent=gs.todCat;document.getElementById('todTxt').textContent=gs.todTxt||'';}
-  if(gs.todWho) document.getElementById('todWho').textContent=gs.todWho;
-  // MLT
+  // active tab / game
+  if(gs.page){
+    goPageSilent(gs.page);
+  }
+  if(gs.groupGame){
+    switchGSilent(gs.groupGame,'group');
+  }
+  // kings
+  if(gs.kCard!==undefined){
+    renderKingCard(gs.kCard);
+    if(gs.kRemaining!==undefined)document.getElementById('kInfo').textContent=gs.kRemaining+' cards remaining';
+  }
+  // prompts
+  if(gs.nhieTxt){document.getElementById('nhieCat').textContent=gs.nhieCat||'';document.getElementById('nhieTxt').textContent=gs.nhieTxt;}
+  if(gs.todTxt){document.getElementById('todCat').textContent=gs.todCat||'';document.getElementById('todTxt').textContent=gs.todTxt;}
   if(gs.mltTxt){document.getElementById('mltTxt').textContent=gs.mltTxt;renderMltVotes();}
-  if(gs.mltWho) document.getElementById('mltWho').textContent=gs.mltWho;
-  // Hot seat
   if(gs.hsTxt){document.getElementById('hsCat').textContent=gs.hsCat||'';document.getElementById('hsTxt').textContent=gs.hsTxt;}
-  if(gs.hsWho) document.getElementById('hsWho').textContent=gs.hsWho;
   if(gs.hsPlayer){
     document.getElementById('hsBox').style.display='block';
     document.getElementById('hsName').textContent=gs.hsPlayer;
-    hsPlayer=gs.hsPlayer;
-    document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>{
-      b.classList.toggle('on',b.textContent===gs.hsPlayer);
-    });
   }
-  // Dice
-  if(gs.diceRes){
-    document.getElementById('diceRes').textContent=gs.diceRes;
-    document.getElementById('diceCon').textContent=gs.diceCon||'';
-    if(gs.diceFace)document.getElementById('diceFace').textContent=gs.diceFace;
-  }
-  // Wheel
-  if(gs.wheelResult) document.getElementById('wheelRes').textContent=gs.wheelResult;
-  // Race positions (animate on all devices)
+  // dice
+  if(gs.diceRes){document.getElementById('diceRes').textContent=gs.diceRes;document.getElementById('diceCon').textContent=gs.diceCon||'';document.getElementById('diceFace').textContent=gs.diceFace||'🎲';}
+  // wheel
+  if(gs.wheelResult){document.getElementById('wheelRes').textContent=gs.wheelResult;}
+  // horses
   if(gs.racePositions){
-    gs.racePositions.forEach((p,i)=>{
-      const b=document.getElementById('hbar-'+i);
-      if(b)b.style.width=Math.max(p,4)+'%';
-    });
+    gs.racePositions.forEach((p,i)=>{const b=document.getElementById('hbar-'+i);if(b)b.style.width=Math.max(p,4)+'%';});
   }
-  if(gs.raceStatus) document.getElementById('raceStatus').textContent=gs.raceStatus;
-  if(gs.raceReset){
-    document.querySelectorAll('.bet-btn').forEach(b=>b.classList.remove('selected','winner','loser'));
-    myBet=-1; raceFinished=false; raceRunning=false;
-    if(!isHost){document.getElementById('resetRaceBtn').style.display='none';}
-  }
-  if(gs.raceFinished&&gs.raceWinner!==undefined&&!raceFinished){
-    raceFinished=true;
+  if(gs.raceStatus){document.getElementById('raceStatus').textContent=gs.raceStatus;}
+  if(gs.raceFinished&&gs.raceWinner!==undefined){
     document.querySelectorAll('.bet-btn').forEach((b,i)=>{
       b.classList.remove('selected');
       if(i===gs.raceWinner)b.classList.add('winner');
       else b.classList.add('loser');
-    });
-    // Tell guest if they won or lost
-    if(myBet>=0){
-      const won=myBet===gs.raceWinner;
-      toast(won?'🏆 Your horse won! Give 3 sips':'😭 Your horse lost — drink!');
-    }
-    if(isHost)document.getElementById('resetRaceBtn').style.display='block';
-  }
-  // Modes sync
-  if(gs.modeUpdate){
-    const{game,mode}=gs.modeUpdate;
-    modes[game]=mode;
-    used[game]=new Set();
-    // Update pill UI
-    const containers={nhie:'#nhieModes',tod:'#todModes',mlt:'#mltModes',hs:'#hsModes'};
-    const labels={nhie:{mild:'😇 Mild',spicy:'🌶️ Spicy',wild:'🔥 Wild',adult:'🔞 Adult'},
-      tod:{mild:'😇 Mild',spicy:'🌶️ Spicy',adult:'🔞 Adult'},
-      mlt:{fun:'😂 Fun',real:'💭 Real talk',adult:'🔞 Adult'},
-      hs:{fun:'😂 Fun',deep:'💭 Deep',adult:'🔞 Adult'}};
-    if(containers[game]){
-      document.querySelectorAll(containers[game]+' .mpill').forEach(p=>{
-        p.classList.toggle('on',p.textContent.trim()===labels[game][mode]);
-      });
-    }
-  }
-  if(gs.todTypeUpdate){
-    modes.todType=gs.todTypeUpdate;
-    document.querySelectorAll('#page-group .mode-row .mpill').forEach(p=>{
-      if(['🎲 Random','🤔 Truth only','😈 Dare only'].includes(p.textContent.trim())){
-        const map={'🎲 Random':'random','🤔 Truth only':'truth','😈 Dare only':'dare'};
-        p.classList.toggle('on',map[p.textContent.trim()]===gs.todTypeUpdate);
-      }
     });
   }
 }
@@ -929,7 +1045,8 @@ function goPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   if(p==='squad'){renderSquad();renderRace();}
-  if(p==='group'||p==='dice')drawWheel();
+  if(p==='group')drawWheel();
+  if(isHost){hostState.page=p;pushGameState({page:p});}
 }
 function goPageSilent(p){
   PAGES.forEach((pg,i)=>document.querySelectorAll('.navbtn')[i].classList.toggle('active',pg===p));
@@ -937,7 +1054,7 @@ function goPageSilent(p){
   document.getElementById('page-'+p).classList.add('active');
 }
 
-const GROUP_GAMES=['kings','nhie','tod','mlt','hotseat','dice'];
+const GROUP_GAMES=['kings','nhie','tod','mlt','hotseat','dice','jenga'];
 const TWOP_GAMES=['2nhie','2tod','2mlt','2hs','2ttl'];
 
 function switchG(g,tab){
@@ -951,24 +1068,26 @@ function switchG(g,tab){
   if(panel)panel.classList.add('active');
   if(g==='hotseat'||g==='2hs')renderHsGrid();
   if(g==='dice')drawWheel();
+  if(g==='jenga'){if(isHost&&!jengaBlocks.length)buildJenga();else{renderJenga();updateJengaTurn();}}
 }
 function switchGSilent(g,tab){switchG(g,tab);}
 
-// Anyone can switch group game tabs — syncs to all
-function syncSwitchG(g,tab){
+// host wrapper — switches game AND pushes state
+function hostSwitchG(g,tab){
+  if(!isHost)return;
   switchG(g,tab);
-  pushGameState({groupGame:g});
+  hostState.groupGame=g;
+  pushGameState({page:tab,groupGame:g});
 }
 
 // ══════════════════════════════════════════════
-// SQUAD
+// SQUAD + RACE
 // ══════════════════════════════════════════════
 function calcBAC(p){
   const std=Object.entries(p.drinks||{}).reduce((s,[k,v])=>s+v*(DSTD[k]||0),0);
-  const kg=(p.weight||160)*.453592;
   const r=WIDMARK[p.sex||'m'];
   const ff=FOOD_F[p.food||'snack'];
-  return Math.max(0,(std*14*ff)/(kg*1000*r)-0.015*((p.minutes||60)/60));
+  return Math.max(0,(std*5.14*ff)/((p.weight||160)*r)-0.015*((p.minutes||60)/60));
 }
 function bacInfo(b){
   if(b<.02)return{col:'var(--mu)',v:'sober'};
@@ -980,6 +1099,7 @@ function bacInfo(b){
   return{col:'var(--red)',v:'⚠️ danger'};
 }
 function renderSquad(){
+  updateSoberBar();
   const list=document.getElementById('memberList');
   const entries=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
   if(!entries.length){list.innerHTML='<div style="color:var(--mu);font-size:.82rem">Nobody here yet…</div>';return;}
@@ -991,7 +1111,7 @@ function renderSquad(){
     return`<div class="member-row${isMe?' me':''}">
       <div class="av av-md" style="background:${p.color||COLORS[0]};color:#000">${init}</div>
       <div><div class="member-name">${p.name||'?'}${roleTag}${isMe?' <span style="font-size:.65rem;color:var(--gold)">(you)</span>':''}</div>
-      <div class="member-sub">${dr||'—'}</div></div>
+      <div class="member-sub">${dr}</div></div>
       <div><div class="bac-badge" style="color:${col}">${(bac*100).toFixed(2)}%</div>
       <div class="bac-vibe">${v}</div></div>
     </div>`;
@@ -1016,45 +1136,7 @@ function renderRace(){
 }
 
 // ══════════════════════════════════════════════
-// DRINK LOGGER
-// ══════════════════════════════════════════════
-function addD(t){
-  me.drinks[t]++;
-  lastDrinkType=t;
-  // Update all counters
-  ['beer','wine','shot','cocktail'].forEach(d=>{
-    const big=document.getElementById('dc-'+d);
-    const bar=document.getElementById('dbc-'+d);
-    if(big)big.textContent=me.drinks[d];
-    if(bar)bar.textContent=me.drinks[d];
-  });
-  calcMyBAC(); syncMe();
-  toast('+1 '+t+' 🍻');
-}
-function undoLastDrink(){
-  if(!lastDrinkType||me.drinks[lastDrinkType]<=0){toast('Nothing to undo');return;}
-  me.drinks[lastDrinkType]--;
-  const big=document.getElementById('dc-'+lastDrinkType);
-  const bar=document.getElementById('dbc-'+lastDrinkType);
-  if(big)big.textContent=me.drinks[lastDrinkType];
-  if(bar)bar.textContent=me.drinks[lastDrinkType];
-  lastDrinkType=null;
-  calcMyBAC(); syncMe(); toast('Undone ↩');
-}
-function resetD(){
-  me.drinks={beer:0,wine:0,shot:0,cocktail:0};
-  ['beer','wine','shot','cocktail'].forEach(d=>{
-    const big=document.getElementById('dc-'+d);
-    const bar=document.getElementById('dbc-'+d);
-    if(big)big.textContent=0;
-    if(bar)bar.textContent=0;
-  });
-  lastDrinkType=null;
-  calcMyBAC(); syncMe();
-}
-
-// ══════════════════════════════════════════════
-// BAC CALC
+// MINE / BAC
 // ══════════════════════════════════════════════
 function slUp(){
   me.weight=+document.getElementById('myW').value;
@@ -1074,17 +1156,23 @@ function setFood(f,el){
   document.querySelectorAll('.food-chip').forEach(c=>c.classList.remove('on'));
   el.classList.add('on'); calcMyBAC(); syncMe();
 }
+function addD(t){
+  me.drinks[t]++;
+  document.getElementById('dc-'+t).textContent=me.drinks[t];
+  calcMyBAC(); syncMe(); updateSoberBar(); toast('+1 '+t+' 🍻');
+}
+function resetD(){
+  me.drinks={beer:0,wine:0,shot:0,cocktail:0};
+  ['beer','wine','shot','cocktail'].forEach(d=>document.getElementById('dc-'+d).textContent=0);
+  calcMyBAC(); syncMe();
+}
 function calcMyBAC(){
   const bac=calcBAC(me);const{col}=bacInfo(bac);
-  const bacPct=(bac*100).toFixed(2)+'%';
-  document.getElementById('myBacNum').textContent=bacPct;
+  document.getElementById('myBacNum').textContent=(bac*100).toFixed(2)+'%';
   document.getElementById('myBacNum').style.color=col;
   document.getElementById('myFill').style.width=Math.min(bac/.2,1)*100+'%';
   document.getElementById('myFill').style.background=col;
-  // bottom bar
-  document.getElementById('dbBac').textContent=bacPct;
-  document.getElementById('dbBac').style.color=col;
-  const VIBES=['Sober 😶','Warming up 🙂','Buzzed 😄','Tipsy 😆','Drunk 🥴','Very drunk 😵','⚠️ Stop!'];
+  const VIBES=['Completely sober 😶','Just warming up 🙂','Nicely buzzed 😄','Legally tipsy 😆','Drunk 🥴','Very drunk 😵','Stop & hydrate 🚨'];
   const vi=bac<.02?0:bac<.05?1:bac<.08?2:bac<.10?3:bac<.15?4:bac<.20?5:6;
   document.getElementById('myVibeTxt').textContent=VIBES[vi];
   document.getElementById('myVibeTxt').style.color=col;
@@ -1097,28 +1185,24 @@ function calcMyBAC(){
 }
 
 // ══════════════════════════════════════════════
-// MODE SYNC — anyone can change modes, pushes to all
+// MODES
 // ══════════════════════════════════════════════
 function setM(game,mode,el){
   modes[game]=mode; used[game]=new Set();
   el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));
   el.classList.add('on');
 }
-function syncSetM(game,mode,el){
+function hostSetM(game,mode,el){
+  if(!isHost)return;
   setM(game,mode,el);
-  pushGameState({modeUpdate:{game,mode}});
 }
-function syncSetTT(t,el){
-  modes.todType=t;
-  el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));
-  el.classList.add('on');
-  pushGameState({todTypeUpdate:t});
-}
+function setTT(t,el){modes.todType=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
+function hostSetTT(t,el){if(!isHost)return;setTT(t,el);}
 function setTT2(t,el){modes['2todType']=t;el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
 function setCoupleM(m,el){modes.couple=m;used.couple=new Set();el.parentElement.querySelectorAll('.mpill').forEach(p=>p.classList.remove('on'));el.classList.add('on');}
 
 // ══════════════════════════════════════════════
-// PROMPT ENGINE — anyone can flip next
+// PROMPT ENGINE
 // ══════════════════════════════════════════════
 function pick(arr,key){
   if(!used[key])used[key]=new Set();
@@ -1128,18 +1212,17 @@ function pick(arr,key){
   used[key].add(item.i); return item.v;
 }
 
-// Anyone can tap Next for group games — syncs to all screens
-function doNextPrompt(game){
+// HOST actions — generate prompt and push to firebase
+function hostNext(game){
+  if(!isHost)return;
   const m=modes[game];
-  let gs={by:me.name};
+  let gs={};
   if(game==='nhie'){
     const pool=C.nhie[m]||C.nhie.mild;
     const txt='Never have I ever… '+pick(pool,'nhie_'+m);
-    const who=me.name+' flipped';
-    document.getElementById('nhieCat').textContent=m+' · '+who;
+    document.getElementById('nhieCat').textContent=m+' mode';
     document.getElementById('nhieTxt').textContent=txt;
-    document.getElementById('nhieWho').textContent='';
-    gs={nhieCat:m+' · '+who,nhieTxt:txt,nhieWho:''};
+    gs={nhieCat:m+' mode',nhieTxt:txt};
   } else if(game==='tod'){
     const isTruth=modes.todType==='truth'||(modes.todType==='random'&&Math.random()<.5);
     const pool=isTruth?(C.tod.truth[m]||C.tod.truth.mild):(C.tod.dare[m]||C.tod.dare.mild);
@@ -1155,30 +1238,17 @@ function doNextPrompt(game){
     renderMltVotes();
     gs={mltTxt:txt};
   } else if(game==='hs'){
-    if(!hsPlayer){toast('Host picks who is in the hot seat first!');return;}
     const pool=C.hs[m]||C.hs.fun;
     const txt=pick(pool,'hs_'+m);
-    const cat='🔥 '+hsPlayer;
+    const cat=hsPlayer?'🔥 '+hsPlayer:'pick a player above';
     document.getElementById('hsCat').textContent=cat;
     document.getElementById('hsTxt').textContent=txt;
-    gs={hsCat:cat,hsTxt:txt,hsPlayer};
+    gs={hsCat:cat,hsTxt:txt,hsPlayer:hsPlayer};
   }
   pushGameState(gs);
 }
 
-// Host-only: pick who's in the hot seat
-function pickHs(name,el){
-  if(!isHost){toast('Only the host picks the hot seat!');return;}
-  hsPlayer=name;
-  document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>b.classList.remove('on'));
-  el.classList.add('on');
-  document.getElementById('hsBox').style.display='block';
-  document.getElementById('hsName').textContent=name;
-  document.getElementById('hsCat').textContent='🔥 '+name+' is in the hot seat';
-  pushGameState({hsPlayer:name,hsCat:'🔥 '+name+' is in the hot seat',hsTxt:document.getElementById('hsTxt').textContent});
-}
-
-// Local-only 2P prompts
+// local-only prompts (2P and couple)
 function next(game){
   const m=modes[game];
   if(game==='2nhie'){
@@ -1249,6 +1319,16 @@ function renderHsGrid(){
   if(!members.length){grid.innerHTML='<div style="color:var(--mu);font-size:.78rem">Squad not loaded</div>';return;}
   grid.innerHTML=members.map(p=>`<div class="seat-btn${hsPlayer===p.name?' on':''}" onclick="pickHs('${p.name}',this)">${p.name}</div>`).join('');
 }
+function pickHs(name,el){
+  if(!isHost)return;
+  hsPlayer=name;
+  document.querySelectorAll('#hsSeatGrid .seat-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('hsBox').style.display='block';
+  document.getElementById('hsName').textContent=name;
+  document.getElementById('hsCat').textContent='🔥 '+name+' is in the hot seat';
+  pushGameState({hsPlayer:name,hsCat:'🔥 '+name+' is in the hot seat',hsTxt:document.getElementById('hsTxt').textContent});
+}
 function setHs2(n){
   hs2p=n;
   const p1=document.getElementById('p1').value||'Player 1';
@@ -1305,6 +1385,7 @@ const KRULES={
 };
 function buildKings(){kDeck=[];for(const s of SUITS)for(const r of RANKS)kDeck.push({r,s});shuffle(kDeck);}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
+
 function renderKingCard(cardData){
   if(!cardData){document.getElementById('kDisplay').innerHTML='<div style="color:var(--mu)">Tap draw to start!</div>';return;}
   const{r,s,ruleName,ruleDesc}=cardData;
@@ -1315,8 +1396,9 @@ function renderKingCard(cardData){
     <div class="card-rule">${ruleName}</div>
     <div class="card-rule-desc">${ruleDesc}</div>`;
 }
+
 function doDrawKing(){
-  if(!isHost){toast('Only the host draws cards!');return;}
+  if(!isHost)return;
   if(!kDeck.length){toast('Deck empty!');buildKings();return;}
   const c=kDeck.pop();const rule=KRULES[c.r];
   const cardData={r:c.r,s:c.s,ruleName:rule.n,ruleDesc:rule.d};
@@ -1325,7 +1407,7 @@ function doDrawKing(){
   pushGameState({kCard:cardData,kRemaining:kDeck.length});
 }
 function doResetKings(){
-  if(!isHost){toast('Only the host reshuffles!');return;}
+  if(!isHost)return;
   buildKings();
   document.getElementById('kDisplay').innerHTML='<div style="color:var(--mu)">Reshuffled! Tap draw.</div>';
   document.getElementById('kInfo').textContent='52 cards remaining';
@@ -1338,7 +1420,7 @@ function doResetKings(){
 const DFACES=['⚀','⚁','⚂','⚃','⚄','⚅'];
 const DRULES=['Sip once.','Take 2 sips.','Give 3 sips to someone.','Everyone drinks!','Make a mini-rule for 1 round.','Take a shot — or give 2 sips each to 2 people.'];
 function doRollDice(){
-  if(!isHost){toast('Only the host rolls!');return;}
+  if(!isHost)return;
   const el=document.getElementById('diceFace');
   el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');
   let n=0;
@@ -1376,7 +1458,7 @@ function paintWheel(angle){
   ctx.fillStyle='#fff';ctx.fill();
 }
 function doSpinWheel(){
-  if(!isHost){toast('Only the host spins!');return;}
+  if(!isHost)return;
   document.getElementById('wheelRes').textContent='…';
   const spins=(Math.random()*6+5)*Math.PI*2,dur=3200,t0=performance.now(),a0=wheelA;
   function frame(now){
@@ -1395,7 +1477,7 @@ function doSpinWheel(){
 }
 
 // ══════════════════════════════════════════════
-// HORSES — everyone bets independently, host controls race
+// HORSES
 // ══════════════════════════════════════════════
 function buildHorses(){
   const bg=document.getElementById('betGrid');
@@ -1417,22 +1499,20 @@ function buildTrack(){
     </div>`).join('');
   racePositions=[0,0,0,0,0];
 }
-// Everyone bets on their own device — not synced (personal)
 function placeBet(i){
-  if(raceRunning||raceFinished){toast('Race already running!');return;}
+  if(raceRunning||raceFinished)return;
   myBet=i;
   document.querySelectorAll('.bet-btn').forEach((b,j)=>b.classList.toggle('selected',j===i));
-  document.getElementById('raceStatus').textContent='You bet on '+HORSES[i].name+' '+HORSES[i].emoji+' — waiting for host…';
-  toast('Bet placed on '+HORSES[i].name+'! 🏇');
+  document.getElementById('raceStatus').textContent='Betting on '+HORSES[i].name+' '+HORSES[i].emoji;
 }
 function doStartRace(){
-  if(!isHost){toast('Only the host starts the race!');return;}
+  if(!isHost){toast('Only the host can start the race!');return;}
   if(raceRunning)return;
   raceRunning=true; raceFinished=false;
   document.getElementById('raceBtn').style.display='none';
   let cd=3;
   document.getElementById('raceStatus').textContent=cd+'…';
-  pushGameState({raceStatus:cd+'…',racePositions:[0,0,0,0,0]});
+  pushGameState({raceStatus:cd+'…',racePositions:[...racePositions]});
   const cdInt=setInterval(()=>{
     cd--;
     if(cd>0){
@@ -1455,6 +1535,7 @@ function runRace(){
       const b=document.getElementById('hbar-'+i);
       if(b)b.style.width=Math.max(racePositions[i],4)+'%';
     }
+    // push positions every tick so guests see the race animate
     pushGameState({racePositions:[...racePositions],raceStatus:"🏇 They're off!"});
     const maxPos=Math.max(...racePositions);
     if(maxPos>=100){
@@ -1462,44 +1543,284 @@ function runRace(){
       clearInterval(interval);
       finishRace(winner);
     }
-  },120);
+  },100);
 }
 function finishRace(winner){
   raceRunning=false; raceFinished=true;
   const horse=HORSES[winner];
+  const won=myBet===winner;
   document.querySelectorAll('.bet-btn').forEach((b,i)=>{
     b.classList.remove('selected');
     if(i===winner)b.classList.add('winner');
     else b.classList.add('loser');
   });
-  const statusBase=horse.name+' wins! 🏆';
-  const won=myBet===winner;
-  const statusMe=won?' You picked right — give out 3 sips!':' Wrong horse — drink up! 🍺';
-  document.getElementById('raceStatus').textContent=statusBase+(myBet>=0?statusMe:'');
+  const status=horse.name+' wins! 🏆 '+(won?'You picked right — give out 3 sips!':'Wrong horse — drink up! 🍺');
+  document.getElementById('raceStatus').textContent=status;
   document.getElementById('resetRaceBtn').style.display='block';
-  pushGameState({racePositions:[...racePositions],raceStatus:statusBase,raceFinished:true,raceWinner:winner});
+  pushGameState({racePositions:[...racePositions],raceStatus:status,raceFinished:true,raceWinner:winner});
   toast(won?'🏆 You won! Give 3 sips':'😭 Your horse lost — drink!');
 }
 function doResetRace(){
-  if(!isHost){toast('Only the host resets the race!');return;}
+  if(!isHost){toast('Only the host can reset the race!');return;}
   myBet=-1; raceRunning=false; raceFinished=false;
   document.querySelectorAll('.bet-btn').forEach(b=>b.classList.remove('selected','winner','loser'));
-  document.getElementById('raceStatus').textContent='Place your bet then wait for the host!';
+  document.getElementById('raceStatus').textContent='Place your bet then start the race!';
   document.getElementById('raceBtn').style.display='block';
   document.getElementById('resetRaceBtn').style.display='none';
   buildTrack();
-  pushGameState({racePositions:[0,0,0,0,0],raceStatus:'Place your bet then wait for the host!',raceReset:true,raceFinished:false});
+  pushGameState({racePositions:[0,0,0,0,0],raceStatus:'Place your bet then start the race!',raceFinished:false});
 }
 
 // ══════════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════════
 function fmtMin(m){if(!m)return'0m';if(m<60)return m+'m';const h=Math.floor(m/60),r=m%60;return h+'h'+(r?' '+r+'m':'');}
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._tid);
-  t._tid=setTimeout(()=>t.classList.remove('show'),2400);
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+
+// ══════════════════════════════════════════════
+// HOST MIGRATION
+// ══════════════════════════════════════════════
+function promoteToHost(){
+  isHost=true;
+  document.getElementById('hostBadge').style.display='inline-block';
+  document.getElementById('hostGroupBanner').style.display='block';
+  document.getElementById('guestGroupBanner').style.display='none';
+  document.getElementById('hostHorseBanner').style.display='block';
+  document.getElementById('guestHorseBanner').style.display='none';
+  ['btnDrawKing','btnResetKings','btnNhie','btnTod','btnMlt','btnHs','btnDice','btnSpin','raceBtn','resetRaceBtn','btnJengaReset']
+    .forEach(id=>{const el=document.getElementById(id);if(el){el.disabled=false;el.title='';}});
+  document.querySelectorAll('#page-group .mpill,#page-group .gtab').forEach(el=>{el.style.pointerEvents='';el.style.opacity='';});
+  document.querySelectorAll('#page-horses .bet-btn').forEach(el=>{el.style.pointerEvents='';el.style.opacity='';});
+  const lockMsg=document.querySelector('#page-group .guest-lock-msg');
+  if(lockMsg)lockMsg.remove();
+  if(db&&myKey!=='local'){
+    dbSet(dbRef(db,'ptg/hostPresence'),{ts:Date.now(),name:me.name});
+    if(dbOnDisconnect){dbOnDisconnect(dbRef(db,'ptg/hostPresence')).remove();dbOnDisconnect(dbRef(db,'ptg/members/'+myKey)).remove();}
+    pushMe();
+  }
+  hostState={page:'squad',groupGame:'kings'};
+  toast('You\'re now the host! 👑');
+}
+
+// ══════════════════════════════════════════════
+// JENGA
+// ══════════════════════════════════════════════
+function buildJenga(){
+  jengaPlayerOrder=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts).map(([k,p])=>({key:k,name:p.name||'?'}));
+  jengaCurrentTurn=0;jengaWasFallen=false;jengaLastPuller='';
+  const cats=[];
+  const nG=22,nY=20,nR=12; // 54 total = 18×3
+  for(let i=0;i<nG;i++)cats.push('g');
+  for(let i=0;i<nY;i++)cats.push('y');
+  for(let i=0;i<nR;i++)cats.push('r');
+  shuffle(cats);
+  const usedG=new Set(),usedY=new Set(),usedR=new Set();
+  function pickCat(pool,usedSet){
+    const avail=pool.map((v,i)=>({v,i})).filter(({i})=>!usedSet.has(i));
+    if(!avail.length){usedSet.clear();return pickCat(pool,usedSet);}
+    const item=avail[Math.floor(Math.random()*avail.length)];
+    usedSet.add(item.i);return item.v;
+  }
+  jengaBlocks=Array.from({length:18},(_,row)=>Array.from({length:3},(_,col)=>{
+    const cat=cats[row*3+col];
+    const t=cat==='g'?pickCat(JENGA_GREEN,usedG):cat==='y'?pickCat(JENGA_YELLOW,usedY):pickCat(JENGA_RED,usedR);
+    return{p:true,cat,t};
+  }));
+  renderJenga();updateJengaTurn();updateJengaInstab(0);
+  const el=document.getElementById('jengaChallenge');
+  if(el){el.textContent='Pull a block from the tower!';el.style.color='var(--mu)';}
+  const catEl=document.getElementById('jengaCat');if(catEl)catEl.textContent='tap a block to pull it';
+  const rst=document.getElementById('btnJengaReset');if(rst)rst.style.display='none';
+  const state={blocks:JSON.parse(JSON.stringify(jengaBlocks)),turn:0,fallen:false,lastPuller:'',challenge:null,cat:null,playerOrder:jengaPlayerOrder};
+  if(db&&myKey!=='local')dbSet(dbRef(db,'ptg/jengaState'),{...state,ts:Date.now()});
+}
+
+function updateJengaInstab(pct){
+  const fill=document.getElementById('jengaInstabFill');
+  const val=document.getElementById('jengaInstabVal');
+  if(!fill)return;
+  const col=pct<35?'var(--green)':pct<65?'var(--gold)':'var(--red)';
+  fill.style.width=pct+'%';fill.style.background=col;
+  if(val){val.textContent=pct<35?'🟢 Safe':pct<65?'🟡 Shaky':'🔴 Critical!';val.style.color=col;}
+}
+
+function isMyTurn(){
+  if(!jengaPlayerOrder||!jengaPlayerOrder.length)return isHost;
+  return jengaPlayerOrder[jengaCurrentTurn%jengaPlayerOrder.length]?.key===myKey;
+}
+
+function updateJengaTurn(){
+  const banner=document.getElementById('jengaTurnBanner');if(!banner)return;
+  if(!jengaBlocks.length){banner.textContent='Host is setting up the tower…';banner.style.background='rgba(255,255,255,.04)';banner.style.borderColor='var(--br)';banner.style.color='var(--mu)';return;}
+  if(jengaWasFallen){banner.textContent='💥 Tower fell!';banner.style.background='rgba(232,64,64,.1)';banner.style.borderColor='rgba(232,64,64,.3)';banner.style.color='var(--red)';return;}
+  if(!jengaPlayerOrder.length){banner.textContent='🎯 Pull any block!';banner.style.background='rgba(62,207,110,.1)';banner.style.borderColor='rgba(62,207,110,.25)';banner.style.color='var(--green)';return;}
+  const curr=jengaPlayerOrder[jengaCurrentTurn%jengaPlayerOrder.length];
+  if(!curr)return;
+  if(curr.key===myKey){
+    banner.textContent='🎯 Your turn — tap a block to pull!';
+    banner.style.background='rgba(62,207,110,.1)';banner.style.borderColor='rgba(62,207,110,.25)';banner.style.color='var(--green)';
+  } else {
+    banner.textContent='⏳ '+curr.name+"'s turn";
+    banner.style.background='rgba(255,255,255,.04)';banner.style.borderColor='var(--br)';banner.style.color='var(--mu)';
+  }
+}
+
+function renderJenga(){
+  const tower=document.getElementById('jengaTower');if(!tower)return;
+  if(!jengaBlocks.length){tower.innerHTML='';return;}
+  const pulledCount=jengaBlocks.flat().filter(b=>!b.p).length;
+  const pct=Math.min(pulledCount*4,100);
+  const wc=pct>70?'wobble-lg':pct>40?'wobble-md':pct>20?'wobble-sm':'';
+  tower.className='jenga-tower'+(wc?' '+wc:'');
+  const myTurn=isMyTurn()&&!jengaWasFallen;
+  tower.innerHTML=[...jengaBlocks].reverse().map((row,ri)=>{
+    const orig=jengaBlocks.length-1-ri;
+    return`<div class="jenga-row">${row.map((blk,bi)=>
+      blk.p
+        ?`<div class="jblock jb-${blk.cat}${myTurn?'':' jblock-noturn'}" onclick="pullBlock(${orig},${bi})"></div>`
+        :`<div class="jblock jblock-gone"></div>`
+    ).join('')}</div>`;
+  }).join('');
+}
+
+function pullBlock(row,col){
+  if(jengaWasFallen){toast('Tower already fell! 💥');return;}
+  if(!isMyTurn()){
+    const curr=jengaPlayerOrder[jengaCurrentTurn%jengaPlayerOrder.length];
+    toast((curr?.name||'Someone')+"'s turn!");return;
+  }
+  if(!jengaBlocks[row]||!jengaBlocks[row][col]||!jengaBlocks[row][col].p)return;
+  const topRow=jengaBlocks.reduce((max,r,i)=>r.some(b=>b.p)?i:max,-1);
+  const rowBlocks=jengaBlocks[row].filter(b=>b.p).length;
+  if(rowBlocks===1&&row!==topRow){toast("Can't pull the last block from a structural row! 🚫");return;}
+  const block=jengaBlocks[row][col];
+  jengaBlocks[row][col]={...block,p:false};
+  const puller=jengaPlayerOrder.length?jengaPlayerOrder[jengaCurrentTurn%jengaPlayerOrder.length]:{key:myKey,name:me.name};
+  jengaLastPuller=puller.name;
+  jengaCurrentTurn++;
+  const pulledCount=jengaBlocks.flat().filter(b=>!b.p).length;
+  const fallChance=pulledCount<=4?0:Math.min((pulledCount-4)*0.07,0.85);
+  const falls=Math.random()<fallChance;
+  const state={blocks:JSON.parse(JSON.stringify(jengaBlocks)),turn:jengaCurrentTurn,fallen:falls,lastPuller:jengaLastPuller,challenge:block.t,cat:block.cat,playerOrder:jengaPlayerOrder};
+  applyJenga(state);
+  if(db&&myKey!=='local')dbSet(dbRef(db,'ptg/jengaState'),{...state,ts:Date.now()});
+}
+
+function applyJenga(state){
+  if(!state)return;
+  if(state.playerOrder)jengaPlayerOrder=state.playerOrder;
+  if(state.blocks)jengaBlocks=state.blocks;
+  if(state.turn!==undefined)jengaCurrentTurn=state.turn;
+  if(state.lastPuller!==undefined)jengaLastPuller=state.lastPuller;
+  const pulledCount=jengaBlocks.flat().filter(b=>!b.p).length;
+  const pct=Math.min(pulledCount*4,100);
+  updateJengaInstab(pct);
+  if(state.fallen&&!jengaWasFallen){
+    jengaWasFallen=true;
+    renderJenga();
+    const tower=document.getElementById('jengaTower');
+    if(tower)tower.classList.add('falling');
+    const el=document.getElementById('jengaChallenge');
+    const catEl=document.getElementById('jengaCat');
+    if(el){el.textContent=(jengaLastPuller||'Someone')+' knocked it over! Loser drinks! 🍺';el.style.color='var(--red)';}
+    if(catEl)catEl.textContent='TIMBER! 💥';
+    updateJengaInstab(100);updateJengaTurn();
+    setTimeout(()=>{const rst=document.getElementById('btnJengaReset');if(rst)rst.style.display='block';},900);
+  } else if(!state.fallen){
+    renderJenga();updateJengaTurn();
+    const el=document.getElementById('jengaChallenge');
+    const catEl=document.getElementById('jengaCat');
+    if(state.challenge&&el){
+      const catColors={g:'var(--green)',y:'var(--gold)',r:'var(--red)'};
+      const catNames={g:'🟢 Fun challenge',y:'🟡 Dare',r:'🔴 Intense'};
+      el.textContent=state.challenge;
+      el.style.color=catColors[state.cat]||'var(--tx)';
+      if(catEl)catEl.textContent=(catNames[state.cat]||'block pulled')+' — '+jengaLastPuller+' pulled';
+    } else if(!state.challenge&&el){
+      el.textContent='Pull a block from the tower!';el.style.color='var(--mu)';
+      if(catEl)catEl.textContent='tap a block to pull it';
+    }
+  }
+}
+
+function doResetJenga(){
+  if(!isHost){toast('Only the host can reset! 👑');return;}
+  jengaWasFallen=false;
+  buildJenga();
+}
+
+function openJengaScope(){
+  renderJengaScope();
+  document.getElementById('jengaScopeDrawer').classList.add('open');
+  document.getElementById('jengaScopeOverlay').style.display='block';
+}
+function closeJengaScope(){
+  document.getElementById('jengaScopeDrawer').classList.remove('open');
+  document.getElementById('jengaScopeOverlay').style.display='none';
+}
+function renderJengaScope(){
+  const list=document.getElementById('jengaScopeList');if(!list)return;
+  if(!jengaBlocks.length){list.innerHTML='<div style="color:var(--mu);font-size:.82rem">No tower built yet.</div>';return;}
+  const catColors={g:'var(--green)',y:'var(--gold)',r:'var(--red)'};
+  const catNames={g:'🟢 Fun',y:'🟡 Dare',r:'🔴 Intense'};
+  const remaining=[];
+  jengaBlocks.forEach((row,ri)=>row.forEach((blk)=>{if(blk.p)remaining.push(blk);}));
+  if(!remaining.length){list.innerHTML='<div style="color:var(--mu);font-size:.82rem">All blocks pulled!</div>';return;}
+  const groups={g:[],y:[],r:[]};
+  remaining.forEach(blk=>groups[blk.cat].push(blk.t));
+  list.innerHTML=['g','y','r'].map(cat=>groups[cat].length?`
+    <div style="margin-bottom:14px">
+      <div style="font-size:.65rem;color:${catColors[cat]};font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">${catNames[cat]} · ${groups[cat].length} left</div>
+      ${groups[cat].map(t=>`<div style="margin-bottom:7px;padding:9px 12px;background:var(--s2);border-left:3px solid ${catColors[cat]};border-radius:0 var(--rs) var(--rs) 0;font-size:.8rem;color:var(--tx)">${t}</div>`).join('')}
+    </div>`:'').join('');
+}
+
+// ══════════════════════════════════════════════
+// SOBRIETY BAR + DRAWER
+// ══════════════════════════════════════════════
+function sobrietyPct(bac){return Math.max(0,Math.min(100,100-(bac/0.15)*100));}
+function updateSoberBar(){
+  const bar=document.getElementById('soberBar');
+  if(!bar)return;
+  const entries=Object.entries(squad);
+  if(!entries.length){bar.classList.remove('vis');return;}
+  bar.classList.add('vis');
+  const bacs=entries.map(([,p])=>calcBAC(p));
+  const avg=bacs.reduce((s,b)=>s+b,0)/bacs.length;
+  const spct=sobrietyPct(avg);
+  const{col}=bacInfo(avg);
+  const pctEl=document.getElementById('soberBarPct');
+  pctEl.textContent=spct.toFixed(1)+'% sober';
+  pctEl.style.color=col;
+  // also update chart if drawer open
+  const drawer=document.getElementById('soberDrawer');
+  if(drawer&&drawer.classList.contains('open'))renderSoberChart();
+}
+function renderSoberChart(){
+  const entries=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
+  const chart=document.getElementById('soberChart');
+  if(!entries.length){chart.innerHTML='<div style="color:var(--mu);font-size:.82rem">No squad data yet.</div>';return;}
+  chart.innerHTML=entries.map(([k,p])=>{
+    const bac=calcBAC(p);const{col,v}=bacInfo(bac);
+    const spct=sobrietyPct(bac);
+    const isMe=k===myKey;
+    return`<div class="sober-row">
+      <div class="sober-row-head">
+        <span class="sober-name">${p.name||'?'}${isMe?' <span style="color:var(--gold);font-size:.68rem">(you)</span>':''}</span>
+        <span class="sober-val" style="color:${col}">${spct.toFixed(1)}% · ${v}</span>
+      </div>
+      <div class="sober-track"><div class="sober-fill" style="width:${spct}%;background:${col}"></div></div>
+    </div>`;
+  }).join('');
+}
+function openSoberDrawer(){
+  renderSoberChart();
+  document.getElementById('soberDrawer').classList.add('open');
+  document.getElementById('soberOverlay').style.display='block';
+}
+function closeSoberDrawer(){
+  document.getElementById('soberDrawer').classList.remove('open');
+  document.getElementById('soberOverlay').style.display='none';
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -1509,3 +1830,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
+HTMLEOF
+echo "Lines: $(wc -l < /mnt/user-data/outputs/index.html)"
+Output
+
+Lines: 1405
+Done
