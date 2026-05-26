@@ -1,20 +1,20 @@
-cat > /mnt/user-data/outputs/index.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PreTheGame 🍻</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#0a0a0b;--s1:#111113;--s2:#18181c;--s3:#202026;--s4:#28282f;
-  --br:rgba(255,255,255,0.06);--br2:rgba(255,255,255,0.12);--br3:rgba(255,255,255,0.2);
-  --tx:#f2efe9;--mu:#666;--mu2:#444;
-  --gold:#f0a500;--gold2:#e08800;
-  --green:#3ecf6e;--red:#e84040;--blue:#4d8ef0;--pink:#e060a8;--purple:#9060f0;--teal:#30c8b0;--orange:#f07040;
+  --bg:#f0e8d2;--s1:#e6dcc4;--s2:#d8ceB8;--s3:#c9be9e;--s4:#b8ac88;
+  --br:rgba(60,40,10,0.14);--br2:rgba(60,40,10,0.26);--br3:rgba(60,40,10,0.42);
+  --tx:#1a1208;--mu:#7a6440;--mu2:#5a4828;
+  --gold:#b87d10;--gold2:#9a6608;
+  --burgundy:#7a1428;
+  --green:#4e7820;--red:#7a1428;--blue:#1e4d6a;--pink:#7a2850;--purple:#4a2070;--teal:#1e6040;--orange:#8a3a10;
   --r:14px;--rs:9px;
-  --ff:'Archivo Black',sans-serif;--fb:'Archivo',sans-serif;
+  --ff:'Orbitron',sans-serif;--fb:'Exo 2',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;-webkit-tap-highlight-color:transparent}
@@ -52,7 +52,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 #sApp{display:none;flex-direction:column;min-height:100vh;padding:0;align-items:stretch;justify-content:flex-start}
 #sApp.active{display:flex}
 
-.topbar{position:sticky;top:0;z-index:100;background:rgba(10,10,11,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--br);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:50px;flex-shrink:0}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(240,232,210,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--br);padding:0 1rem;display:flex;align-items:center;justify-content:space-between;height:50px;flex-shrink:0}
 .topbar-logo{font-family:var(--ff);font-size:1.1rem;color:var(--gold);letter-spacing:.01em}
 .topbar-right{display:flex;align-items:center;gap:8px}
 .topbar-user{display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--mu)}
@@ -64,7 +64,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .nav{display:flex;background:var(--s1);border-bottom:1px solid var(--br);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .nav::-webkit-scrollbar{display:none}
 .navbtn{flex:1;min-width:55px;padding:10px 3px 9px;border:none;background:transparent;color:var(--mu);font-family:var(--fb);font-size:.62rem;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s;letter-spacing:.01em;text-transform:uppercase}
-.navbtn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.navbtn.active{color:var(--burgundy);border-bottom-color:var(--burgundy)}
 
 .page{display:none;padding:1rem;max-width:640px;margin:0 auto;width:100%;padding-bottom:2rem}
 .page.active{display:block}
@@ -129,7 +129,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 /* GAMES */
 .gtabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem}
 .gtab{padding:6px 13px;border-radius:20px;background:var(--s2);border:1px solid var(--br);color:var(--mu);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:600;font-family:var(--fb)}
-.gtab.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.gtab.on{background:var(--burgundy);color:#f5ead8;border-color:var(--burgundy);font-weight:700}
 .gpanel{display:none}.gpanel.active{display:block}
 .mode-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.85rem}
 .mpill{padding:6px 12px;border-radius:20px;background:var(--s2);border:1px solid var(--br);color:var(--mu);font-size:.75rem;cursor:pointer;transition:all .15s;font-weight:500}
@@ -142,7 +142,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 /* KINGS */
 .kings-info{font-size:.75rem;color:var(--mu);margin-bottom:10px}
 .card-display{text-align:center;padding:1.5rem 1rem;background:var(--s2);border-radius:var(--r);margin-bottom:.85rem;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.playing-card{background:#f8f4ec;border-radius:10px;padding:1rem 1.5rem;display:inline-block}
+.playing-card{background:#fff;border-radius:10px;padding:1rem 1.5rem;display:inline-block;box-shadow:0 2px 12px rgba(60,40,10,.18)}
 .card-rank{font-family:var(--ff);font-size:2.8rem;line-height:1}
 .card-suit{font-size:1.6rem}
 .card-rule{font-family:var(--ff);font-size:1rem;color:var(--gold)}
@@ -238,8 +238,8 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 }
 
 /* JENGA */
-.jenga-wrap{display:flex;justify-content:center;padding:.3rem 0 .6rem}
-.jenga-tower{display:flex;flex-direction:column;gap:2px;transform-origin:center 95%}
+.jenga-wrap{display:flex;justify-content:center;padding:.5rem 0 .8rem;perspective:700px}
+.jenga-tower{display:flex;flex-direction:column;gap:4px;transform-origin:center 95%}
 .jenga-tower.wobble-sm{animation:jw1 1.1s ease-in-out infinite}
 .jenga-tower.wobble-md{animation:jw2 .7s ease-in-out infinite}
 .jenga-tower.wobble-lg{animation:jw3 .4s ease-in-out infinite}
@@ -247,21 +247,25 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 @keyframes jw1{0%,100%{transform:rotate(0)}50%{transform:rotate(1.2deg)}}
 @keyframes jw2{0%,100%{transform:rotate(0)}50%{transform:rotate(3deg)}}
 @keyframes jw3{0%,100%{transform:rotate(-4.5deg)}50%{transform:rotate(4.5deg)}}
-@keyframes jfall{0%{transform:rotate(0) translateY(0);opacity:1}25%{transform:rotate(-8deg) translateY(8px)}100%{transform:rotate(38deg) translateY(420px);opacity:0}}
-.jenga-row{display:flex;gap:2px;justify-content:center}
-.jblock{height:15px;width:58px;border-radius:2px;cursor:pointer;transition:filter .1s,transform .1s;border-bottom:2px solid rgba(0,0,0,.22);user-select:none;-webkit-user-select:none}
-.jblock:hover{filter:brightness(1.25);transform:scaleY(1.08)}
-.jblock:active{transform:scale(.88)}
-.jb-g{background:#3ecf6e}
-.jb-y{background:#f0a500}
-.jb-r{background:#e84040}
-.jblock-noturn{opacity:.45;cursor:default}
-.jblock-noturn:hover{filter:none!important;transform:none!important}
-.jblock-gone{opacity:0!important;pointer-events:none!important;border-color:transparent!important;background:transparent!important}
+@keyframes jfall{0%{transform:rotate(0) translateY(0);opacity:1}25%{transform:rotate(-8deg) translateY(8px)}100%{transform:rotate(38deg) translateY(480px);opacity:0}}
+.jenga-row{display:flex;gap:4px;justify-content:center}
+.jenga-row:nth-child(even) .jblock{border-radius:3px 3px 3px 3px;opacity:.92}
+.jblock{height:20px;width:56px;border-radius:3px;cursor:pointer;transition:transform .12s,box-shadow .12s,filter .12s;user-select:none;-webkit-user-select:none;
+  box-shadow:0 5px 0 rgba(0,0,0,.55),2px 0 0 rgba(0,0,0,.18),-1px 0 0 rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.2)}
+.jblock:hover{transform:translateY(-4px) scaleX(1.03);filter:brightness(1.15);
+  box-shadow:0 9px 0 rgba(0,0,0,.55),2px 0 0 rgba(0,0,0,.18),0 14px 18px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.4)}
+.jblock:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.4)}
+.jb-g{background:linear-gradient(165deg,#62f598 0%,#1a8a40 100%)}
+.jb-y{background:linear-gradient(165deg,#ffd454 0%,#9a6000 100%)}
+.jb-r{background:linear-gradient(165deg,#ff7272 0%,#b00808 100%)}
+.jblock-noturn{opacity:.38;cursor:default}
+.jblock-noturn:hover{filter:none!important;transform:none!important;box-shadow:0 5px 0 rgba(0,0,0,.55),2px 0 0 rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.4)!important}
+.jblock-gone{opacity:0!important;pointer-events:none!important;box-shadow:none!important;background:transparent!important}
 
 /* SOBER BAR */
-.sober-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(10,10,11,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--br2);padding:10px 1.2rem 14px;cursor:pointer;user-select:none;-webkit-user-select:none;align-items:center;justify-content:space-between}
+.sober-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(238,228,208,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--br2);padding:10px 1.2rem 14px;cursor:pointer;user-select:none;-webkit-user-select:none;align-items:center;justify-content:space-between;overflow:hidden}
 .sober-bar.vis{display:flex}
+.sober-strip{position:absolute;top:0;left:0;height:3px;width:0%;background:linear-gradient(to right,var(--green),var(--gold),var(--red));transition:width .6s cubic-bezier(.34,1.56,.64,1)}
 .sober-label{font-size:.62rem;color:var(--mu);letter-spacing:.06em;text-transform:uppercase}
 .sober-pct{font-family:var(--ff);font-size:1.3rem;line-height:1.1}
 .sober-hint{font-size:.68rem;color:var(--mu);display:flex;align-items:center;gap:4px}
@@ -273,18 +277,101 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 .sober-name{font-size:.85rem;font-weight:600}
 .sober-val{font-family:var(--ff);font-size:.85rem}
 .sober-track{height:22px;background:var(--s3);border-radius:11px;overflow:hidden}
+.kick-btn{background:transparent;border:1px solid rgba(232,64,64,.3);color:var(--red);border-radius:4px;font-size:.62rem;padding:2px 7px;cursor:pointer;margin-top:5px;opacity:.55;transition:opacity .15s;display:block;width:100%}
+.kick-btn:hover{opacity:1;background:rgba(232,64,64,.08)}
 .sober-fill{height:100%;border-radius:11px;transition:width .5s cubic-bezier(.34,1.56,.64,1);min-width:4px}
 .page{padding-bottom:5rem}
+
+/* VINES */
+#sAge{position:relative;overflow:hidden}
+.age-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:1.4rem}
+.vine-wrap{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.vine{position:absolute;top:0;height:100%;transform-origin:top center}
+.vine:nth-child(1){left:3%;animation:vsway 5.2s ease-in-out infinite alternate}
+.vine:nth-child(2){left:20%;animation:vsway 6.8s ease-in-out infinite alternate-reverse}
+.vine:nth-child(3){left:42%;animation:vsway 4.6s ease-in-out infinite alternate}
+.vine:nth-child(4){left:65%;animation:vsway 7.1s ease-in-out infinite alternate-reverse}
+.vine:nth-child(5){left:84%;animation:vsway 5.7s ease-in-out infinite alternate}
+@keyframes vsway{
+  0%{transform:rotate(-4deg) translateX(0)}
+  100%{transform:rotate(4deg) translateX(3px)}
+}
 </style>
 </head>
 <body>
 
 <!-- AGE GATE -->
 <div class="screen active" id="sAge">
-  <div class="logo-big">Pre<br>The<br>Game</div>
-  <div class="logo-sub">a drinking game app for your crew</div>
-  <div class="age-btns">
-    <button class="age-btn gold" onclick="startJoin(true)">Enter</button>
+  <!-- Vines -->
+  <div class="vine-wrap">
+    <!-- Vine 1 -->
+    <svg class="vine" width="44" height="100%" viewBox="0 0 44 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 0 C10 80 36 160 20 240 C6 320 34 400 18 480 C4 560 32 640 16 720 C4 800 28 870 22 900" stroke="#4e7820" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="10" cy="90" rx="10" ry="6" fill="#4e7820" opacity=".82" transform="rotate(-30 10 90)"/>
+      <ellipse cx="34" cy="175" rx="10" ry="6" fill="#3a5e18" opacity=".78" transform="rotate(25 34 175)"/>
+      <ellipse cx="12" cy="265" rx="9" ry="5.5" fill="#4e7820" opacity=".80" transform="rotate(-20 12 265)"/>
+      <ellipse cx="30" cy="355" rx="10" ry="6" fill="#3a5e18" opacity=".75" transform="rotate(35 30 355)"/>
+      <ellipse cx="10" cy="445" rx="9" ry="5.5" fill="#4e7820" opacity=".82" transform="rotate(-15 10 445)"/>
+      <ellipse cx="32" cy="535" rx="10" ry="6" fill="#3a5e18" opacity=".76" transform="rotate(28 32 535)"/>
+      <ellipse cx="10" cy="625" rx="9" ry="5.5" fill="#4e7820" opacity=".80" transform="rotate(-22 10 625)"/>
+      <ellipse cx="28" cy="715" rx="10" ry="6" fill="#3a5e18" opacity=".74" transform="rotate(32 28 715)"/>
+    </svg>
+    <!-- Vine 2 -->
+    <svg class="vine" width="44" height="100%" viewBox="0 0 44 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 0 C32 90 8 180 28 260 C40 340 12 420 30 500 C42 580 10 660 26 740 C38 820 14 870 22 900" stroke="#3a5e18" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="34" cy="85" rx="10" ry="6" fill="#4e7820" opacity=".80" transform="rotate(28 34 85)"/>
+      <ellipse cx="12" cy="170" rx="9" ry="5.5" fill="#3a5e18" opacity=".76" transform="rotate(-22 12 170)"/>
+      <ellipse cx="36" cy="260" rx="10" ry="6" fill="#4e7820" opacity=".82" transform="rotate(30 36 260)"/>
+      <ellipse cx="14" cy="350" rx="9" ry="5.5" fill="#3a5e18" opacity=".78" transform="rotate(-18 14 350)"/>
+      <ellipse cx="34" cy="440" rx="10" ry="6" fill="#4e7820" opacity=".80" transform="rotate(25 34 440)"/>
+      <ellipse cx="12" cy="530" rx="9" ry="5.5" fill="#3a5e18" opacity=".75" transform="rotate(-28 12 530)"/>
+      <ellipse cx="32" cy="620" rx="10" ry="6" fill="#4e7820" opacity=".78" transform="rotate(20 32 620)"/>
+      <ellipse cx="14" cy="710" rx="9" ry="5.5" fill="#3a5e18" opacity=".74" transform="rotate(-15 14 710)"/>
+    </svg>
+    <!-- Vine 3 -->
+    <svg class="vine" width="44" height="100%" viewBox="0 0 44 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 0 C12 70 34 150 16 230 C4 310 30 390 14 470 C2 550 28 630 12 710 C2 790 24 860 22 900" stroke="#4e7820" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="12" cy="80" rx="10" ry="6" fill="#3a5e18" opacity=".82" transform="rotate(-32 12 80)"/>
+      <ellipse cx="34" cy="165" rx="9" ry="5.5" fill="#4e7820" opacity=".78" transform="rotate(26 34 165)"/>
+      <ellipse cx="10" cy="255" rx="10" ry="6" fill="#3a5e18" opacity=".80" transform="rotate(-24 10 255)"/>
+      <ellipse cx="32" cy="345" rx="9" ry="5.5" fill="#4e7820" opacity=".76" transform="rotate(30 32 345)"/>
+      <ellipse cx="10" cy="435" rx="10" ry="6" fill="#3a5e18" opacity=".82" transform="rotate(-18 10 435)"/>
+      <ellipse cx="30" cy="525" rx="9" ry="5.5" fill="#4e7820" opacity=".78" transform="rotate(22 30 525)"/>
+      <ellipse cx="8" cy="615" rx="10" ry="6" fill="#3a5e18" opacity=".76" transform="rotate(-26 8 615)"/>
+      <ellipse cx="28" cy="705" rx="9" ry="5.5" fill="#4e7820" opacity=".74" transform="rotate(28 28 705)"/>
+    </svg>
+    <!-- Vine 4 -->
+    <svg class="vine" width="44" height="100%" viewBox="0 0 44 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 0 C34 85 10 170 32 250 C44 330 16 410 36 490 C46 570 18 650 34 730 C44 810 20 870 22 900" stroke="#3a5e18" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="34" cy="90" rx="10" ry="6" fill="#4e7820" opacity=".80" transform="rotate(30 34 90)"/>
+      <ellipse cx="12" cy="178" rx="9" ry="5.5" fill="#3a5e18" opacity=".76" transform="rotate(-25 12 178)"/>
+      <ellipse cx="36" cy="268" rx="10" ry="6" fill="#4e7820" opacity=".82" transform="rotate(32 36 268)"/>
+      <ellipse cx="14" cy="358" rx="9" ry="5.5" fill="#3a5e18" opacity=".78" transform="rotate(-20 14 358)"/>
+      <ellipse cx="36" cy="448" rx="10" ry="6" fill="#4e7820" opacity=".80" transform="rotate(28 36 448)"/>
+      <ellipse cx="12" cy="538" rx="9" ry="5.5" fill="#3a5e18" opacity=".75" transform="rotate(-30 12 538)"/>
+      <ellipse cx="34" cy="628" rx="10" ry="6" fill="#4e7820" opacity=".78" transform="rotate(24 34 628)"/>
+      <ellipse cx="12" cy="718" rx="9" ry="5.5" fill="#3a5e18" opacity=".74" transform="rotate(-16 12 718)"/>
+    </svg>
+    <!-- Vine 5 -->
+    <svg class="vine" width="44" height="100%" viewBox="0 0 44 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 0 C10 75 36 155 18 235 C6 315 30 395 12 475 C2 555 26 635 10 715 C0 795 20 865 22 900" stroke="#4e7820" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="10" cy="85" rx="10" ry="6" fill="#3a5e18" opacity=".82" transform="rotate(-28 10 85)"/>
+      <ellipse cx="34" cy="172" rx="9" ry="5.5" fill="#4e7820" opacity=".78" transform="rotate(22 34 172)"/>
+      <ellipse cx="12" cy="262" rx="10" ry="6" fill="#3a5e18" opacity=".80" transform="rotate(-26 12 262)"/>
+      <ellipse cx="30" cy="352" rx="9" ry="5.5" fill="#4e7820" opacity=".76" transform="rotate(30 30 352)"/>
+      <ellipse cx="8" cy="442" rx="10" ry="6" fill="#3a5e18" opacity=".82" transform="rotate(-20 8 442)"/>
+      <ellipse cx="28" cy="532" rx="9" ry="5.5" fill="#4e7820" opacity=".78" transform="rotate(24 28 532)"/>
+      <ellipse cx="8" cy="622" rx="10" ry="6" fill="#3a5e18" opacity=".76" transform="rotate(-24 8 622)"/>
+      <ellipse cx="26" cy="712" rx="9" ry="5.5" fill="#4e7820" opacity=".74" transform="rotate(26 26 712)"/>
+    </svg>
+  </div>
+  <!-- Content -->
+  <div class="age-content">
+    <div class="logo-big">Pre<br>The<br>Game</div>
+    <div class="logo-sub">a drinking game app for your crew</div>
+    <div class="age-btns">
+      <button class="age-btn gold" onclick="startJoin(true)">Enter</button>
+    </div>
   </div>
 </div>
 
@@ -602,7 +689,6 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
         <div class="mpill cpill on" onclick="setCoupleM('deep',this)">💭 Deep</div>
         <div class="mpill cpill" onclick="setCoupleM('spicy',this)">🌶️ Spicy</div>
         <div class="mpill cpill" onclick="setCoupleM('fun',this)">😂 Fun</div>
-        <div class="mpill cpill adult" id="coupleHorny" onclick="setCoupleM('horny',this)">🔥 Horny</div>
       </div>
     </div>
     <div class="couple-prompt"><div><div class="couple-cat" id="coupleCat">tap next to start</div><div class="couple-txt" id="coupleTxt">Questions for just the two of you.</div></div></div>
@@ -632,11 +718,12 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh
 
 <!-- SOBRIETY BOTTOM BAR -->
 <div id="soberBar" class="sober-bar" onclick="openSoberDrawer()">
+  <div class="sober-strip" id="soberStrip"></div>
   <div>
-    <div class="sober-label">Group Sobriety</div>
-    <div class="sober-pct" id="soberBarPct" style="color:var(--green)">—</div>
+    <div class="sober-label">Group Drunk Level</div>
+    <div class="sober-pct" id="soberBarPct" style="color:var(--mu)">0% intox</div>
   </div>
-  <div class="sober-hint">Tap % to see all ↑</div>
+  <div class="sober-hint">Tap to see all ↑</div>
 </div>
 
 <!-- SOBRIETY DRAWER -->
@@ -732,9 +819,8 @@ const C = {
   },
   couple:{
     deep:["What's something about yourself you've never told me?","What's the moment you knew you were in love with me?","What's something you're scared to tell me?","What's the hardest thing about being with me?","What does your ideal life with me look like?","What do you wish I understood about you better?","What's a version of me you miss?","What's something you want more of in this relationship?","When do you feel most loved by me?","What's something you've never told me because you didn't want to make things awkward?","What does loving me feel like when it's hard?","What do you want more of that you haven't asked for?","What's something you hope I never stop doing?","What's the version of me you fell in love with?","If we could live anywhere together, where and why?","What's something about us that you think people don't see?","What does commitment mean to you right now?","What's something I've taught you about yourself?","When do you feel most us?","What's something I haven't given you enough credit for?","What's the thing about our relationship you're most proud of?","What do you need from me that has nothing to do with anyone else?","What's a fear about us you've never said out loud?","What would you want me to do differently — honestly?","When do you feel most like yourself around me?"],
-    spicy:["What's something I do that drives you crazy in a good way?","What's the most attractive thing I've ever done?","When do you find me most irresistible?","What's something I don't know about what you want?","What's something you've always wanted to tell me in the moment but held back?","What's a memory of us that still gives you butterflies?","What do you love most about how we are together?","Describe the moment you felt most connected to me.","What's something I do that you've never told me you love?","What's a side of yourself only I get to see?","What do I do that you'd never get tired of?","What's a memory of ours that still makes you feel something electric?","What's the most effortless we've ever been together?","What's something you love about how I look that you've never told me?","What's the most charged moment between us that didn't lead anywhere?","What's something I've done that caught you completely off guard in the best way?","When do I look most attractive to you?","What's a version of us you want more of?","What's the most connected you've felt to me recently?","What's something physical about me you've never mentioned but love?"],
+    spicy:["What's something I do that drives you crazy in a good way?","What's the most attractive thing I've ever done?","When do you find me most irresistible?","What's something I don't know about what you want?","What's something you've always wanted to tell me in the moment but held back?","What's a memory of us that still gives you butterflies?","What do you love most about how we are together?","Describe the moment you felt most connected to me.","What's something I do that you've never told me you love?","What's a side of yourself only I get to see?","What do I do that you'd never get tired of?","What's a memory of ours that still makes you feel something electric?","What's the most effortless we've ever been together?","What's something you love about how I look that you've never told me?","What's the most charged moment between us that didn't lead anywhere?","What's something I've done that caught you completely off guard in the best way?","When do I look most attractive to you?","What's a version of us you want more of?","What's the most connected you've felt to me recently?","What's something physical about me you've never mentioned but love?"],"What's something you want to try with me that we haven't?","What do I do that turns you on the most?","What's a fantasy you've never told me?","What's something you want more of in bed?","What's the most turned on you've ever been with me?","What's one thing I could do right now that you'd love?","What's something bold you've always wanted to say to me?","Describe your perfect night with me in full detail.","What part of me do you find hardest to resist?","What's something you've wanted to ask about in bed but haven't?","What's something about our intimate life that surprised you?","What do you wish I'd initiate more?","What's something you've thought about trying but felt nervous to suggest?","What's the most turned on you've been without either of us acknowledging it?","If you could replay one night between us, which one and why?","What's something physical you want to explore with me?","What do I do that drives you completely wild?","What's something you want to say in the moment but usually hold back?","If tonight was completely ours with no limits, what would you want?","What's the most attracted you've been to me recently and what caused it?","What's something you love that we haven't done in a while?","What part of us physically do you want to focus more on?"]
     fun:["What's the most embarrassing thing I've ever done in front of you?","If you had to roast me for 60 seconds, what would you say?","What's the weirdest thing you love about me?","What habit of mine have you just accepted at this point?","What would our reality TV show be called?","What's your funniest memory of us?","If we swapped lives for a day, what's the first thing you'd do?","What would our couple Halloween costume be and why?","If I was a food, what would I be?","What's a bad habit of mine you've given up trying to fix?","What's the dumbest argument we've ever had?","If you had to describe me in one meme, which one?","What's a 'us' thing that would confuse literally anyone else?","What's the most you've laughed because of me?","What's something I do that you've described to your friends exactly?","If someone followed us around for a day, what's the moment they'd find weirdest?","What's the thing about me you can't explain but love anyway?","What's the most chaotic thing we've done together?"],
-    horny:["What's something you want to try with me that we haven't?","What do I do that turns you on the most?","What's a fantasy you've never told me?","What's something you want more of in bed?","What's the most turned on you've ever been with me?","What's one thing I could do right now that you'd love?","What's something bold you've always wanted to say to me?","Describe your perfect night with me in full detail.","What part of me do you find hardest to resist?","What's something you've wanted to ask about in bed but haven't?","What's something about our intimate life that surprised you?","What do you wish I'd initiate more?","What's something you've thought about trying but felt nervous to suggest?","What's the most turned on you've been without either of us acknowledging it?","If you could replay one night between us, which one and why?","What's something physical you want to explore with me?","What do I do that drives you completely wild?","What's something you want to say in the moment but usually hold back?","If tonight was completely ours with no limits, what would you want?","What's the most attracted you've been to me recently and what caused it?","What's something you love that we haven't done in a while?","What part of us physically do you want to focus more on?"]
   }
 };
 
@@ -843,7 +929,7 @@ function startJoin(a){
   document.getElementById('sAge').classList.remove('active');
   document.getElementById('sJoin').classList.add('active');
   if(!a){
-    ['nhieA','todA','mltA','hsA','2nhieA','2todA','2mltA','2hsA','ttlA','coupleHorny']
+    ['nhieA','todA','mltA','hsA','2nhieA','2todA','2mltA','2hsA','ttlA']
       .forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none'});
   }
 }
@@ -938,11 +1024,19 @@ function initFB(){
           const js=snap.val();
           if(js)applyJenga(js);
         });
+        // watch for being kicked by host
+        dbOnValue(dbRef(db,'ptg/kicked/'+myKey),snap=>{
+          if(snap.val()&&!isHost){
+            toast('You were removed by the host 👋');
+            setTimeout(()=>location.reload(),2200);
+          }
+        });
         if(isHost){
           dbSet(dbRef(db,'ptg/hostPresence'),{ts:Date.now(),name:me.name});
           m.onDisconnect(dbRef(db,'ptg/hostPresence')).remove();
           m.onDisconnect(dbRef(db,'ptg/members/'+myKey)).remove();
-          window.addEventListener('beforeunload',()=>{try{dbRemove(dbRef(db,'ptg/hostPresence'));dbRemove(dbRef(db,'ptg/members/'+myKey));}catch(e){}});
+          m.onDisconnect(dbRef(db,'ptg/kicked')).remove();
+          window.addEventListener('beforeunload',()=>{try{dbRemove(dbRef(db,'ptg/hostPresence'));dbRemove(dbRef(db,'ptg/members/'+myKey));dbRemove(dbRef(db,'ptg/kicked'));}catch(e){}});
         } else {
           m.onDisconnect(dbRef(db,'ptg/members/'+myKey)).remove();
           window.addEventListener('beforeunload',()=>{try{dbRemove(dbRef(db,'ptg/members/'+myKey));}catch(e){}});
@@ -1113,10 +1207,24 @@ function renderSquad(){
       <div><div class="member-name">${p.name||'?'}${roleTag}${isMe?' <span style="font-size:.65rem;color:var(--gold)">(you)</span>':''}</div>
       <div class="member-sub">${dr}</div></div>
       <div><div class="bac-badge" style="color:${col}">${(bac*100).toFixed(2)}%</div>
-      <div class="bac-vibe">${v}</div></div>
+      <div class="bac-vibe">${v}</div>
+      ${isHost&&!isMe?`<button class="kick-btn" onclick="kickMember('${k}','${(p.name||'?').replace(/'/g,"\\'")}')">Remove</button>`:''}
+      </div>
     </div>`;
   }).join('');
 }
+function kickMember(key,name){
+  if(!isHost)return;
+  if(db&&myKey!=='local'){
+    dbSet(dbRef(db,'ptg/kicked/'+key),true);
+    dbRemove(dbRef(db,'ptg/members/'+key));
+  } else {
+    delete squad[key];
+    renderSquad();renderRace();renderTwopSquad();renderHsGrid();
+  }
+  toast(name+' removed 👋');
+}
+
 function renderRace(){
   const track=document.getElementById('raceTrack');
   const entries=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts);
@@ -1285,7 +1393,7 @@ function next(game){
 function nextCouple(){
   const m=modes.couple;
   const pool=C.couple[m]||C.couple.deep;
-  const labels={deep:'💭 Deep',spicy:'🌶️ Spicy',fun:'😂 Fun',horny:'🔥 Horny'};
+  const labels={deep:'💭 Deep',spicy:'🌶️ Spicy',fun:'😂 Fun'};
   document.getElementById('coupleCat').textContent=labels[m]||m;
   document.getElementById('coupleTxt').textContent=pick(pool,'couple_'+m);
 }
@@ -1607,6 +1715,7 @@ function promoteToHost(){
 // ══════════════════════════════════════════════
 function buildJenga(){
   jengaPlayerOrder=Object.entries(squad).sort((a,b)=>a[1].ts-b[1].ts).map(([k,p])=>({key:k,name:p.name||'?'}));
+  if(!jengaPlayerOrder.length)jengaPlayerOrder=[{key:myKey,name:me.name||'You'}];
   jengaCurrentTurn=0;jengaWasFallen=false;jengaLastPuller='';
   const cats=[];
   const nG=22,nY=20,nR=12; // 54 total = 18×3
@@ -1778,7 +1887,8 @@ function renderJengaScope(){
 // ══════════════════════════════════════════════
 // SOBRIETY BAR + DRAWER
 // ══════════════════════════════════════════════
-function sobrietyPct(bac){return Math.max(0,Math.min(100,100-(bac/0.15)*100));}
+function drunkPct(bac){return Math.max(0,Math.min(100,(bac/0.15)*100));}
+function drunkCol(bac){return bac<0.05?'var(--green)':bac<0.12?'var(--gold)':'var(--red)';}
 function updateSoberBar(){
   const bar=document.getElementById('soberBar');
   if(!bar)return;
@@ -1787,12 +1897,13 @@ function updateSoberBar(){
   bar.classList.add('vis');
   const bacs=entries.map(([,p])=>calcBAC(p));
   const avg=bacs.reduce((s,b)=>s+b,0)/bacs.length;
-  const spct=sobrietyPct(avg);
-  const{col}=bacInfo(avg);
+  const dpct=drunkPct(avg);
+  const col=drunkCol(avg);
   const pctEl=document.getElementById('soberBarPct');
-  pctEl.textContent=spct.toFixed(1)+'% sober';
-  pctEl.style.color=col;
-  // also update chart if drawer open
+  pctEl.textContent=dpct.toFixed(1)+'% intox';
+  pctEl.style.color=dpct<1?'var(--mu)':col;
+  const strip=document.getElementById('soberStrip');
+  if(strip)strip.style.width=dpct+'%';
   const drawer=document.getElementById('soberDrawer');
   if(drawer&&drawer.classList.contains('open'))renderSoberChart();
 }
@@ -1801,15 +1912,16 @@ function renderSoberChart(){
   const chart=document.getElementById('soberChart');
   if(!entries.length){chart.innerHTML='<div style="color:var(--mu);font-size:.82rem">No squad data yet.</div>';return;}
   chart.innerHTML=entries.map(([k,p])=>{
-    const bac=calcBAC(p);const{col,v}=bacInfo(bac);
-    const spct=sobrietyPct(bac);
+    const bac=calcBAC(p);const{v}=bacInfo(bac);
+    const dpct=drunkPct(bac);
+    const col=drunkCol(bac);
     const isMe=k===myKey;
     return`<div class="sober-row">
       <div class="sober-row-head">
         <span class="sober-name">${p.name||'?'}${isMe?' <span style="color:var(--gold);font-size:.68rem">(you)</span>':''}</span>
-        <span class="sober-val" style="color:${col}">${spct.toFixed(1)}% · ${v}</span>
+        <span class="sober-val" style="color:${dpct<1?'var(--mu)':col}">${dpct.toFixed(1)}% · ${v}</span>
       </div>
-      <div class="sober-track"><div class="sober-fill" style="width:${spct}%;background:${col}"></div></div>
+      <div class="sober-track"><div class="sober-fill" style="width:${Math.max(dpct,dpct>0?3:0)}%;background:${col}"></div></div>
     </div>`;
   }).join('');
 }
@@ -1830,9 +1942,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Lines: $(wc -l < /mnt/user-data/outputs/index.html)"
-Output
-
-Lines: 1405
-Done
